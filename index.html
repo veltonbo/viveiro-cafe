@@ -1,618 +1,2060 @@
-Claro — aqui está o HTML completo. É só copiar tudo, salvar como viveiro_cafe_app.html e abrir no navegador.
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Controle do Viveiro de Café</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#245c2e" />
+  <title>Viveiro Café</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
   <style>
-    :root {
-      --bg: #f3f6f2;
-      --card: #ffffff;
-      --text: #1d2a20;
-      --muted: #6a756d;
-      --line: #dfe7df;
-      --accent: #2f6b3b;
-      --accent-soft: #e7f2e9;
-      --danger: #b42318;
-      --shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
-      --radius: 18px;
+    :root{
+      --bg:#f4f7f3;
+      --card:#fff;
+      --text:#1f2a21;
+      --muted:#6e786f;
+      --line:#dce5dc;
+      --accent:#2f6b3b;
+      --accent-dark:#245c2e;
+      --accent-soft:#e7f2e9;
+      --warn:#b7791f;
+      --danger:#b42318;
+      --shadow:0 8px 26px rgba(23,49,28,.08);
+      --radius:18px;
     }
-    * {
-      box-sizing: border-box;
+
+    *{
+      box-sizing:border-box;
     }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      padding-bottom:92px;
     }
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 20px;
+
+    .app{
+      max-width:980px;
+      margin:auto;
+      padding:18px;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      margin-bottom:16px;
+      flex-wrap:wrap;
     }
-    h1 {
-      font-size: clamp(24px, 4vw, 36px);
-      margin: 0;
+
+    h1{
+      margin:0;
+      font-size:clamp(25px,4vw,36px);
     }
-    .subtitle {
-      color: var(--muted);
-      margin-top: 4px;
+
+    .sub{
+      color:var(--muted);
+      font-size:14px;
+      margin-top:4px;
     }
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      background:var(--accent-soft);
+      color:var(--accent-dark);
+      padding:7px 10px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:12px;
     }
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: 700;
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin-bottom:16px;
     }
-    .primary {
-      background: var(--accent);
-      color: white;
+
+    .card{
+      background:var(--card);
+      border:1px solid #edf1ed;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
     }
-    .secondary {
-      background: white;
-      color: var(--text);
-      border: 1px solid var(--line);
+
+    .metric-label{
+      font-size:12px;
+      color:var(--muted);
     }
-    .danger {
-      background: #fff0ee;
-      color: var(--danger);
-      border: 1px solid #ffd7d1;
+
+    .metric-value{
+      font-size:26px;
+      font-weight:900;
+      margin-top:4px;
     }
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
+
+    .metric-note{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:3px;
     }
-    .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 16px;
-      border: 1px solid #edf1ed;
+
+    .section-title{
+      font-size:18px;
+      font-weight:900;
+      margin:4px 0 10px;
     }
-    .metric-label {
-      color: var(--muted);
-      font-size: 13px;
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
     }
-    .metric-value {
-      font-size: 28px;
-      font-weight: 800;
-      margin-top: 4px;
+
+    .canteiro{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
     }
-    .toolbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
+
+    .canteiro-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:8px;
     }
+
+    .canteiro h3{
+      margin:0;
+      font-size:20px;
+    }
+
+    .tag{
+      border-radius:999px;
+      padding:5px 9px;
+      font-size:12px;
+      font-weight:800;
+      background:var(--accent-soft);
+      color:var(--accent-dark);
+    }
+
+    .status{
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .status.cheio{
+      color:var(--accent-dark);
+    }
+
+    .status.andamento{
+      color:var(--warn);
+    }
+
+    .status.vazio{
+      color:var(--danger);
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+    }
+
+    .mini{
+      background:#f8faf8;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+    }
+
+    .mini small{
+      display:block;
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .mini strong{
+      display:block;
+      font-size:16px;
+      margin-top:2px;
+    }
+
+    .progress{
+      height:12px;
+      background:#e8ece8;
+      border-radius:999px;
+      overflow:hidden;
+    }
+
+    .bar{
+      height:100%;
+      background:var(--accent);
+      width:0;
+    }
+
+    button,
+    input,
+    select,
+    textarea{
+      font:inherit;
+    }
+
+    button{
+      border:0;
+      border-radius:12px;
+      padding:11px 13px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .primary{
+      background:var(--accent);
+      color:white;
+    }
+
+    .secondary{
+      background:#fff;
+      border:1px solid var(--line);
+      color:var(--text);
+    }
+
+    .danger{
+      background:#fff0ee;
+      border:1px solid #ffd7d1;
+      color:var(--danger);
+    }
+
+    .btnrow{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .btnrow button{
+      flex:1;
+    }
+
+    .form{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .field label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:5px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:white;
+      color:var(--text);
+    }
+
+    .field.full{
+      grid-column:1/-1;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    .history-item{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:10px;
+      align-items:center;
+      padding:12px 0;
+      border-bottom:1px solid var(--line);
+    }
+
+    .history-item:last-child{
+      border-bottom:0;
+    }
+
+    .history-date{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .history-main{
+      font-weight:800;
+    }
+
+    .history-qty{
+      font-weight:900;
+    }
+
+    .toolbar{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+
     .toolbar input,
-    .toolbar select {
-      flex: 1;
-      min-width: 180px;
-      border: 1px solid var(--line);
-      background: white;
-      border-radius: 12px;
-      padding: 11px 12px;
-      font-size: 14px;
+    .toolbar select{
+      flex:1;
+      min-width:160px;
+      padding:11px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:white;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+
+    .bottom-nav{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:blur(10px);
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:center;
+      z-index:10;
+      padding-bottom:env(safe-area-inset-bottom);
     }
-    .bed h3 {
-      margin: 0 0 4px;
-      font-size: 20px;
+
+    .bottom-nav .inner{
+      width:min(980px,100%);
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
     }
-    .variety {
-      display: inline-block;
-      background: var(--accent-soft);
-      color: var(--accent);
-      border-radius: 999px;
-      padding: 5px 9px;
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 12px;
+
+    .navbtn{
+      background:transparent;
+      color:var(--muted);
+      padding:12px 8px;
+      border-radius:0;
     }
-    .row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      align-items: center;
-      margin: 8px 0;
-      font-size: 14px;
+
+    .navbtn.active{
+      color:var(--accent-dark);
     }
-    .row span:first-child {
-      color: var(--muted);
+
+    .navbtn span{
+      display:block;
+      font-size:12px;
+      margin-top:2px;
     }
-    .row strong {
-      font-size: 15px;
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.42);
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      z-index:20;
     }
-    .progress {
-      height: 12px;
-      background: #e8ece8;
-      border-radius: 999px;
-      overflow: hidden;
-      margin: 12px 0 8px;
+
+    .modal-card{
+      width:min(700px,100%);
+      background:#fff;
+      border-radius:22px 22px 0 0;
+      padding:18px;
+      max-height:88vh;
+      overflow:auto;
     }
-    .bar {
-      height: 100%;
-      background: var(--accent);
-      width: 0;
-      transition: width 0.25s ease;
+
+    .modal-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:12px;
     }
-    .edit {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 12px;
+
+    .xbtn{
+      background:#f2f4f2;
+      color:var(--text);
+      padding:8px 11px;
     }
-    .edit label {
-      font-size: 12px;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 4px;
+
+    .toast{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom:92px;
+      background:#1d2a20;
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      z-index:30;
+      opacity:0;
+      pointer-events:none;
+      transition:.2s;
     }
-    .edit input {
-      width: 100%;
-      padding: 10px 11px;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      font-size: 14px;
+
+    .toast.show{
+      opacity:1;
     }
-    .footer-note {
-      color: var(--muted);
-      text-align: center;
-      padding: 20px 0 8px;
-      font-size: 12px;
-    }
-    @media (max-width: 800px) {
-      .summary {
-        grid-template-columns: repeat(2, 1fr);
+
+    @media(max-width:760px){
+      .summary{
+        grid-template-columns:repeat(2,1fr);
       }
-      .grid {
-        grid-template-columns: 1fr;
+
+      .grid{
+        grid-template-columns:1fr;
       }
     }
-    @media (max-width: 480px) {
-      .summary {
-        grid-template-columns: 1fr;
+
+    @media(max-width:480px){
+      .app{
+        padding:14px;
       }
-      .wrap {
-        padding: 14px;
+
+      .summary{
+        grid-template-columns:1fr 1fr;
       }
-      .metric-value {
-        font-size: 24px;
+
+      .metric-value{
+        font-size:22px;
+      }
+
+      .form{
+        grid-template-columns:1fr;
+      }
+
+      .field.full{
+        grid-column:auto;
+      }
+
+      .mini-grid{
+        grid-template-columns:1fr 1fr 1fr;
       }
     }
   </style>
 </head>
+
 <body>
-<div class="wrap">
-  <header>
+
+<div class="app">
+
+  <div class="topbar">
     <div>
-      <h1>Controle do Viveiro</h1>
-      <div class="subtitle">
-        Canteiros de café clonal
+      <h1>Viveiro Café</h1>
+      <div class="sub">Controle de canteiros e plantio</div>
+    </div>
+
+    <div class="chip">
+      25.604 vagas totais
+    </div>
+  </div>
+
+
+  <section id="tab-resumo">
+
+    <div class="summary">
+
+      <div class="card">
+        <div class="metric-label">Capacidade</div>
+        <div class="metric-value" id="sCap">0</div>
+        <div class="metric-note">mudas</div>
       </div>
+
+      <div class="card">
+        <div class="metric-label">Plantadas</div>
+        <div class="metric-value" id="sPlant">0</div>
+        <div class="metric-note">mudas</div>
+      </div>
+
+      <div class="card">
+        <div class="metric-label">Faltam</div>
+        <div class="metric-value" id="sFalta">0</div>
+        <div class="metric-note">mudas</div>
+      </div>
+
+      <div class="card">
+        <div class="metric-label">Progresso</div>
+        <div class="metric-value" id="sPct">0%</div>
+        <div class="metric-note">geral</div>
+      </div>
+
     </div>
-    <div class="actions">
-      <button class="secondary" onclick="exportarCSV()">
-        Exportar CSV
-      </button>
-      <button class="danger" onclick="resetarDados()">
-        Restaurar dados
-      </button>
+
+
+    <div class="card" style="margin-bottom:14px">
+
+      <div class="section-title">
+        Plantio rápido
+      </div>
+
+      <div class="form">
+
+        <div class="field">
+          <label>Canteiro</label>
+          <select id="quickBed"></select>
+        </div>
+
+        <div class="field">
+          <label>Quantidade plantada agora</label>
+
+          <input
+            id="quickQty"
+            type="number"
+            min="1"
+            placeholder="Ex.: 300"
+          >
+        </div>
+
+        <div class="field full">
+          <button
+            class="primary"
+            onclick="adicionarPlantioRapido()"
+          >
+            Adicionar plantio
+          </button>
+        </div>
+
+      </div>
+
     </div>
-  </header>
-  <section class="summary">
-    <div class="card">
-      <div class="metric-label">Capacidade total</div>
-      <div class="metric-value" id="capTotal">0</div>
+
+
+    <div class="section-title">
+      Resumo por variedade
     </div>
-    <div class="card">
-      <div class="metric-label">Já plantadas</div>
-      <div class="metric-value" id="plantadasTotal">0</div>
-    </div>
-    <div class="card">
-      <div class="metric-label">Faltam plantar</div>
-      <div class="metric-value" id="faltamTotal">0</div>
-    </div>
-    <div class="card">
-      <div class="metric-label">Progresso geral</div>
-      <div class="metric-value" id="progressoTotal">0%</div>
-    </div>
+
+    <div id="varResumo" class="grid"></div>
+
   </section>
-  <div class="toolbar">
-    <input
-      id="busca"
-      placeholder="Buscar por canteiro ou variedade..."
-      oninput="render()"
-    />
-    <select id="filtro" onchange="render()">
-      <option value="todos">
-        Todos
-      </option>
-      <option value="incompletos">
-        Somente incompletos
-      </option>
-      <option value="cheios">
-        Somente cheios
-      </option>
-    </select>
-  </div>
-  <section id="grid" class="grid"></section>
-  <div class="footer-note">
-    Você pode alterar variedade, capacidade e quantidade que falta plantar.
-    As mudanças ficam salvas automaticamente no aparelho.
-  </div>
+
+
+  <section id="tab-canteiros" class="hidden">
+
+    <div class="toolbar">
+
+      <input
+        id="busca"
+        placeholder="Buscar canteiro ou variedade"
+        oninput="renderCanteiros()"
+      >
+
+      <select
+        id="statusFiltro"
+        onchange="renderCanteiros()"
+      >
+
+        <option value="todos">
+          Todos
+        </option>
+
+        <option value="andamento">
+          Em plantio
+        </option>
+
+        <option value="cheio">
+          Completos
+        </option>
+
+        <option value="vazio">
+          Vazios
+        </option>
+
+      </select>
+
+    </div>
+
+    <div
+      id="canteirosGrid"
+      class="grid"
+    >
+    </div>
+
+  </section>
+
+
+  <section id="tab-historico" class="hidden">
+
+    <div
+      class="card"
+      style="margin-bottom:14px"
+    >
+
+      <div class="section-title">
+        Histórico de plantios
+      </div>
+
+      <div class="btnrow">
+
+        <button
+          class="secondary"
+          onclick="exportarCSV()"
+        >
+          Exportar CSV
+        </button>
+
+        <button
+          class="secondary"
+          onclick="exportarBackup()"
+        >
+          Backup JSON
+        </button>
+
+        <button
+          class="danger"
+          onclick="limparHistorico()"
+        >
+          Limpar histórico
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="historicoLista"
+      class="card"
+    >
+    </div>
+
+  </section>
+
 </div>
+
+
+<div class="bottom-nav">
+
+  <div class="inner">
+
+    <button
+      class="navbtn active"
+      onclick="trocarAba('resumo',this)"
+    >
+      📊
+      <span>Resumo</span>
+    </button>
+
+    <button
+      class="navbtn"
+      onclick="trocarAba('canteiros',this)"
+    >
+      🌱
+      <span>Canteiros</span>
+    </button>
+
+    <button
+      class="navbtn"
+      onclick="trocarAba('historico',this)"
+    >
+      🕘
+      <span>Histórico</span>
+    </button>
+
+  </div>
+
+</div>
+
+
+<div id="modal" class="modal hidden">
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+
+      <h3
+        id="modalTitle"
+        style="margin:0"
+      >
+        Editar canteiro
+      </h3>
+
+      <button
+        class="xbtn"
+        onclick="fecharModal()"
+      >
+        Fechar
+      </button>
+
+    </div>
+
+
+    <div class="form">
+
+      <div class="field">
+
+        <label>
+          Variedade
+        </label>
+
+        <input id="mVariedade">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Capacidade total
+        </label>
+
+        <input
+          id="mCap"
+          type="number"
+          min="0"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Falta plantar
+        </label>
+
+        <input
+          id="mFalta"
+          type="number"
+          min="0"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Canteiro de cima
+        </label>
+
+        <input
+          id="mCima"
+          type="number"
+          min="0"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Canteiro de baixo
+        </label>
+
+        <input
+          id="mBaixo"
+          type="number"
+          min="0"
+        >
+
+      </div>
+
+
+      <div class="field full">
+
+        <label>
+          Observação
+        </label>
+
+        <textarea
+          id="mObs"
+          rows="3"
+          placeholder="Ex.: lote, data, pegamento, observações..."
+        ></textarea>
+
+      </div>
+
+
+      <div class="field full">
+
+        <button
+          class="primary"
+          onclick="salvarEdicao()"
+        >
+          Salvar alterações
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  id="toast"
+  class="toast"
+>
+</div>
+
+
 <script>
-const dadosPadrao = [
+
+const PADRAO = [
+
   {
-    id: 1,
-    variedade: "156",
-    capacidade: 3500,
-    falta: 2400
+    id:1,
+    variedade:"156",
+    cima:1560,
+    baixo:1940,
+    capacidade:3500,
+    falta:2400,
+    obs:""
   },
+
   {
-    id: 2,
-    variedade: "88",
-    capacidade: 3492,
-    falta: 0
+    id:2,
+    variedade:"88",
+    cima:1560,
+    baixo:1932,
+    capacidade:3492,
+    falta:0,
+    obs:""
   },
+
   {
-    id: 3,
-    variedade: "R22",
-    capacidade: 3729,
-    falta: 962
+    id:3,
+    variedade:"R22",
+    cima:1617,
+    baixo:2112,
+    capacidade:3729,
+    falta:962,
+    obs:""
   },
+
   {
-    id: 4,
-    variedade: "25",
-    capacidade: 3683,
-    falta: 955
+    id:4,
+    variedade:"25",
+    cima:1659,
+    baixo:2024,
+    capacidade:3683,
+    falta:955,
+    obs:""
   },
+
   {
-    id: 5,
-    variedade: "08",
-    capacidade: 3828,
-    falta: 3828
+    id:5,
+    variedade:"08",
+    cima:1738,
+    baixo:2090,
+    capacidade:3828,
+    falta:3828,
+    obs:""
   },
+
   {
-    id: 6,
-    variedade: "LB15",
-    capacidade: 3772,
-    falta: 3772
+    id:6,
+    variedade:"LB15",
+    cima:1638,
+    baixo:2134,
+    capacidade:3772,
+    falta:3772,
+    obs:""
   },
+
   {
-    id: 7,
-    variedade: "04",
-    capacidade: 3600,
-    falta: 3600
+    id:7,
+    variedade:"04",
+    cima:1680,
+    baixo:1920,
+    capacidade:3600,
+    falta:3600,
+    obs:""
   }
+
 ];
-let dados = JSON.parse(
-  localStorage.getItem("viveiroCafeDados") || "null"
-) || structuredClone(dadosPadrao);
-function salvar() {
+
+
+let canteiros =
+  JSON.parse(
+    localStorage.getItem("viveiro_canteiros") || "null"
+  ) || structuredClone(PADRAO);
+
+
+let historico =
+  JSON.parse(
+    localStorage.getItem("viveiro_historico") || "[]"
+  );
+
+
+let editandoId = null;
+
+
+function salvar(){
+
   localStorage.setItem(
-    "viveiroCafeDados",
-    JSON.stringify(dados)
+    "viveiro_canteiros",
+    JSON.stringify(canteiros)
   );
+
+  localStorage.setItem(
+    "viveiro_historico",
+    JSON.stringify(historico)
+  );
+
 }
-function formatarNumero(numero) {
-  return Number(numero).toLocaleString("pt-BR");
+
+
+function fmt(numero){
+
+  return Number(
+    numero || 0
+  ).toLocaleString("pt-BR");
+
 }
-function atualizarResumo() {
-  const capacidade = dados.reduce(
-    (total, item) =>
-      total + Number(item.capacidade || 0),
-    0
-  );
-  const faltam = dados.reduce(
-    (total, item) =>
-      total + Number(item.falta || 0),
-    0
-  );
-  const plantadas = Math.max(
-    0,
-    capacidade - faltam
-  );
-  const progresso =
-    capacidade > 0
-      ? (plantadas / capacidade) * 100
+
+
+function statusItem(item){
+
+  if(Number(item.falta) === 0){
+    return "cheio";
+  }
+
+  if(
+    Number(item.falta) ===
+    Number(item.capacidade)
+  ){
+    return "vazio";
+  }
+
+  return "andamento";
+
+}
+
+
+function statusTexto(status){
+
+  if(status === "cheio"){
+    return "Completo";
+  }
+
+  if(status === "vazio"){
+    return "Vazio";
+  }
+
+  return "Em plantio";
+
+}
+
+
+function resumo(){
+
+  const capacidade =
+    canteiros.reduce(
+      (total,item) =>
+        total +
+        Number(item.capacidade || 0),
+      0
+    );
+
+
+  const faltam =
+    canteiros.reduce(
+      (total,item) =>
+        total +
+        Number(item.falta || 0),
+      0
+    );
+
+
+  const plantadas =
+    Math.max(
+      0,
+      capacidade - faltam
+    );
+
+
+  const percentual =
+    capacidade
+      ? plantadas / capacidade * 100
       : 0;
-  document.getElementById("capTotal").textContent =
-    formatarNumero(capacidade);
-  document.getElementById("plantadasTotal").textContent =
-    formatarNumero(plantadas);
-  document.getElementById("faltamTotal").textContent =
-    formatarNumero(faltam);
-  document.getElementById("progressoTotal").textContent =
-    progresso
+
+
+  document.getElementById("sCap").textContent =
+    fmt(capacidade);
+
+
+  document.getElementById("sPlant").textContent =
+    fmt(plantadas);
+
+
+  document.getElementById("sFalta").textContent =
+    fmt(faltam);
+
+
+  document.getElementById("sPct").textContent =
+    percentual
       .toFixed(1)
       .replace(".", ",") + "%";
-}
-function alterar(id, campo, valor) {
-  const item = dados.find(
-    canteiro => canteiro.id === id
-  );
-  if (!item) return;
-  if (campo === "variedade") {
-    item.variedade = valor;
-  } else {
-    let numero = Math.max(
-      0,
-      parseInt(valor || "0", 10)
-    );
-    if (campo === "falta") {
-      numero = Math.min(
-        numero,
-        Number(item.capacidade || 0)
-      );
+
+
+  document.getElementById("quickBed").innerHTML =
+    canteiros.map(item => `
+
+      <option value="${item.id}">
+
+        Canteiro
+        ${String(item.id).padStart(2,"0")}
+        •
+        ${item.variedade}
+
+      </option>
+
+    `).join("");
+
+
+  const porVariedade = {};
+
+
+  canteiros.forEach(item => {
+
+    if(!porVariedade[item.variedade]){
+
+      porVariedade[item.variedade] = {
+        capacidade:0,
+        plantadas:0,
+        falta:0
+      };
+
     }
-    item[campo] = numero;
-    if (
-      campo === "capacidade" &&
-      item.falta > numero
-    ) {
-      item.falta = numero;
-    }
-  }
-  salvar();
-  render();
-}
-function render() {
-  atualizarResumo();
-  const grid =
-    document.getElementById("grid");
-  const busca =
-    document
-      .getElementById("busca")
-      .value
-      .trim()
-      .toLowerCase();
-  const filtro =
-    document
-      .getElementById("filtro")
-      .value;
-  const filtrados = dados.filter(item => {
-    const bateBusca =
-      !busca ||
-      String(item.id).includes(busca) ||
-      item.variedade
-        .toLowerCase()
-        .includes(busca);
-    const cheio =
-      Number(item.falta) === 0;
-    const bateFiltro =
-      filtro === "todos" ||
-      (
-        filtro === "cheios" &&
-        cheio
-      ) ||
-      (
-        filtro === "incompletos" &&
-        !cheio
-      );
-    return bateBusca && bateFiltro;
+
+
+    porVariedade[item.variedade].capacidade +=
+      Number(item.capacidade);
+
+
+    porVariedade[item.variedade].falta +=
+      Number(item.falta);
+
+
+    porVariedade[item.variedade].plantadas +=
+      Number(item.capacidade) -
+      Number(item.falta);
+
   });
-  grid.innerHTML = filtrados
+
+
+  document.getElementById("varResumo").innerHTML =
+    Object.entries(
+      porVariedade
+    ).map(([variedade,dados]) => {
+
+
+      const percentual =
+        dados.capacidade
+          ? dados.plantadas /
+            dados.capacidade * 100
+          : 0;
+
+
+      return `
+
+        <div class="card">
+
+          <div class="canteiro-head">
+
+            <h3 style="margin:0">
+              Variedade ${variedade}
+            </h3>
+
+            <span class="tag">
+
+              ${percentual
+                .toFixed(1)
+                .replace(".", ",")
+              }%
+
+            </span>
+
+          </div>
+
+
+          <div
+            class="mini-grid"
+            style="margin-top:10px"
+          >
+
+            <div class="mini">
+
+              <small>
+                Capacidade
+              </small>
+
+              <strong>
+                ${fmt(dados.capacidade)}
+              </strong>
+
+            </div>
+
+
+            <div class="mini">
+
+              <small>
+                Plantadas
+              </small>
+
+              <strong>
+                ${fmt(dados.plantadas)}
+              </strong>
+
+            </div>
+
+
+            <div class="mini">
+
+              <small>
+                Faltam
+              </small>
+
+              <strong>
+                ${fmt(dados.falta)}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+function renderCanteiros(){
+
+  const busca =
+    (
+      document.getElementById("busca")?.value || ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  const filtro =
+    document.getElementById("statusFiltro")?.value ||
+    "todos";
+
+
+  document.getElementById("canteirosGrid").innerHTML =
+    canteiros
+    .filter(item => {
+
+
+      const status =
+        statusItem(item);
+
+
+      const bateBusca =
+
+        !busca ||
+
+        String(item.id)
+          .includes(busca) ||
+
+        item.variedade
+          .toLowerCase()
+          .includes(busca);
+
+
+      return (
+        bateBusca &&
+        (
+          filtro === "todos" ||
+          status === filtro
+        )
+      );
+
+    })
     .map(item => {
+
+
       const plantadas =
         Math.max(
           0,
           Number(item.capacidade) -
           Number(item.falta)
         );
-      const porcentagem =
-        item.capacidade > 0
-          ? (
-              plantadas /
-              item.capacidade
-            ) * 100
+
+
+      const percentual =
+        item.capacidade
+          ? plantadas /
+            item.capacidade * 100
           : 0;
+
+
+      const status =
+        statusItem(item);
+
+
       return `
-        <article class="card bed">
-          <h3>
-            Canteiro
-            ${String(item.id).padStart(2, "0")}
-          </h3>
-          <div class="variety">
-            Variedade ${item.variedade}
+
+        <div class="card canteiro">
+
+          <div class="canteiro-head">
+
+            <div>
+
+              <h3>
+                Canteiro
+                ${String(item.id).padStart(2,"0")}
+              </h3>
+
+              <div class="tag">
+                Variedade ${item.variedade}
+              </div>
+
+            </div>
+
+
+            <div class="status ${status}">
+
+              ${statusTexto(status)}
+
+            </div>
+
           </div>
-          <div class="row">
-            <span>
-              Capacidade
-            </span>
-            <strong>
-              ${formatarNumero(item.capacidade)}
-            </strong>
+
+
+          <div class="mini-grid">
+
+            <div class="mini">
+
+              <small>
+                Cima
+              </small>
+
+              <strong>
+                ${fmt(item.cima)}
+              </strong>
+
+            </div>
+
+
+            <div class="mini">
+
+              <small>
+                Baixo
+              </small>
+
+              <strong>
+                ${fmt(item.baixo)}
+              </strong>
+
+            </div>
+
+
+            <div class="mini">
+
+              <small>
+                Total
+              </small>
+
+              <strong>
+                ${fmt(item.capacidade)}
+              </strong>
+
+            </div>
+
           </div>
-          <div class="row">
-            <span>
-              Já plantadas
-            </span>
-            <strong>
-              ${formatarNumero(plantadas)}
-            </strong>
-          </div>
-          <div class="row">
-            <span>
-              Faltam plantar
-            </span>
-            <strong>
-              ${formatarNumero(item.falta)}
-            </strong>
-          </div>
+
+
           <div class="progress">
+
             <div
               class="bar"
               style="
                 width:
-                ${Math.min(100, porcentagem)}%
+                ${Math.min(
+                  100,
+                  percentual
+                )}%
               "
             >
             </div>
+
           </div>
-          <div class="row">
-            <span>
-              Progresso
-            </span>
-            <strong>
-              ${porcentagem
-                .toFixed(1)
-                .replace(".", ",")
-              }%
-            </strong>
+
+
+          <div class="mini-grid">
+
+            <div class="mini">
+
+              <small>
+                Plantadas
+              </small>
+
+              <strong>
+                ${fmt(plantadas)}
+              </strong>
+
+            </div>
+
+
+            <div class="mini">
+
+              <small>
+                Faltam
+              </small>
+
+              <strong>
+                ${fmt(item.falta)}
+              </strong>
+
+            </div>
+
+
+            <div class="mini">
+
+              <small>
+                Progresso
+              </small>
+
+              <strong>
+
+                ${percentual
+                  .toFixed(1)
+                  .replace(".", ",")
+                }%
+
+              </strong>
+
+            </div>
+
           </div>
-          <div class="edit">
-            <div>
-              <label>
-                Variedade
-              </label>
-              <input
-                value="${item.variedade}"
-                onchange="
-                  alterar(
-                    ${item.id},
-                    'variedade',
-                    this.value
-                  )
+
+
+          ${
+            item.obs
+            ? `
+              <div
+                style="
+                  font-size:13px;
+                  color:var(--muted)
                 "
-              />
-            </div>
-            <div>
-              <label>
-                Capacidade
-              </label>
-              <input
-                type="number"
-                min="0"
-                value="${item.capacidade}"
-                onchange="
-                  alterar(
-                    ${item.id},
-                    'capacidade',
-                    this.value
-                  )
-                "
-              />
-            </div>
-            <div style="grid-column:1/-1">
-              <label>
-                Quantidade que falta plantar
-              </label>
-              <input
-                type="number"
-                min="0"
-                max="${item.capacidade}"
-                value="${item.falta}"
-                onchange="
-                  alterar(
-                    ${item.id},
-                    'falta',
-                    this.value
-                  )
-                "
-              />
-            </div>
+              >
+                📝
+                ${escapeHtml(item.obs)}
+              </div>
+            `
+            : ""
+          }
+
+
+          <div class="btnrow">
+
+            <button
+              class="primary"
+              onclick="abrirPlantio(${item.id})"
+            >
+              Adicionar plantio
+            </button>
+
+
+            <button
+              class="secondary"
+              onclick="abrirEdicao(${item.id})"
+            >
+              Editar
+            </button>
+
           </div>
-        </article>
+
+        </div>
+
       `;
+
     })
     .join("");
+
 }
-function exportarCSV() {
-  const linhas = [
-    [
-      "Canteiro",
-      "Variedade",
-      "Capacidade",
-      "Plantadas",
-      "Faltam",
-      "Progresso"
-    ]
-  ];
-  dados.forEach(item => {
-    const plantadas =
-      item.capacidade -
-      item.falta;
-    const porcentagem =
-      item.capacidade > 0
-        ? (
-            (
-              plantadas /
-              item.capacidade
-            ) * 100
-          ).toFixed(1)
-        : "0.0";
-    linhas.push([
-      item.id,
-      item.variedade,
-      item.capacidade,
-      plantadas,
-      item.falta,
-      porcentagem + "%"
-    ]);
+
+
+function renderHistorico(){
+
+  const lista =
+    document.getElementById("historicoLista");
+
+
+  if(!historico.length){
+
+    lista.innerHTML = `
+
+      <div
+        style="
+          color:var(--muted)
+        "
+      >
+        Nenhum plantio registrado ainda.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  lista.innerHTML =
+    [...historico]
+    .reverse()
+    .map(item => `
+
+      <div class="history-item">
+
+        <div>
+          🌱
+        </div>
+
+
+        <div>
+
+          <div class="history-main">
+
+            Canteiro
+            ${String(item.canteiro).padStart(2,"0")}
+            •
+            ${escapeHtml(item.variedade)}
+
+          </div>
+
+
+          <div class="history-date">
+
+            ${escapeHtml(item.data)}
+
+          </div>
+
+        </div>
+
+
+        <div class="history-qty">
+
+          +${fmt(item.quantidade)}
+
+        </div>
+
+      </div>
+
+    `)
+    .join("");
+
+}
+
+
+function adicionarPlantioRapido(){
+
+  const id =
+    Number(
+      document.getElementById("quickBed").value
+    );
+
+
+  const quantidade =
+    Number(
+      document.getElementById("quickQty").value
+    );
+
+
+  registrarPlantio(
+    id,
+    quantidade
+  );
+
+
+  document.getElementById("quickQty").value =
+    "";
+
+}
+
+
+function abrirPlantio(id){
+
+  const quantidade =
+    prompt(
+      "Quantas mudas foram plantadas agora?"
+    );
+
+
+  if(quantidade === null){
+    return;
+  }
+
+
+  registrarPlantio(
+    id,
+    Number(quantidade)
+  );
+
+}
+
+
+function registrarPlantio(
+  id,
+  quantidade
+){
+
+  const item =
+    canteiros.find(
+      canteiro =>
+        canteiro.id === id
+    );
+
+
+  if(
+    !item ||
+    !Number.isFinite(quantidade) ||
+    quantidade <= 0
+  ){
+
+    toastMsg(
+      "Informe uma quantidade válida."
+    );
+
+    return;
+
+  }
+
+
+  if(
+    quantidade >
+    item.falta
+  ){
+
+    toastMsg(
+      `Nesse canteiro faltam ${fmt(item.falta)} mudas.`
+    );
+
+    return;
+
+  }
+
+
+  item.falta -=
+    quantidade;
+
+
+  historico.push({
+
+    canteiro:item.id,
+
+    variedade:item.variedade,
+
+    quantidade:quantidade,
+
+    data:new Date()
+      .toLocaleString("pt-BR")
+
   });
-  const csv =
+
+
+  salvar();
+
+  renderTudo();
+
+  toastMsg(
+    "Plantio registrado."
+  );
+
+}
+
+
+function abrirEdicao(id){
+
+  editandoId =
+    id;
+
+
+  const item =
+    canteiros.find(
+      canteiro =>
+        canteiro.id === id
+    );
+
+
+  document.getElementById("modalTitle").textContent =
+    `Editar Canteiro ${String(id).padStart(2,"0")}`;
+
+
+  document.getElementById("mVariedade").value =
+    item.variedade;
+
+
+  document.getElementById("mCap").value =
+    item.capacidade;
+
+
+  document.getElementById("mFalta").value =
+    item.falta;
+
+
+  document.getElementById("mCima").value =
+    item.cima;
+
+
+  document.getElementById("mBaixo").value =
+    item.baixo;
+
+
+  document.getElementById("mObs").value =
+    item.obs || "";
+
+
+  document.getElementById("modal")
+    .classList
+    .remove("hidden");
+
+}
+
+
+function salvarEdicao(){
+
+  const item =
+    canteiros.find(
+      canteiro =>
+        canteiro.id === editandoId
+    );
+
+
+  if(!item){
+    return;
+  }
+
+
+  const cima =
+    Math.max(
+      0,
+      Number(
+        document.getElementById("mCima").value || 0
+      )
+    );
+
+
+  const baixo =
+    Math.max(
+      0,
+      Number(
+        document.getElementById("mBaixo").value || 0
+      )
+    );
+
+
+  let capacidade =
+    Math.max(
+      0,
+      Number(
+        document.getElementById("mCap").value || 0
+      )
+    );
+
+
+  if(
+    cima + baixo >
+    0
+  ){
+
+    capacidade =
+      cima + baixo;
+
+  }
+
+
+  let falta =
+    Math.max(
+      0,
+      Number(
+        document.getElementById("mFalta").value || 0
+      )
+    );
+
+
+  falta =
+    Math.min(
+      falta,
+      capacidade
+    );
+
+
+  item.variedade =
+    document.getElementById("mVariedade")
+      .value
+      .trim() ||
+    item.variedade;
+
+
+  item.cima =
+    cima;
+
+
+  item.baixo =
+    baixo;
+
+
+  item.capacidade =
+    capacidade;
+
+
+  item.falta =
+    falta;
+
+
+  item.obs =
+    document.getElementById("mObs")
+      .value
+      .trim();
+
+
+  salvar();
+
+  fecharModal();
+
+  renderTudo();
+
+  toastMsg(
+    "Canteiro atualizado."
+  );
+
+}
+
+
+function fecharModal(){
+
+  document.getElementById("modal")
+    .classList
+    .add("hidden");
+
+
+  editandoId =
+    null;
+
+}
+
+
+function trocarAba(
+  aba,
+  botao
+){
+
+  [
+    "resumo",
+    "canteiros",
+    "historico"
+  ].forEach(nome => {
+
+    document.getElementById(
+      "tab-" + nome
+    )
+    .classList
+    .toggle(
+      "hidden",
+      nome !== aba
+    );
+
+  });
+
+
+  document
+    .querySelectorAll(".navbtn")
+    .forEach(botao => {
+
+      botao.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  botao.classList.add(
+    "active"
+  );
+
+
+  if(
+    aba === "historico"
+  ){
+
+    renderHistorico();
+
+  }
+
+
+  if(
+    aba === "canteiros"
+  ){
+
+    renderCanteiros();
+
+  }
+
+}
+
+
+function exportarCSV(){
+
+  const linhas = [[
+
+    "Canteiro",
+    "Variedade",
+    "Cima",
+    "Baixo",
+    "Capacidade",
+    "Plantadas",
+    "Faltam",
+    "Status",
+    "Observacao"
+
+  ]];
+
+
+  canteiros.forEach(item => {
+
+    linhas.push([
+
+      item.id,
+
+      item.variedade,
+
+      item.cima,
+
+      item.baixo,
+
+      item.capacidade,
+
+      item.capacidade -
+      item.falta,
+
+      item.falta,
+
+      statusTexto(
+        statusItem(item)
+      ),
+
+      `"${String(
+        item.obs || ""
+      ).replaceAll(
+        '"',
+        '""'
+      )}"`
+
+    ]);
+
+  });
+
+
+  baixarArquivo(
+
     "\uFEFF" +
+
     linhas
       .map(linha =>
         linha.join(";")
       )
-      .join("\n");
+      .join("\n"),
+
+    "viveiro_canteiros.csv",
+
+    "text/csv;charset=utf-8;"
+
+  );
+
+}
+
+
+function exportarBackup(){
+
+  const conteudo =
+    JSON.stringify({
+
+      canteiros,
+
+      historico,
+
+      exportadoEm:
+        new Date()
+          .toISOString()
+
+    }, null, 2);
+
+
+  baixarArquivo(
+
+    conteudo,
+
+    "viveiro_backup.json",
+
+    "application/json"
+
+  );
+
+}
+
+
+function baixarArquivo(
+  conteudo,
+  nome,
+  tipo
+){
+
   const blob =
     new Blob(
-      [csv],
+      [conteudo],
       {
-        type:
-        "text/csv;charset=utf-8;"
+        type:tipo
       }
     );
+
+
   const url =
-    URL.createObjectURL(blob);
-  const link =
-    document.createElement("a");
-  link.href = url;
-  link.download =
-    "controle_viveiro_cafe.csv";
-  link.click();
-  URL.revokeObjectURL(url);
-}
-function resetarDados() {
-  const confirmar =
-    confirm(
-      "Restaurar os dados iniciais do viveiro?"
+    URL.createObjectURL(
+      blob
     );
-  if (confirmar) {
-    dados =
-      structuredClone(dadosPadrao);
-    salvar();
-    render();
-  }
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    url;
+
+
+  link.download =
+    nome;
+
+
+  link.click();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
 }
-render();
+
+
+function limparHistorico(){
+
+  if(
+    confirm(
+      "Apagar somente o histórico de plantios?"
+    )
+  ){
+
+    historico =
+      [];
+
+
+    salvar();
+
+    renderHistorico();
+
+    toastMsg(
+      "Histórico apagado."
+    );
+
+  }
+
+}
+
+
+function toastMsg(mensagem){
+
+  const toast =
+    document.getElementById("toast");
+
+
+  toast.textContent =
+    mensagem;
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
+    () =>
+      toast.classList.remove(
+        "show"
+      ),
+    1800
+  );
+
+}
+
+
+function escapeHtml(texto){
+
+  return String(texto)
+    .replace(
+      /[&<>"']/g,
+      caractere => ({
+
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+
+      })[caractere]
+    );
+
+}
+
+
+function renderTudo(){
+
+  resumo();
+
+  renderCanteiros();
+
+  renderHistorico();
+
+}
+
+
+if(
+  "serviceWorker" in navigator
+){
+
+  window.addEventListener(
+    "load",
+    () => {
+
+      navigator
+        .serviceWorker
+        .register("sw.js")
+        .catch(() => {});
+
+    }
+  );
+
+}
+
+
+renderTudo();
+
 </script>
+
 </body>
 </html>
