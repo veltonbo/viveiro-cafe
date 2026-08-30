@@ -1,0 +1,618 @@
+Claro — aqui está o HTML completo. É só copiar tudo, salvar como viveiro_cafe_app.html e abrir no navegador.
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controle do Viveiro de Café</title>
+  <style>
+    :root {
+      --bg: #f3f6f2;
+      --card: #ffffff;
+      --text: #1d2a20;
+      --muted: #6a756d;
+      --line: #dfe7df;
+      --accent: #2f6b3b;
+      --accent-soft: #e7f2e9;
+      --danger: #b42318;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+      --radius: 18px;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      font-size: clamp(24px, 4vw, 36px);
+      margin: 0;
+    }
+    .subtitle {
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .primary {
+      background: var(--accent);
+      color: white;
+    }
+    .secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+    .danger {
+      background: #fff0ee;
+      color: var(--danger);
+      border: 1px solid #ffd7d1;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      border: 1px solid #edf1ed;
+    }
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .metric-value {
+      font-size: 28px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .toolbar input,
+    .toolbar select {
+      flex: 1;
+      min-width: 180px;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 12px;
+      padding: 11px 12px;
+      font-size: 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .bed h3 {
+      margin: 0 0 4px;
+      font-size: 20px;
+    }
+    .variety {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    .row span:first-child {
+      color: var(--muted);
+    }
+    .row strong {
+      font-size: 15px;
+    }
+    .progress {
+      height: 12px;
+      background: #e8ece8;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0 8px;
+    }
+    .bar {
+      height: 100%;
+      background: var(--accent);
+      width: 0;
+      transition: width 0.25s ease;
+    }
+    .edit {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .edit label {
+      font-size: 12px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .edit input {
+      width: 100%;
+      padding: 10px 11px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .footer-note {
+      color: var(--muted);
+      text-align: center;
+      padding: 20px 0 8px;
+      font-size: 12px;
+    }
+    @media (max-width: 800px) {
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 480px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+      .wrap {
+        padding: 14px;
+      }
+      .metric-value {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Controle do Viveiro</h1>
+      <div class="subtitle">
+        Canteiros de café clonal
+      </div>
+    </div>
+    <div class="actions">
+      <button class="secondary" onclick="exportarCSV()">
+        Exportar CSV
+      </button>
+      <button class="danger" onclick="resetarDados()">
+        Restaurar dados
+      </button>
+    </div>
+  </header>
+  <section class="summary">
+    <div class="card">
+      <div class="metric-label">Capacidade total</div>
+      <div class="metric-value" id="capTotal">0</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Já plantadas</div>
+      <div class="metric-value" id="plantadasTotal">0</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Faltam plantar</div>
+      <div class="metric-value" id="faltamTotal">0</div>
+    </div>
+    <div class="card">
+      <div class="metric-label">Progresso geral</div>
+      <div class="metric-value" id="progressoTotal">0%</div>
+    </div>
+  </section>
+  <div class="toolbar">
+    <input
+      id="busca"
+      placeholder="Buscar por canteiro ou variedade..."
+      oninput="render()"
+    />
+    <select id="filtro" onchange="render()">
+      <option value="todos">
+        Todos
+      </option>
+      <option value="incompletos">
+        Somente incompletos
+      </option>
+      <option value="cheios">
+        Somente cheios
+      </option>
+    </select>
+  </div>
+  <section id="grid" class="grid"></section>
+  <div class="footer-note">
+    Você pode alterar variedade, capacidade e quantidade que falta plantar.
+    As mudanças ficam salvas automaticamente no aparelho.
+  </div>
+</div>
+<script>
+const dadosPadrao = [
+  {
+    id: 1,
+    variedade: "156",
+    capacidade: 3500,
+    falta: 2400
+  },
+  {
+    id: 2,
+    variedade: "88",
+    capacidade: 3492,
+    falta: 0
+  },
+  {
+    id: 3,
+    variedade: "R22",
+    capacidade: 3729,
+    falta: 962
+  },
+  {
+    id: 4,
+    variedade: "25",
+    capacidade: 3683,
+    falta: 955
+  },
+  {
+    id: 5,
+    variedade: "08",
+    capacidade: 3828,
+    falta: 3828
+  },
+  {
+    id: 6,
+    variedade: "LB15",
+    capacidade: 3772,
+    falta: 3772
+  },
+  {
+    id: 7,
+    variedade: "04",
+    capacidade: 3600,
+    falta: 3600
+  }
+];
+let dados = JSON.parse(
+  localStorage.getItem("viveiroCafeDados") || "null"
+) || structuredClone(dadosPadrao);
+function salvar() {
+  localStorage.setItem(
+    "viveiroCafeDados",
+    JSON.stringify(dados)
+  );
+}
+function formatarNumero(numero) {
+  return Number(numero).toLocaleString("pt-BR");
+}
+function atualizarResumo() {
+  const capacidade = dados.reduce(
+    (total, item) =>
+      total + Number(item.capacidade || 0),
+    0
+  );
+  const faltam = dados.reduce(
+    (total, item) =>
+      total + Number(item.falta || 0),
+    0
+  );
+  const plantadas = Math.max(
+    0,
+    capacidade - faltam
+  );
+  const progresso =
+    capacidade > 0
+      ? (plantadas / capacidade) * 100
+      : 0;
+  document.getElementById("capTotal").textContent =
+    formatarNumero(capacidade);
+  document.getElementById("plantadasTotal").textContent =
+    formatarNumero(plantadas);
+  document.getElementById("faltamTotal").textContent =
+    formatarNumero(faltam);
+  document.getElementById("progressoTotal").textContent =
+    progresso
+      .toFixed(1)
+      .replace(".", ",") + "%";
+}
+function alterar(id, campo, valor) {
+  const item = dados.find(
+    canteiro => canteiro.id === id
+  );
+  if (!item) return;
+  if (campo === "variedade") {
+    item.variedade = valor;
+  } else {
+    let numero = Math.max(
+      0,
+      parseInt(valor || "0", 10)
+    );
+    if (campo === "falta") {
+      numero = Math.min(
+        numero,
+        Number(item.capacidade || 0)
+      );
+    }
+    item[campo] = numero;
+    if (
+      campo === "capacidade" &&
+      item.falta > numero
+    ) {
+      item.falta = numero;
+    }
+  }
+  salvar();
+  render();
+}
+function render() {
+  atualizarResumo();
+  const grid =
+    document.getElementById("grid");
+  const busca =
+    document
+      .getElementById("busca")
+      .value
+      .trim()
+      .toLowerCase();
+  const filtro =
+    document
+      .getElementById("filtro")
+      .value;
+  const filtrados = dados.filter(item => {
+    const bateBusca =
+      !busca ||
+      String(item.id).includes(busca) ||
+      item.variedade
+        .toLowerCase()
+        .includes(busca);
+    const cheio =
+      Number(item.falta) === 0;
+    const bateFiltro =
+      filtro === "todos" ||
+      (
+        filtro === "cheios" &&
+        cheio
+      ) ||
+      (
+        filtro === "incompletos" &&
+        !cheio
+      );
+    return bateBusca && bateFiltro;
+  });
+  grid.innerHTML = filtrados
+    .map(item => {
+      const plantadas =
+        Math.max(
+          0,
+          Number(item.capacidade) -
+          Number(item.falta)
+        );
+      const porcentagem =
+        item.capacidade > 0
+          ? (
+              plantadas /
+              item.capacidade
+            ) * 100
+          : 0;
+      return `
+        <article class="card bed">
+          <h3>
+            Canteiro
+            ${String(item.id).padStart(2, "0")}
+          </h3>
+          <div class="variety">
+            Variedade ${item.variedade}
+          </div>
+          <div class="row">
+            <span>
+              Capacidade
+            </span>
+            <strong>
+              ${formatarNumero(item.capacidade)}
+            </strong>
+          </div>
+          <div class="row">
+            <span>
+              Já plantadas
+            </span>
+            <strong>
+              ${formatarNumero(plantadas)}
+            </strong>
+          </div>
+          <div class="row">
+            <span>
+              Faltam plantar
+            </span>
+            <strong>
+              ${formatarNumero(item.falta)}
+            </strong>
+          </div>
+          <div class="progress">
+            <div
+              class="bar"
+              style="
+                width:
+                ${Math.min(100, porcentagem)}%
+              "
+            >
+            </div>
+          </div>
+          <div class="row">
+            <span>
+              Progresso
+            </span>
+            <strong>
+              ${porcentagem
+                .toFixed(1)
+                .replace(".", ",")
+              }%
+            </strong>
+          </div>
+          <div class="edit">
+            <div>
+              <label>
+                Variedade
+              </label>
+              <input
+                value="${item.variedade}"
+                onchange="
+                  alterar(
+                    ${item.id},
+                    'variedade',
+                    this.value
+                  )
+                "
+              />
+            </div>
+            <div>
+              <label>
+                Capacidade
+              </label>
+              <input
+                type="number"
+                min="0"
+                value="${item.capacidade}"
+                onchange="
+                  alterar(
+                    ${item.id},
+                    'capacidade',
+                    this.value
+                  )
+                "
+              />
+            </div>
+            <div style="grid-column:1/-1">
+              <label>
+                Quantidade que falta plantar
+              </label>
+              <input
+                type="number"
+                min="0"
+                max="${item.capacidade}"
+                value="${item.falta}"
+                onchange="
+                  alterar(
+                    ${item.id},
+                    'falta',
+                    this.value
+                  )
+                "
+              />
+            </div>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+function exportarCSV() {
+  const linhas = [
+    [
+      "Canteiro",
+      "Variedade",
+      "Capacidade",
+      "Plantadas",
+      "Faltam",
+      "Progresso"
+    ]
+  ];
+  dados.forEach(item => {
+    const plantadas =
+      item.capacidade -
+      item.falta;
+    const porcentagem =
+      item.capacidade > 0
+        ? (
+            (
+              plantadas /
+              item.capacidade
+            ) * 100
+          ).toFixed(1)
+        : "0.0";
+    linhas.push([
+      item.id,
+      item.variedade,
+      item.capacidade,
+      plantadas,
+      item.falta,
+      porcentagem + "%"
+    ]);
+  });
+  const csv =
+    "\uFEFF" +
+    linhas
+      .map(linha =>
+        linha.join(";")
+      )
+      .join("\n");
+  const blob =
+    new Blob(
+      [csv],
+      {
+        type:
+        "text/csv;charset=utf-8;"
+      }
+    );
+  const url =
+    URL.createObjectURL(blob);
+  const link =
+    document.createElement("a");
+  link.href = url;
+  link.download =
+    "controle_viveiro_cafe.csv";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+function resetarDados() {
+  const confirmar =
+    confirm(
+      "Restaurar os dados iniciais do viveiro?"
+    );
+  if (confirmar) {
+    dados =
+      structuredClone(dadosPadrao);
+    salvar();
+    render();
+  }
+}
+render();
+</script>
+</body>
+</html>
