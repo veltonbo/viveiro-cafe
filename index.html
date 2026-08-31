@@ -327,6 +327,244 @@
       .report-summary .mini{border:1px solid #ddd!important}
     }
 
+
+    .report-shell{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .report-hero{
+      background:linear-gradient(145deg,var(--green-dark),var(--green));
+      color:#fff;
+      border-radius:22px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .report-hero-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .report-hero h2{
+      margin:0;
+      font-size:22px;
+      letter-spacing:-.03em;
+    }
+
+    .report-hero p{
+      margin:5px 0 0;
+      font-size:12px;
+      color:rgba(255,255,255,.78);
+    }
+
+    .report-hero .tag{
+      margin:0;
+      background:rgba(255,255,255,.14);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.15);
+    }
+
+    .report-kpis{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:15px;
+    }
+
+    .report-kpi{
+      padding:13px;
+      border-radius:14px;
+      background:rgba(255,255,255,.11);
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .report-kpi small{
+      display:block;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:rgba(255,255,255,.72);
+      font-weight:800;
+    }
+
+    .report-kpi strong{
+      display:block;
+      margin-top:5px;
+      font-size:22px;
+      line-height:1;
+      letter-spacing:-.04em;
+    }
+
+    .report-toolbar-card{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .report-toolbar-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      width:100%;
+    }
+
+    .report-toolbar-actions button{
+      flex:1;
+      min-width:145px;
+    }
+
+    .report-section-card{
+      padding:0;
+      overflow:hidden;
+    }
+
+    .report-section-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      background:var(--surface-2);
+    }
+
+    .report-section-header h3{
+      margin:0;
+      font-size:16px;
+      letter-spacing:-.02em;
+    }
+
+    .report-section-header small{
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .report-section-body{
+      padding:0;
+    }
+
+    .report-table-wrap.clean{
+      border:0;
+      border-radius:0;
+    }
+
+    .report-table-wrap.clean .report-table{
+      min-width:620px;
+    }
+
+    .report-table-wrap.clean .report-table th{
+      background:#fff;
+      border-bottom:1px solid var(--line);
+    }
+
+    .report-table-wrap.clean .report-table td{
+      padding-top:12px;
+      padding-bottom:12px;
+    }
+
+    .report-footnote{
+      padding:10px 14px 14px;
+      color:var(--muted);
+      font-size:11px;
+      background:#fff;
+    }
+
+    @media(max-width:600px){
+      .report-kpis{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .report-kpis .report-kpi:first-child{
+        grid-column:1/-1;
+      }
+
+      .report-toolbar-actions{
+        display:grid;
+        grid-template-columns:1fr;
+      }
+
+      .report-toolbar-actions button{
+        width:100%;
+      }
+
+      .report-hero{
+        padding:16px;
+      }
+    }
+
+    @media print{
+      .report-toolbar-card{
+        display:none!important;
+      }
+
+      .report-shell{
+        gap:10px!important;
+      }
+
+      .report-hero{
+        background:#fff!important;
+        color:#000!important;
+        box-shadow:none!important;
+        border:1px solid #ccc!important;
+      }
+
+      .report-hero p{
+        color:#555!important;
+      }
+
+      .report-hero .tag{
+        color:#000!important;
+        background:#fff!important;
+        border:1px solid #ccc!important;
+      }
+
+      .report-kpi{
+        background:#fff!important;
+        border:1px solid #ddd!important;
+      }
+
+      .report-kpi small{
+        color:#555!important;
+      }
+
+      .report-section-card{
+        box-shadow:none!important;
+        border:1px solid #ccc!important;
+      }
+
+      .report-section-header{
+        background:#f7f7f7!important;
+      }
+    }
+
+
+    .report-filter-card{padding:14px}
+    .report-filter-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px}
+    .report-filter-grid .field label{font-size:10px}
+    .report-meta-line{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px;color:var(--muted);font-size:11px}
+    .report-meta-pill{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-weight:800;color:var(--muted)}
+    .report-empty{padding:20px;text-align:center;color:var(--muted);font-size:13px}
+    .report-note-box{margin-top:14px;padding:14px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line)}
+    .report-note-box label{display:block;margin-bottom:6px;color:var(--muted);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+    .report-note-box textarea{width:100%;min-height:78px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:10px 11px;outline:none;color:var(--text);background:#fff}
+    .report-note-print{display:none;margin-top:12px;font-size:11px;line-height:1.5;color:#333;white-space:pre-wrap}
+    .report-section-total{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .report-section-total span{display:inline-flex;padding:5px 8px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:10px;font-weight:900}
+    @media(max-width:760px){.report-filter-grid{grid-template-columns:1fr}}
+    @media print{
+      .report-filter-card,.report-note-box{display:none!important}
+      .report-note-print{display:block!important}
+      .report-meta-line{color:#444!important}
+      .report-meta-pill{border:1px solid #ccc!important;background:#fff!important;color:#444!important}
+    }
+
   </style>
 </head>
 
@@ -477,51 +715,149 @@
   </section>
 
   <section id="tab-relatorio" class="hidden">
-    <div class="section-head">
-      <h2 class="section-title">Relatório do viveiro</h2>
-      <div class="section-note">Capacidade, plantadas e faltantes</div>
-    </div>
+    <div class="report-shell">
 
-    <div class="report-actions">
-      <button class="primary" onclick="gerarRelatorio()">Atualizar relatório</button>
-      <button class="secondary" onclick="imprimirRelatorio()">Imprimir / Salvar PDF</button>
-      <button class="secondary" onclick="exportarRelatorioCSV()">Exportar CSV</button>
-    </div>
+      <div class="report-hero">
+        <div class="report-hero-top">
+          <div>
+            <h2>Relatório do Viveiro</h2>
+            <p id="relatorioData">Situação atual do plantio</p>
 
-    <div class="card">
-      <div class="report-header">
-        <div>
-          <h2 class="report-title">Relatório do Viveiro Café</h2>
-          <div class="report-date" id="relatorioData"></div>
+            <div class="report-meta-line">
+              <span class="report-meta-pill" id="relatorioQtdCanteiros">0 canteiros</span>
+              <span class="report-meta-pill" id="relatorioFiltroResumo">Todos os canteiros</span>
+            </div>
+          </div>
         </div>
-        <div class="tag" id="relatorioQtdCanteiros"></div>
+
+        <div class="report-kpis">
+          <div class="report-kpi">
+            <small>Capacidade</small>
+            <strong id="rCap">0</strong>
+          </div>
+
+          <div class="report-kpi">
+            <small>Plantadas</small>
+            <strong id="rPlant">0</strong>
+          </div>
+
+          <div class="report-kpi">
+            <small>Faltam plantar</small>
+            <strong id="rFalta">0</strong>
+          </div>
+        </div>
       </div>
 
-      <div class="report-summary" style="grid-template-columns:repeat(3,1fr)">
-        <div class="mini"><small>Capacidade</small><strong id="rCap">0</strong></div>
-        <div class="mini"><small>Plantadas</small><strong id="rPlant">0</strong></div>
-        <div class="mini"><small>Faltam plantar</small><strong id="rFalta">0</strong></div>
+      <div class="card report-filter-card">
+        <div class="section-head" style="margin:0 0 10px">
+          <h3 class="section-title">Filtros do relatório</h3>
+          <div class="section-note">Escolha o que deseja visualizar</div>
+        </div>
+
+        <div class="report-filter-grid">
+          <div class="field">
+            <label>Buscar</label>
+            <input id="relBusca" placeholder="Canteiro ou variedade" oninput="gerarRelatorio()">
+          </div>
+
+          <div class="field">
+            <label>Variedade</label>
+            <select id="relVariedade" onchange="gerarRelatorio()">
+              <option value="todas">Todas as variedades</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Plantio</label>
+            <select id="relSituacao" onchange="gerarRelatorio()">
+              <option value="todos">Todos</option>
+              <option value="faltando">Somente com falta</option>
+              <option value="completos">Somente completos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="btnrow" style="margin-top:10px">
+          <button class="secondary" onclick="limparFiltrosRelatorio()">Limpar filtros</button>
+        </div>
       </div>
 
-      <div class="section-head"><h3 class="section-title">Canteiros</h3><div class="section-note">Detalhamento completo</div></div>
-      <div class="report-table-wrap">
-        <table class="report-table">
-          <thead><tr>
-            <th>Canteiro</th><th>Variedade</th><th>Capacidade</th><th>Plantadas</th><th>Faltam</th>
-          </tr></thead>
-          <tbody id="relatorioTabela"></tbody>
-        </table>
+      <div class="card report-toolbar-card">
+        <div class="report-toolbar-actions">
+          <button class="primary" onclick="gerarRelatorio()">↻ Atualizar</button>
+          <button class="secondary" onclick="imprimirRelatorio()">🖨 Imprimir / Salvar PDF</button>
+          <button class="secondary" onclick="exportarRelatorioCSV()">⬇ Exportar CSV</button>
+        </div>
       </div>
 
-      <div class="section-head"><h3 class="section-title">Resumo por variedade</h3><div class="section-note">Saldo consolidado</div></div>
-      <div class="report-table-wrap">
-        <table class="report-table">
-          <thead><tr>
-            <th>Variedade</th><th>Capacidade</th><th>Plantadas</th><th>Faltam</th>
-          </tr></thead>
-          <tbody id="relatorioVariedades"></tbody>
-        </table>
+      <div class="card report-section-card">
+        <div class="report-section-header">
+          <div>
+            <h3>Por canteiro</h3>
+            <small>Capacidade, plantadas e faltantes</small>
+          </div>
+
+          <div class="report-section-total">
+            <span id="relQtdLinhas">0 registros</span>
+          </div>
+        </div>
+
+        <div class="report-section-body">
+          <div class="report-table-wrap clean">
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>Canteiro</th>
+                  <th>Variedade</th>
+                  <th>Capacidade</th>
+                  <th>Plantadas</th>
+                  <th>Faltam</th>
+                </tr>
+              </thead>
+              <tbody id="relatorioTabela"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
+
+      <div class="card report-section-card">
+        <div class="report-section-header">
+          <div>
+            <h3>Por variedade</h3>
+            <small>Totais consolidados</small>
+          </div>
+        </div>
+
+        <div class="report-section-body">
+          <div class="report-table-wrap clean">
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>Variedade</th>
+                  <th>Capacidade</th>
+                  <th>Plantadas</th>
+                  <th>Faltam</th>
+                </tr>
+              </thead>
+              <tbody id="relatorioVariedades"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="report-note-box">
+          <label>Observação para o relatório</label>
+          <textarea id="relObservacao" placeholder="Ex.: conferência do viveiro, observações do dia..." oninput="atualizarObservacaoRelatorio()"></textarea>
+        </div>
+
+        <div id="relObservacaoPrint" class="report-note-print"></div>
+
+        <div class="report-footnote">
+          O relatório mostra somente capacidade, quantidade plantada e quantidade que falta plantar.
+        </div>
+      </div>
+
     </div>
   </section>
 </div>
@@ -1657,60 +1993,176 @@ function trocarAba(tab,btn){
 }
 
 
-function gerarRelatorio(){
+function obterCanteirosRelatorio(){
   ordenarCanteiros();
 
-  const total = canteiros.reduce((acc,c)=>{
+  const busca = (document.getElementById("relBusca")?.value || "").trim().toLowerCase();
+  const variedade = document.getElementById("relVariedade")?.value || "todas";
+  const situacao = document.getElementById("relSituacao")?.value || "todos";
+
+  return canteiros.filter(c=>{
+    const r = calculoCanteiro(c.id);
+
+    const bateBusca =
+      !busca ||
+      String(c.id).includes(busca) ||
+      String(c.variedade).toLowerCase().includes(busca);
+
+    const bateVariedade =
+      variedade === "todas" ||
+      String(c.variedade) === variedade;
+
+    const bateSituacao =
+      situacao === "todos" ||
+      (situacao === "faltando" && r.falta > 0) ||
+      (situacao === "completos" && r.falta === 0);
+
+    return bateBusca && bateVariedade && bateSituacao;
+  });
+}
+
+function atualizarOpcoesRelatorio(){
+  const select = document.getElementById("relVariedade");
+  if(!select) return;
+
+  const atual = select.value || "todas";
+
+  const variedades = [...new Set(
+    canteiros.map(c=>String(c.variedade))
+  )].sort((a,b)=>a.localeCompare(b,"pt-BR"));
+
+  select.innerHTML =
+    `<option value="todas">Todas as variedades</option>` +
+    variedades.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
+
+  if(atual === "todas" || variedades.includes(atual)){
+    select.value = atual;
+  }else{
+    select.value = "todas";
+  }
+}
+
+function gerarRelatorio(){
+  atualizarOpcoesRelatorio();
+
+  const filtrados = obterCanteirosRelatorio();
+
+  const total = filtrados.reduce((acc,c)=>{
     const r = calculoCanteiro(c.id);
     acc.cap += r.capacidade;
     acc.plant += r.plantadas;
-    acc.saidas += r.saidas;
-    acc.disp += r.disponiveis;
     acc.falta += r.falta;
     return acc;
-  },{cap:0,plant:0,saidas:0,disp:0,falta:0});
+  },{cap:0,plant:0,falta:0});
 
-  relatorioData.textContent = "Gerado em " + new Date().toLocaleString("pt-BR");
-  relatorioQtdCanteiros.textContent = canteiros.length + (canteiros.length===1 ? " canteiro" : " canteiros");
+  relatorioData.textContent =
+    "Gerado em " + new Date().toLocaleString("pt-BR");
+
+  relatorioQtdCanteiros.textContent =
+    filtrados.length + (filtrados.length===1 ? " canteiro" : " canteiros");
+
+  relQtdLinhas.textContent =
+    filtrados.length + (filtrados.length===1 ? " registro" : " registros");
 
   rCap.textContent = fmt(total.cap);
   rPlant.textContent = fmt(total.plant);
   rFalta.textContent = fmt(total.falta);
 
-  relatorioTabela.innerHTML = canteiros.map(c=>{
-    const r = calculoCanteiro(c.id);
-    return `
+  const variedade = document.getElementById("relVariedade")?.value || "todas";
+  const situacao = document.getElementById("relSituacao")?.value || "todos";
+  const partes = [];
+
+  if(variedade !== "todas") partes.push("Variedade " + variedade);
+  if(situacao === "faltando") partes.push("Com falta");
+  if(situacao === "completos") partes.push("Completos");
+
+  relatorioFiltroResumo.textContent =
+    partes.length ? partes.join(" • ") : "Todos os canteiros";
+
+  if(!filtrados.length){
+    relatorioTabela.innerHTML = `
       <tr>
-        <td>${String(c.id).padStart(2,"0")}</td>
-        <td>${escapeHtml(c.variedade)}</td>
-        <td>${fmt(r.capacidade)}</td>
-        <td>${fmt(r.plantadas)}</td>
-        <td>${fmt(r.falta)}</td>
+        <td colspan="5">
+          <div class="report-empty">Nenhum canteiro encontrado com os filtros escolhidos.</div>
+        </td>
       </tr>
     `;
-  }).join("");
+  }else{
+    relatorioTabela.innerHTML = filtrados.map(c=>{
+      const r = calculoCanteiro(c.id);
+
+      return `
+        <tr>
+          <td>${String(c.id).padStart(2,"0")}</td>
+          <td>${escapeHtml(c.variedade)}</td>
+          <td>${fmt(r.capacidade)}</td>
+          <td>${fmt(r.plantadas)}</td>
+          <td>${fmt(r.falta)}</td>
+        </tr>
+      `;
+    }).join("");
+  }
 
   const porVar = {};
-  canteiros.forEach(c=>{
+
+  filtrados.forEach(c=>{
     const r = calculoCanteiro(c.id);
-    if(!porVar[c.variedade]) porVar[c.variedade]={cap:0,plant:0,saidas:0,disp:0,falta:0};
+
+    if(!porVar[c.variedade]){
+      porVar[c.variedade] = {cap:0,plant:0,falta:0};
+    }
+
     porVar[c.variedade].cap += r.capacidade;
     porVar[c.variedade].plant += r.plantadas;
-    porVar[c.variedade].saidas += r.saidas;
-    porVar[c.variedade].disp += r.disponiveis;
     porVar[c.variedade].falta += r.falta;
   });
 
-  relatorioVariedades.innerHTML = Object.entries(porVar)
-    .sort((a,b)=>a[0].localeCompare(b[0],"pt-BR"))
-    .map(([v,d])=>`
+  const variedades = Object.entries(porVar)
+    .sort((a,b)=>a[0].localeCompare(b[0],"pt-BR"));
+
+  if(!variedades.length){
+    relatorioVariedades.innerHTML = `
       <tr>
-        <td>${escapeHtml(v)}</td>
-        <td>${fmt(d.cap)}</td>
-        <td>${fmt(d.plant)}</td>
-        <td>${fmt(d.falta)}</td>
+        <td colspan="4">
+          <div class="report-empty">Nenhuma variedade para mostrar.</div>
+        </td>
       </tr>
-    `).join("");
+    `;
+  }else{
+    relatorioVariedades.innerHTML = variedades
+      .map(([v,d])=>`
+        <tr>
+          <td>${escapeHtml(v)}</td>
+          <td>${fmt(d.cap)}</td>
+          <td>${fmt(d.plant)}</td>
+          <td>${fmt(d.falta)}</td>
+        </tr>
+      `)
+      .join("");
+  }
+
+  atualizarObservacaoRelatorio();
+}
+
+function limparFiltrosRelatorio(){
+  const busca = document.getElementById("relBusca");
+  const variedade = document.getElementById("relVariedade");
+  const situacao = document.getElementById("relSituacao");
+
+  if(busca) busca.value = "";
+  if(variedade) variedade.value = "todas";
+  if(situacao) situacao.value = "todos";
+
+  gerarRelatorio();
+}
+
+function atualizarObservacaoRelatorio(){
+  const obs = document.getElementById("relObservacao")?.value.trim() || "";
+  const alvo = document.getElementById("relObservacaoPrint");
+
+  if(!alvo) return;
+
+  alvo.textContent = obs ? "Observação: " + obs : "";
 }
 
 function imprimirRelatorio(){
@@ -1719,12 +2171,26 @@ function imprimirRelatorio(){
 }
 
 function exportarRelatorioCSV(){
-  ordenarCanteiros();
-  const linhas=[["Canteiro","Variedade","Capacidade","Plantadas","Faltam"]];
+  const filtrados = obterCanteirosRelatorio();
 
-  canteiros.forEach(c=>{
+  const linhas=[[
+    "Canteiro",
+    "Variedade",
+    "Capacidade",
+    "Plantadas",
+    "Faltam"
+  ]];
+
+  filtrados.forEach(c=>{
     const r=calculoCanteiro(c.id);
-    linhas.push([c.id,c.variedade,r.capacidade,r.plantadas,r.falta]);
+
+    linhas.push([
+      c.id,
+      c.variedade,
+      r.capacidade,
+      r.plantadas,
+      r.falta
+    ]);
   });
 
   baixarArquivo(
