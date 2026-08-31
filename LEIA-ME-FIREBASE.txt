@@ -1,0 +1,20 @@
+FIREBASE - VIVEIRO CAFE
+
+Projeto vinculado:
+manej-cafe
+
+Banco usado:
+Realtime Database
+
+Caminho dos dados:
+viveiroCafe/estado
+
+A sincronização é automática após alterações.
+O app continua salvando localmente no aparelho.
+
+Se o app mostrar "Firebase: permissão negada", confira as Rules
+do Realtime Database no Firebase Console.
+
+IMPORTANTE:
+Não deixe regras públicas permanentemente em um app exposto na internet.
+Uma próxima etapa pode adicionar autenticação para proteger o banco.

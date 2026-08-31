@@ -580,7 +580,7 @@
           <div class="sub">Controle de plantio e saídas</div>
         </div>
       </div>
-      <div class="top-chip">● Dados salvos neste aparelho</div>
+      <div class="top-chip" id="firebaseTopStatus">☁️ Firebase: conectando...</div>
     </div>
   </header>
 
@@ -708,6 +708,22 @@
 
       <div class="note" style="margin-top:10px">
         Antes de cada alteração, o app guarda automaticamente uma cópia no próprio aparelho.
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <div class="section-head" style="margin:0 0 10px">
+        <h2 class="section-title">☁️ Firebase</h2>
+        <div class="section-note" id="firebaseStatus">Conectando...</div>
+      </div>
+
+      <div class="btnrow">
+        <button class="primary" onclick="sincronizarFirebaseAgora()">Sincronizar agora</button>
+        <button class="secondary" onclick="restaurarFirebase()">Restaurar da nuvem</button>
+      </div>
+
+      <div class="note" id="firebaseUltimaSync" style="margin-top:10px">
+        Aguardando conexão com o Firebase.
       </div>
     </div>
 
@@ -1059,7 +1075,7 @@ if(!lancamentos){
     }
   });
 
-  salvar();
+  salvar(false);
 }
 
 let editandoLancamentoId = null;
@@ -1070,9 +1086,19 @@ function novoId(){
   return crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random());
 }
 
-function salvar(){
+function salvar(marcarAlteracao=true){
   localStorage.setItem("viveiro_v2_canteiros", JSON.stringify(canteiros));
   localStorage.setItem("viveiro_v2_lancamentos", JSON.stringify(lancamentos));
+
+  if(marcarAlteracao){
+    const agora = Date.now();
+    localStorage.setItem("viveiro_last_modified", String(agora));
+
+    if(window.firebaseSync && !window.firebaseSync.aplicandoNuvem){
+      window.firebaseSync.agendar();
+    }
+  }
+
   atualizarStatusBackup();
 }
 
@@ -2267,11 +2293,140 @@ function toastMsg(msg){
   },1800);
 }
 
+function atualizarStatusFirebase(texto, tipo="normal"){
+  const status = document.getElementById("firebaseStatus");
+  const top = document.getElementById("firebaseTopStatus");
+
+  if(status){
+    status.textContent = texto;
+  }
+
+  if(top){
+    const prefixo =
+      tipo === "ok" ? "☁️ " :
+      tipo === "erro" ? "⚠️ " :
+      "☁️ ";
+
+    top.textContent = prefixo + "Firebase: " + texto;
+  }
+}
+
+function atualizarUltimaSyncFirebase(dataIso=null){
+  const el = document.getElementById("firebaseUltimaSync");
+  if(!el) return;
+
+  const valor =
+    dataIso ||
+    localStorage.getItem("viveiro_cloud_last_sync");
+
+  if(!valor){
+    el.textContent = "Ainda não houve sincronização com a nuvem.";
+    return;
+  }
+
+  try{
+    el.textContent =
+      "Última sincronização: " +
+      new Date(valor).toLocaleString("pt-BR");
+  }catch{
+    el.textContent = "Dados sincronizados com a nuvem.";
+  }
+}
+
+async function sincronizarFirebaseAgora(){
+  if(!window.firebaseSync){
+    toastMsg("Firebase ainda está conectando.");
+    return;
+  }
+
+  try{
+    await window.firebaseSync.sincronizarAgora();
+    toastMsg("Dados sincronizados com o Firebase.");
+  }catch{
+    toastMsg("Não foi possível sincronizar.");
+  }
+}
+
+async function restaurarFirebase(){
+  if(!window.firebaseSync){
+    toastMsg("Firebase ainda está conectando.");
+    return;
+  }
+
+  if(!confirm("Restaurar os dados salvos no Firebase? O app fará um backup local antes de substituir os dados atuais.")){
+    return;
+  }
+
+  backupAutomatico();
+
+  try{
+    const restaurou = await window.firebaseSync.restaurarDaNuvem();
+
+    if(restaurou){
+      toastMsg("Dados restaurados do Firebase.");
+    }else{
+      toastMsg("Ainda não existe backup no Firebase.");
+    }
+  }catch{
+    toastMsg("Não foi possível restaurar do Firebase.");
+  }
+}
+
+window.viveiroCloudBridge = {
+  obterEstado(){
+    return {
+      canteiros: structuredClone(canteiros),
+      lancamentos: structuredClone(lancamentos)
+    };
+  },
+
+  aplicarEstado(estado){
+    if(
+      !estado ||
+      !Array.isArray(estado.canteiros) ||
+      !Array.isArray(estado.lancamentos)
+    ){
+      throw new Error("Estado do Firebase inválido.");
+    }
+
+    canteiros = structuredClone(estado.canteiros);
+    lancamentos = structuredClone(estado.lancamentos);
+
+    localStorage.setItem(
+      "viveiro_v2_canteiros",
+      JSON.stringify(canteiros)
+    );
+
+    localStorage.setItem(
+      "viveiro_v2_lancamentos",
+      JSON.stringify(lancamentos)
+    );
+
+    if(estado.updatedAt){
+      localStorage.setItem(
+        "viveiro_last_modified",
+        String(estado.updatedAt)
+      );
+    }
+
+    renderTudo();
+  },
+
+  status(texto,tipo="normal"){
+    atualizarStatusFirebase(texto,tipo);
+  },
+
+  ultimaSync(dataIso=null){
+    atualizarUltimaSyncFirebase(dataIso);
+  }
+};
+
 function renderTudo(){
   resumo();
   renderCanteiros();
   renderHistorico();
   atualizarStatusBackup();
+  atualizarUltimaSyncFirebase();
   gerarRelatorio();
 }
 
@@ -2283,5 +2438,220 @@ if("serviceWorker" in navigator){
 
 renderTudo();
 </script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import {
+    getDatabase,
+    ref,
+    get,
+    set,
+    onValue
+  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD773S1h91tovlKTPbaeAZbN2o1yxROcOc",
+    authDomain: "manej-cafe.firebaseapp.com",
+    databaseURL: "https://manej-cafe-default-rtdb.firebaseio.com",
+    projectId: "manej-cafe",
+    storageBucket: "manej-cafe.firebasestorage.app",
+    messagingSenderId: "808931200634",
+    appId: "1:808931200634:web:71357af2ff0dc2e4f5f5c3"
+  };
+
+  const bridge = window.viveiroCloudBridge;
+  let timer = null;
+  let db = null;
+  let stateRef = null;
+  let aplicandoNuvem = false;
+  let inicializado = false;
+
+  function registrarSyncAgora(){
+    const iso = new Date().toISOString();
+    localStorage.setItem("viveiro_cloud_last_sync", iso);
+    bridge.ultimaSync(iso);
+  }
+
+  async function enviarParaNuvem(){
+    if(!db || !stateRef){
+      throw new Error("Firebase não inicializado.");
+    }
+
+    bridge.status("sincronizando...");
+
+    const estado = bridge.obterEstado();
+    let updatedAt = Number(
+      localStorage.getItem("viveiro_last_modified") || 0
+    );
+
+    if(!updatedAt){
+      updatedAt = Date.now();
+      localStorage.setItem(
+        "viveiro_last_modified",
+        String(updatedAt)
+      );
+    }
+
+    await set(stateRef, {
+      canteiros: estado.canteiros,
+      lancamentos: estado.lancamentos,
+      updatedAt,
+      sincronizadoEm: new Date().toISOString()
+    });
+
+    registrarSyncAgora();
+    bridge.status("conectado", "ok");
+  }
+
+  async function receberDaNuvem(forcar=false){
+    if(!db || !stateRef){
+      throw new Error("Firebase não inicializado.");
+    }
+
+    bridge.status("verificando nuvem...");
+
+    const snapshot = await get(stateRef);
+
+    if(!snapshot.exists()){
+      if(forcar){
+        bridge.status("sem backup na nuvem");
+        return false;
+      }
+
+      await enviarParaNuvem();
+      return true;
+    }
+
+    const remoto = snapshot.val();
+    const remotoTs = Number(remoto?.updatedAt || 0);
+    const localTs = Number(
+      localStorage.getItem("viveiro_last_modified") || 0
+    );
+
+    if(forcar || remotoTs > localTs){
+      aplicandoNuvem = true;
+      window.firebaseSync.aplicandoNuvem = true;
+
+      try{
+        bridge.aplicarEstado(remoto);
+      }finally{
+        aplicandoNuvem = false;
+        window.firebaseSync.aplicandoNuvem = false;
+      }
+
+      registrarSyncAgora();
+      bridge.status("conectado", "ok");
+      return true;
+    }
+
+    if(localTs > remotoTs){
+      await enviarParaNuvem();
+      return true;
+    }
+
+    registrarSyncAgora();
+    bridge.status("conectado", "ok");
+    return true;
+  }
+
+  window.firebaseSync = {
+    aplicandoNuvem:false,
+
+    agendar(){
+      if(aplicandoNuvem) return;
+
+      clearTimeout(timer);
+
+      timer = setTimeout(()=>{
+        enviarParaNuvem().catch(erro=>{
+          console.error(erro);
+          bridge.status(
+            erro?.code === "PERMISSION_DENIED"
+              ? "permissão negada"
+              : "erro de conexão",
+            "erro"
+          );
+        });
+      }, 700);
+    },
+
+    async sincronizarAgora(){
+      clearTimeout(timer);
+      await enviarParaNuvem();
+    },
+
+    async restaurarDaNuvem(){
+      clearTimeout(timer);
+      return await receberDaNuvem(true);
+    }
+  };
+
+  try{
+    bridge.status("conectando...");
+
+    const app = initializeApp(firebaseConfig);
+    db = getDatabase(app);
+
+    // Um único estado do viveiro fica salvo neste caminho.
+    stateRef = ref(db, "viveiroCafe/estado");
+
+    await receberDaNuvem(false);
+
+    onValue(
+      stateRef,
+      snapshot=>{
+        if(!inicializado){
+          inicializado = true;
+          return;
+        }
+
+        if(!snapshot.exists() || aplicandoNuvem){
+          return;
+        }
+
+        const remoto = snapshot.val();
+        const remotoTs = Number(remoto?.updatedAt || 0);
+        const localTs = Number(
+          localStorage.getItem("viveiro_last_modified") || 0
+        );
+
+        if(remotoTs > localTs){
+          aplicandoNuvem = true;
+          window.firebaseSync.aplicandoNuvem = true;
+
+          try{
+            bridge.aplicarEstado(remoto);
+            registrarSyncAgora();
+            bridge.status("sincronizado", "ok");
+          }finally{
+            aplicandoNuvem = false;
+            window.firebaseSync.aplicandoNuvem = false;
+          }
+        }
+      },
+      erro=>{
+        console.error(erro);
+
+        bridge.status(
+          erro?.code === "PERMISSION_DENIED"
+            ? "permissão negada"
+            : "erro de conexão",
+          "erro"
+        );
+      }
+    );
+
+  }catch(erro){
+    console.error(erro);
+
+    bridge.status(
+      erro?.code === "PERMISSION_DENIED"
+        ? "permissão negada"
+        : "não conectado",
+      "erro"
+    );
+  }
+</script>
+
 </body>
 </html>
