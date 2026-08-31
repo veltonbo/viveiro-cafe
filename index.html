@@ -4299,18 +4299,13 @@ renderTudo();
 
     /*
       Primeiro acesso desse usuário:
-      se já houver dados locais no aparelho, eles viram os dados iniciais da conta.
-      Caso contrário, cria a estrutura padrão do viveiro.
+      toda conta nova começa zerada, sem canteiros e sem lançamentos.
+      Nenhum dado local antigo é importado automaticamente.
     */
-    const local = authBridge.obterDadosLocais();
-
-    const possuiDadosLocais =
-      Array.isArray(local.canteiros) &&
-      local.canteiros.length > 0;
-
-    const inicial = possuiDadosLocais
-      ? local
-      : authBridge.criarDadosIniciais();
+    const inicial = {
+      canteiros: [],
+      lancamentos: []
+    };
 
     aplicandoNuvem = true;
     window.firebaseSync.aplicandoNuvem = true;

@@ -1,0 +1,16 @@
+VIVEIRO CAFÉ - V15
+
+ALTERAÇÃO PRINCIPAL
+- Todo usuário novo começa com o app zerado.
+- Nenhum canteiro é criado automaticamente.
+- Nenhum plantio ou saída é criado automaticamente.
+- Dados locais antigos não são importados para uma conta nova.
+- O resumo inicia em 0.
+- O usuário adiciona seus próprios canteiros após entrar.
+
+USUÁRIOS EXISTENTES
+- Continuam carregando normalmente os dados já salvos no Firebase.
+- Cada conta continua isolada pelo UID do Firebase Authentication.
+
+Firebase, login, sincronização em tempo real, relatórios, backup,
+canteiros, plantios e saídas continuam funcionando.
