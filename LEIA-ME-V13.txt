@@ -1,0 +1,13 @@
+VIVEIRO CAFÉ - V13 VISUAL
+
+Esta versão mantém as funções da V12 e altera principalmente a aparência:
+- visual mais moderno e limpo;
+- melhor leitura no celular;
+- cabeçalho mais leve;
+- cards, botões e navegação redesenhados;
+- login com aparência atualizada;
+- canteiros e histórico mais compactos;
+- relatório com acabamento visual melhor;
+- cache atualizado para v13.
+
+Firebase, login, sincronização, relatórios, backup, canteiros, plantios e saídas continuam com a mesma lógica da V12.

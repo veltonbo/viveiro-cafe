@@ -691,6 +691,476 @@
       }
     }
 
+
+    /* ===== V13 VISUAL REFRESH ===== */
+    :root{
+      --bg:#F2F6F2;
+      --surface:#FFFFFF;
+      --surface-2:#F7FAF7;
+      --text:#152019;
+      --muted:#718077;
+      --line:#E3EAE4;
+      --green:#216C3D;
+      --green-dark:#174D2D;
+      --green-soft:#EAF4EC;
+      --blue:#2C6B9D;
+      --blue-soft:#EAF2F8;
+      --amber:#A86B1A;
+      --amber-soft:#FFF4E6;
+      --red:#B3261E;
+      --red-soft:#FFF1EF;
+      --shadow-sm:0 3px 14px rgba(20,55,30,.06);
+      --shadow:0 14px 38px rgba(20,55,30,.10);
+      --radius:22px;
+      --radius-sm:15px;
+    }
+
+    body{
+      background:
+        radial-gradient(circle at 0% 0%, rgba(33,108,61,.10), transparent 24%),
+        linear-gradient(180deg,#F8FBF8 0%,#F2F6F2 34%,#EEF4EF 100%);
+    }
+
+    .app{
+      max-width:1080px;
+      padding:20px 18px 24px;
+    }
+
+    .topbar{
+      margin:0 -18px 20px;
+      padding:14px 18px 13px;
+      background:rgba(248,251,248,.90);
+      border-bottom:1px solid rgba(227,234,228,.92);
+      box-shadow:0 5px 20px rgba(20,55,30,.035);
+    }
+
+    .brand-mark{
+      width:46px;
+      height:46px;
+      border-radius:16px;
+      font-size:23px;
+      box-shadow:0 8px 22px rgba(33,108,61,.18);
+    }
+
+    h1{
+      font-size:clamp(25px,3vw,34px);
+      letter-spacing:-.04em;
+    }
+
+    .sub{
+      font-size:12px;
+      letter-spacing:.01em;
+    }
+
+    .user-menu{
+      gap:7px;
+    }
+
+    .user-badge{
+      min-height:38px;
+      padding:8px 11px;
+      background:rgba(255,255,255,.92);
+      border-color:rgba(227,234,228,.95);
+      box-shadow:var(--shadow-sm);
+    }
+
+    .logout-btn{
+      min-height:38px;
+      border-radius:12px;
+    }
+
+    .summary{
+      gap:10px;
+      margin-bottom:20px;
+    }
+
+    .metric{
+      min-height:108px;
+      padding:15px;
+      border-radius:20px;
+      box-shadow:var(--shadow-sm);
+      background:rgba(255,255,255,.95);
+    }
+
+    .metric.primary-metric{
+      background:linear-gradient(145deg,#164B2B,#237441);
+      box-shadow:0 12px 30px rgba(23,77,45,.20);
+    }
+
+    .metric-label{
+      font-size:10px;
+      letter-spacing:.09em;
+    }
+
+    .metric-value{
+      font-size:27px;
+      margin-top:8px;
+    }
+
+    .metric-note{
+      font-size:11px;
+      margin-top:8px;
+    }
+
+    .section-head{
+      margin:22px 0 11px;
+    }
+
+    .section-title{
+      font-size:18px;
+      letter-spacing:-.025em;
+    }
+
+    .section-note{
+      font-size:11px;
+    }
+
+    .card{
+      border-radius:20px;
+      border-color:rgba(227,234,228,.96);
+      box-shadow:var(--shadow-sm);
+      background:rgba(255,255,255,.97);
+    }
+
+    .quick-actions{
+      gap:10px;
+      margin-bottom:18px;
+    }
+
+    .quick-btn{
+      min-height:88px;
+      border-radius:18px;
+      padding:15px 16px;
+      box-shadow:none;
+    }
+
+    .quick-btn .qicon{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      font-size:20px;
+    }
+
+    .quick-btn strong{
+      font-size:15px;
+      letter-spacing:-.01em;
+    }
+
+    .quick-btn small{
+      font-size:11px;
+    }
+
+    .primary{
+      background:linear-gradient(145deg,#247842,#195A32);
+      box-shadow:0 7px 18px rgba(33,108,61,.16);
+    }
+
+    .blue{
+      background:linear-gradient(145deg,#3778AE,#285F8E);
+      box-shadow:0 7px 18px rgba(44,107,157,.15);
+    }
+
+    .secondary{
+      background:#fff;
+      border-color:var(--line);
+    }
+
+    .toolbar{
+      gap:9px;
+      margin-bottom:14px;
+    }
+
+    .toolbar input,
+    .toolbar select{
+      min-height:46px;
+      border-radius:13px;
+      background:rgba(255,255,255,.95);
+      box-shadow:0 1px 0 rgba(20,55,30,.02);
+    }
+
+    .canteiro{
+      border-radius:21px;
+      box-shadow:var(--shadow-sm);
+    }
+
+    .canteiro-top{
+      padding:15px 16px 13px;
+      background:linear-gradient(180deg,#FFFFFF 0%,#FBFDFB 100%);
+    }
+
+    .canteiro h3{
+      font-size:19px;
+    }
+
+    .tag,
+    .status{
+      font-size:10px;
+      padding:6px 9px;
+    }
+
+    .canteiro-body{
+      padding:0 16px 16px;
+      gap:11px;
+    }
+
+    .mini{
+      padding:10px 9px;
+      border-radius:13px;
+      background:#F8FAF8;
+    }
+
+    .mini small{
+      font-size:9px;
+      letter-spacing:.065em;
+    }
+
+    .mini strong{
+      font-size:16px;
+      margin-top:6px;
+    }
+
+    .progress{
+      height:9px;
+      background:#E7EDE8;
+    }
+
+    .bar{
+      background:linear-gradient(90deg,#22713F,#5A966C);
+    }
+
+    .pct{
+      font-size:11px;
+    }
+
+    .history-card{
+      border-radius:20px;
+    }
+
+    .history-item{
+      padding:14px 15px;
+      gap:11px;
+    }
+
+    .history-icon{
+      width:36px;
+      height:36px;
+      border-radius:11px;
+    }
+
+    .history-main{
+      font-size:13px;
+    }
+
+    .history-meta{
+      font-size:11px;
+    }
+
+    .history-qty{
+      font-size:14px;
+    }
+
+    .bottom-nav{
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+      background:rgba(255,255,255,.92);
+      box-shadow:0 -10px 30px rgba(20,55,30,.07);
+    }
+
+    .bottom-nav .inner{
+      max-width:760px;
+      border-radius:20px;
+      gap:6px;
+      padding:5px;
+      background:#F7FAF7;
+    }
+
+    .navbtn{
+      min-height:48px;
+      border-radius:14px;
+      gap:6px;
+      font-size:16px;
+    }
+
+    .navbtn.active{
+      background:linear-gradient(145deg,#237441,#18552F);
+      box-shadow:0 8px 18px rgba(33,108,61,.17);
+    }
+
+    .navbtn span{
+      font-size:11px;
+    }
+
+    .modal{
+      background:rgba(17,29,20,.46);
+    }
+
+    .modal-card{
+      border-radius:26px 26px 0 0;
+      padding:19px 18px calc(18px + env(safe-area-inset-bottom));
+    }
+
+    .modal-head h3{
+      font-size:19px;
+    }
+
+    .field label{
+      font-size:10px;
+      letter-spacing:.055em;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      min-height:48px;
+      border-radius:13px;
+      background:#FFF;
+    }
+
+    .auth-screen{
+      background:
+        radial-gradient(circle at 12% 8%, rgba(33,108,61,.16), transparent 30%),
+        linear-gradient(180deg,#F9FCF9,#EFF5F0);
+    }
+
+    .auth-card{
+      border-radius:28px;
+      padding:24px;
+      box-shadow:0 28px 70px rgba(23,77,45,.16);
+    }
+
+    .auth-brand-mark{
+      width:52px;
+      height:52px;
+      border-radius:17px;
+      font-size:25px;
+      box-shadow:0 9px 22px rgba(33,108,61,.18);
+    }
+
+    .auth-title{
+      font-size:25px;
+    }
+
+    .auth-tabs{
+      border-radius:15px;
+      padding:4px;
+      margin-bottom:17px;
+    }
+
+    .auth-tab{
+      min-height:42px;
+      border-radius:11px;
+    }
+
+    .report-hero{
+      border-radius:24px;
+      padding:20px;
+      background:linear-gradient(145deg,#164B2B,#247842);
+      box-shadow:0 14px 34px rgba(23,77,45,.20);
+    }
+
+    .report-kpi{
+      border-radius:15px;
+    }
+
+    .report-filter-card,
+    .report-section-card{
+      border-radius:20px;
+    }
+
+    .report-section-header{
+      padding:14px 15px;
+    }
+
+    .report-table th,
+    .report-table td{
+      padding:11px 12px;
+    }
+
+    .toast{
+      border-radius:14px;
+      padding:10px 13px;
+      bottom:110px;
+    }
+
+    @media(max-width:640px){
+      .app{
+        padding:14px 12px 20px;
+      }
+
+      .topbar{
+        margin:0 -12px 16px;
+        padding:11px 12px 10px;
+      }
+
+      .brand-mark{
+        width:40px;
+        height:40px;
+        border-radius:13px;
+        font-size:20px;
+      }
+
+      h1{
+        font-size:23px;
+      }
+
+      .sub{
+        font-size:11px;
+      }
+
+      .user-badge{
+        max-width:140px;
+        min-height:34px;
+        padding:7px 9px;
+      }
+
+      .logout-btn{
+        min-height:34px;
+        padding:7px 9px;
+      }
+
+      .summary{
+        gap:8px;
+      }
+
+      .metric{
+        min-height:94px;
+        padding:13px;
+      }
+
+      .metric-value{
+        font-size:23px;
+      }
+
+      .quick-btn{
+        min-height:82px;
+      }
+
+      .canteiro-body{
+        padding:0 13px 14px;
+      }
+
+      .mini{
+        padding:9px 7px;
+      }
+
+      .mini strong{
+        font-size:15px;
+      }
+
+      .navbtn{
+        min-height:46px;
+        flex-direction:column;
+        gap:2px;
+      }
+
+      .navbtn span{
+        font-size:10px;
+      }
+
+      .auth-card{
+        padding:20px;
+      }
+    }
+
   </style>
 </head>
 
@@ -702,7 +1172,7 @@
       <div class="auth-brand-mark">🌿</div>
       <div>
         <h2 class="auth-title">Viveiro Café</h2>
-        <div class="auth-sub">Entre para acessar os dados do seu viveiro</div>
+        <div class="auth-sub">Acesse sua conta para continuar</div>
       </div>
     </div>
 
@@ -756,7 +1226,7 @@
         <div class="brand-mark">🌿</div>
         <div>
           <h1>Viveiro Café</h1>
-          <div class="sub">Controle de plantio e saídas</div>
+          <div class="sub">Gestão do viveiro em tempo real</div>
         </div>
       </div>
       <div class="user-menu">
