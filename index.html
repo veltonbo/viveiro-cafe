@@ -323,7 +323,7 @@
       .report-table-wrap{overflow:visible!important;border:1px solid #ccc!important}
       .report-table{min-width:0!important;width:100%!important}
       .report-table th,.report-table td{font-size:9px!important;padding:6px 5px!important}
-      .report-summary{grid-template-columns:repeat(5,1fr)!important}
+      .report-summary{grid-template-columns:repeat(3,1fr)!important}
       .report-summary .mini{border:1px solid #ddd!important}
     }
 
@@ -479,7 +479,7 @@
   <section id="tab-relatorio" class="hidden">
     <div class="section-head">
       <h2 class="section-title">Relatório do viveiro</h2>
-      <div class="section-note">Situação atual</div>
+      <div class="section-note">Capacidade, plantadas e faltantes</div>
     </div>
 
     <div class="report-actions">
@@ -497,11 +497,9 @@
         <div class="tag" id="relatorioQtdCanteiros"></div>
       </div>
 
-      <div class="report-summary">
+      <div class="report-summary" style="grid-template-columns:repeat(3,1fr)">
         <div class="mini"><small>Capacidade</small><strong id="rCap">0</strong></div>
         <div class="mini"><small>Plantadas</small><strong id="rPlant">0</strong></div>
-        <div class="mini"><small>Saídas</small><strong id="rSaidas">0</strong></div>
-        <div class="mini"><small>Disponíveis</small><strong id="rDisp">0</strong></div>
         <div class="mini"><small>Faltam plantar</small><strong id="rFalta">0</strong></div>
       </div>
 
@@ -509,8 +507,7 @@
       <div class="report-table-wrap">
         <table class="report-table">
           <thead><tr>
-            <th>Canteiro</th><th>Variedade</th><th>Capacidade</th><th>Plantadas</th>
-            <th>Saídas</th><th>Disponíveis</th><th>Faltam</th><th>Status</th>
+            <th>Canteiro</th><th>Variedade</th><th>Capacidade</th><th>Plantadas</th><th>Faltam</th>
           </tr></thead>
           <tbody id="relatorioTabela"></tbody>
         </table>
@@ -520,7 +517,7 @@
       <div class="report-table-wrap">
         <table class="report-table">
           <thead><tr>
-            <th>Variedade</th><th>Capacidade</th><th>Plantadas</th><th>Saídas</th><th>Disponíveis</th><th>Faltam</th>
+            <th>Variedade</th><th>Capacidade</th><th>Plantadas</th><th>Faltam</th>
           </tr></thead>
           <tbody id="relatorioVariedades"></tbody>
         </table>
@@ -1678,8 +1675,6 @@ function gerarRelatorio(){
 
   rCap.textContent = fmt(total.cap);
   rPlant.textContent = fmt(total.plant);
-  rSaidas.textContent = fmt(total.saidas);
-  rDisp.textContent = fmt(total.disp);
   rFalta.textContent = fmt(total.falta);
 
   relatorioTabela.innerHTML = canteiros.map(c=>{
@@ -1690,10 +1685,7 @@ function gerarRelatorio(){
         <td>${escapeHtml(c.variedade)}</td>
         <td>${fmt(r.capacidade)}</td>
         <td>${fmt(r.plantadas)}</td>
-        <td>${fmt(r.saidas)}</td>
-        <td>${fmt(r.disponiveis)}</td>
         <td>${fmt(r.falta)}</td>
-        <td>${statusTexto(statusItem(c.id))}</td>
       </tr>
     `;
   }).join("");
@@ -1716,8 +1708,6 @@ function gerarRelatorio(){
         <td>${escapeHtml(v)}</td>
         <td>${fmt(d.cap)}</td>
         <td>${fmt(d.plant)}</td>
-        <td>${fmt(d.saidas)}</td>
-        <td>${fmt(d.disp)}</td>
         <td>${fmt(d.falta)}</td>
       </tr>
     `).join("");
@@ -1730,11 +1720,11 @@ function imprimirRelatorio(){
 
 function exportarRelatorioCSV(){
   ordenarCanteiros();
-  const linhas=[["Canteiro","Variedade","Capacidade","Plantadas","Saidas","Disponiveis","Faltam","Status"]];
+  const linhas=[["Canteiro","Variedade","Capacidade","Plantadas","Faltam"]];
 
   canteiros.forEach(c=>{
     const r=calculoCanteiro(c.id);
-    linhas.push([c.id,c.variedade,r.capacidade,r.plantadas,r.saidas,r.disponiveis,r.falta,statusTexto(statusItem(c.id))]);
+    linhas.push([c.id,c.variedade,r.capacidade,r.plantadas,r.falta]);
   });
 
   baixarArquivo(
