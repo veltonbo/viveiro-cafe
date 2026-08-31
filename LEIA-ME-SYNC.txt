@@ -1,0 +1,19 @@
+VIVEIRO CAFE - V11 FIREBASE
+
+Correção principal:
+- Sincronização em tempo real entre aparelhos.
+- O app agora aplica automaticamente qualquer alteração recebida pelo onValue().
+- Removida a comparação baseada no relógio de cada celular.
+- Horário das alterações passa a usar serverTimestamp() do Firebase.
+- O status mostra "conectado em tempo real", "offline" ou erro/permissão.
+- Service Worker atualizado para cache v11 com estratégia network-first.
+
+Realtime Database:
+https://manej-cafe-default-rtdb.firebaseio.com
+
+Caminho:
+viveiroCafe/estado
+
+IMPORTANTE:
+Os dois aparelhos precisam abrir esta V11.
+Se aparecer "permissão negada", ajuste as Rules do Realtime Database.

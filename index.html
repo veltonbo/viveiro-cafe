@@ -723,7 +723,7 @@
       </div>
 
       <div class="note" id="firebaseUltimaSync" style="margin-top:10px">
-        Aguardando conexão com o Firebase.
+        As alterações devem aparecer automaticamente nos outros aparelhos conectados.
       </div>
     </div>
 
@@ -2444,9 +2444,9 @@ renderTudo();
   import {
     getDatabase,
     ref,
-    get,
     set,
-    onValue
+    onValue,
+    serverTimestamp
   } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
   const firebaseConfig = {
@@ -2460,97 +2460,104 @@ renderTudo();
   };
 
   const bridge = window.viveiroCloudBridge;
+
   let timer = null;
   let db = null;
   let stateRef = null;
   let aplicandoNuvem = false;
-  let inicializado = false;
+  let primeiraLeituraConcluida = false;
 
-  function registrarSyncAgora(){
+  const CLIENT_ID_KEY = "viveiro_firebase_client_id";
+
+  let clientId = localStorage.getItem(CLIENT_ID_KEY);
+
+  if(!clientId){
+    clientId = crypto.randomUUID
+      ? crypto.randomUUID()
+      : "cliente-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+
+    localStorage.setItem(CLIENT_ID_KEY, clientId);
+  }
+
+  function marcarSincronizado(){
     const iso = new Date().toISOString();
-    localStorage.setItem("viveiro_cloud_last_sync", iso);
+
+    localStorage.setItem(
+      "viveiro_cloud_last_sync",
+      iso
+    );
+
     bridge.ultimaSync(iso);
   }
 
   async function enviarParaNuvem(){
-    if(!db || !stateRef){
-      throw new Error("Firebase não inicializado.");
+    if(!stateRef){
+      throw new Error("Firebase ainda não inicializado.");
     }
 
     bridge.status("sincronizando...");
 
     const estado = bridge.obterEstado();
-    let updatedAt = Number(
-      localStorage.getItem("viveiro_last_modified") || 0
-    );
-
-    if(!updatedAt){
-      updatedAt = Date.now();
-      localStorage.setItem(
-        "viveiro_last_modified",
-        String(updatedAt)
-      );
-    }
 
     await set(stateRef, {
       canteiros: estado.canteiros,
       lancamentos: estado.lancamentos,
-      updatedAt,
-      sincronizadoEm: new Date().toISOString()
+
+      // O horário agora é gerado pelo servidor do Firebase.
+      updatedAt: serverTimestamp(),
+
+      updatedBy: clientId,
+
+      sincronizadoEm: serverTimestamp()
     });
 
-    registrarSyncAgora();
-    bridge.status("conectado", "ok");
+    marcarSincronizado();
+    bridge.status("sincronizado", "ok");
   }
 
-  async function receberDaNuvem(forcar=false){
-    if(!db || !stateRef){
-      throw new Error("Firebase não inicializado.");
-    }
-
-    bridge.status("verificando nuvem...");
-
-    const snapshot = await get(stateRef);
-
+  function aplicarSnapshot(snapshot){
     if(!snapshot.exists()){
-      if(forcar){
-        bridge.status("sem backup na nuvem");
-        return false;
-      }
-
-      await enviarParaNuvem();
-      return true;
+      return false;
     }
 
     const remoto = snapshot.val();
-    const remotoTs = Number(remoto?.updatedAt || 0);
-    const localTs = Number(
-      localStorage.getItem("viveiro_last_modified") || 0
-    );
 
-    if(forcar || remotoTs > localTs){
-      aplicandoNuvem = true;
-      window.firebaseSync.aplicandoNuvem = true;
+    if(
+      !remoto ||
+      !Array.isArray(remoto.canteiros) ||
+      !Array.isArray(remoto.lancamentos)
+    ){
+      bridge.status("dados inválidos na nuvem", "erro");
+      return false;
+    }
 
-      try{
-        bridge.aplicarEstado(remoto);
-      }finally{
-        aplicandoNuvem = false;
-        window.firebaseSync.aplicandoNuvem = false;
+    aplicandoNuvem = true;
+    window.firebaseSync.aplicandoNuvem = true;
+
+    try{
+      bridge.aplicarEstado(remoto);
+
+      if(remoto.updatedAt){
+        localStorage.setItem(
+          "viveiro_last_modified",
+          String(remoto.updatedAt)
+        );
       }
 
-      registrarSyncAgora();
-      bridge.status("conectado", "ok");
-      return true;
+      marcarSincronizado();
+
+      bridge.status(
+        remoto.updatedBy === clientId
+          ? "sincronizado"
+          : "atualizado de outro aparelho",
+        "ok"
+      );
+
+    }finally{
+      aplicandoNuvem = false;
+      window.firebaseSync.aplicandoNuvem = false;
     }
 
-    if(localTs > remotoTs){
-      await enviarParaNuvem();
-      return true;
-    }
-
-    registrarSyncAgora();
-    bridge.status("conectado", "ok");
     return true;
   }
 
@@ -2558,21 +2565,25 @@ renderTudo();
     aplicandoNuvem:false,
 
     agendar(){
-      if(aplicandoNuvem) return;
+      if(aplicandoNuvem){
+        return;
+      }
 
       clearTimeout(timer);
 
       timer = setTimeout(()=>{
         enviarParaNuvem().catch(erro=>{
           console.error(erro);
+
           bridge.status(
-            erro?.code === "PERMISSION_DENIED"
+            erro?.code === "PERMISSION_DENIED" ||
+            erro?.code === "PERMISSION_DENIED".toLowerCase()
               ? "permissão negada"
-              : "erro de conexão",
+              : "erro de sincronização",
             "erro"
           );
         });
-      }, 700);
+      }, 500);
     },
 
     async sincronizarAgora(){
@@ -2581,8 +2592,41 @@ renderTudo();
     },
 
     async restaurarDaNuvem(){
-      clearTimeout(timer);
-      return await receberDaNuvem(true);
+      if(!stateRef){
+        throw new Error("Firebase ainda não inicializado.");
+      }
+
+      return await new Promise((resolve,reject)=>{
+        let terminou = false;
+
+        const parar = onValue(
+          stateRef,
+          snapshot=>{
+            if(terminou) return;
+            terminou = true;
+            parar();
+
+            if(!snapshot.exists()){
+              bridge.status("sem dados na nuvem");
+              resolve(false);
+              return;
+            }
+
+            try{
+              resolve(aplicarSnapshot(snapshot));
+            }catch(erro){
+              reject(erro);
+            }
+          },
+          erro=>{
+            if(terminou) return;
+            terminou = true;
+            parar();
+            reject(erro);
+          },
+          {onlyOnce:true}
+        );
+      });
     }
   };
 
@@ -2590,50 +2634,48 @@ renderTudo();
     bridge.status("conectando...");
 
     const app = initializeApp(firebaseConfig);
+
     db = getDatabase(app);
 
-    // Um único estado do viveiro fica salvo neste caminho.
-    stateRef = ref(db, "viveiroCafe/estado");
+    stateRef = ref(
+      db,
+      "viveiroCafe/estado"
+    );
 
-    await receberDaNuvem(false);
-
+    /*
+      O onValue é a fonte principal da sincronização:
+      ele dispara com o estado inicial e novamente sempre
+      que qualquer outro aparelho alterar o banco.
+    */
     onValue(
       stateRef,
+
       snapshot=>{
-        if(!inicializado){
-          inicializado = true;
-          return;
-        }
+        if(!snapshot.exists()){
+          // Primeiro aparelho / banco ainda vazio:
+          if(!primeiraLeituraConcluida){
+            primeiraLeituraConcluida = true;
 
-        if(!snapshot.exists() || aplicandoNuvem){
-          return;
-        }
-
-        const remoto = snapshot.val();
-        const remotoTs = Number(remoto?.updatedAt || 0);
-        const localTs = Number(
-          localStorage.getItem("viveiro_last_modified") || 0
-        );
-
-        if(remotoTs > localTs){
-          aplicandoNuvem = true;
-          window.firebaseSync.aplicandoNuvem = true;
-
-          try{
-            bridge.aplicarEstado(remoto);
-            registrarSyncAgora();
-            bridge.status("sincronizado", "ok");
-          }finally{
-            aplicandoNuvem = false;
-            window.firebaseSync.aplicandoNuvem = false;
+            enviarParaNuvem().catch(erro=>{
+              console.error(erro);
+              bridge.status("erro ao enviar dados", "erro");
+            });
           }
+
+          return;
         }
+
+        primeiraLeituraConcluida = true;
+
+        aplicarSnapshot(snapshot);
       },
+
       erro=>{
         console.error(erro);
 
         bridge.status(
-          erro?.code === "PERMISSION_DENIED"
+          erro?.code === "PERMISSION_DENIED" ||
+          erro?.message?.toLowerCase().includes("permission")
             ? "permissão negada"
             : "erro de conexão",
           "erro"
@@ -2641,13 +2683,51 @@ renderTudo();
       }
     );
 
+    /*
+      Mostra se este aparelho está realmente conectado
+      ao servidor do Realtime Database.
+    */
+    onValue(
+      ref(db, ".info/connected"),
+
+      snapshot=>{
+        const conectado = snapshot.val() === true;
+
+        if(conectado){
+          bridge.status(
+            "conectado em tempo real",
+            "ok"
+          );
+
+          // Se houve alteração local enquanto estava offline,
+          // tenta enviar novamente ao reconectar.
+          const pendente =
+            Number(localStorage.getItem("viveiro_last_modified") || 0) >
+            0;
+
+          if(
+            primeiraLeituraConcluida &&
+            pendente &&
+            !aplicandoNuvem
+          ){
+            // Não força escrita imediata do estado ao conectar;
+            // alterações locais já chamam agendar().
+          }
+
+        }else{
+          bridge.status(
+            "offline",
+            "erro"
+          );
+        }
+      }
+    );
+
   }catch(erro){
     console.error(erro);
 
     bridge.status(
-      erro?.code === "PERMISSION_DENIED"
-        ? "permissão negada"
-        : "não conectado",
+      "não conectado",
       "erro"
     );
   }
