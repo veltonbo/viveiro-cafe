@@ -28,15 +28,10 @@
       --shadow-sm:0 2px 10px rgba(27,63,36,.05);
       --shadow:0 12px 32px rgba(27,63,36,.09);
       --radius:20px;
-      --radius-sm:14px;
     }
 
     *{box-sizing:border-box}
-
-    html{
-      background:var(--bg);
-    }
-
+    html{background:var(--bg)}
     body{
       margin:0;
       min-height:100vh;
@@ -50,11 +45,7 @@
 
     button,input,select,textarea{font:inherit}
 
-    .app{
-      width:min(1040px,100%);
-      margin:0 auto;
-      padding:18px;
-    }
+    .app{width:min(1040px,100%);margin:0 auto;padding:18px}
 
     .topbar{
       position:sticky;
@@ -76,51 +67,20 @@
       gap:14px;
     }
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
+    .brand{display:flex;align-items:center;gap:12px}
     .brand-mark{
-      width:44px;
-      height:44px;
-      border-radius:15px;
+      width:44px;height:44px;border-radius:15px;
       background:linear-gradient(145deg,var(--green),var(--green-dark));
-      display:grid;
-      place-items:center;
-      box-shadow:var(--shadow-sm);
-      color:#fff;
-      font-size:22px;
-      flex:0 0 auto;
+      display:grid;place-items:center;color:#fff;font-size:22px;
+      box-shadow:var(--shadow-sm);flex:0 0 auto;
     }
 
-    h1{
-      margin:0;
-      font-size:clamp(24px,3vw,32px);
-      line-height:1.05;
-      letter-spacing:-.03em;
-    }
-
-    .sub{
-      margin-top:4px;
-      color:var(--muted);
-      font-size:13px;
-    }
-
+    h1{margin:0;font-size:clamp(24px,3vw,32px);line-height:1.05;letter-spacing:-.03em}
+    .sub{margin-top:4px;color:var(--muted);font-size:13px}
     .top-chip{
-      display:flex;
-      align-items:center;
-      gap:7px;
-      padding:9px 12px;
-      border-radius:999px;
-      background:var(--surface);
-      color:var(--green-dark);
-      border:1px solid var(--line);
-      box-shadow:var(--shadow-sm);
-      font-size:12px;
-      font-weight:800;
-      white-space:nowrap;
+      display:flex;align-items:center;gap:7px;padding:9px 12px;border-radius:999px;
+      background:var(--surface);color:var(--green-dark);border:1px solid var(--line);
+      box-shadow:var(--shadow-sm);font-size:12px;font-weight:800;white-space:nowrap;
     }
 
     .summary{
@@ -131,663 +91,215 @@
     }
 
     .metric{
-      position:relative;
-      overflow:hidden;
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:16px;
-      box-shadow:var(--shadow-sm);
-      min-height:112px;
+      position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line);
+      border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);min-height:112px;
     }
-
     .metric::after{
-      content:"";
-      position:absolute;
-      right:-22px;
-      top:-22px;
-      width:72px;
-      height:72px;
-      border-radius:50%;
+      content:"";position:absolute;right:-22px;top:-22px;width:72px;height:72px;border-radius:50%;
       background:rgba(31,107,59,.06);
     }
-
     .metric.primary-metric{
       background:linear-gradient(145deg,var(--green-dark),var(--green));
-      color:#fff;
-      border-color:transparent;
-      box-shadow:var(--shadow);
+      color:#fff;border-color:transparent;box-shadow:var(--shadow);
     }
-
-    .metric.primary-metric::after{
-      background:rgba(255,255,255,.08);
-    }
-
+    .metric.primary-metric::after{background:rgba(255,255,255,.08)}
     .metric-label{
-      position:relative;
-      z-index:1;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-weight:800;
-      color:var(--muted);
+      position:relative;z-index:1;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+      font-weight:800;color:var(--muted);
     }
-
-    .primary-metric .metric-label,
-    .primary-metric .metric-note{
-      color:rgba(255,255,255,.78);
-    }
-
+    .primary-metric .metric-label,.primary-metric .metric-note{color:rgba(255,255,255,.78)}
     .metric-value{
-      position:relative;
-      z-index:1;
-      margin-top:7px;
-      font-size:26px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:-.04em;
+      position:relative;z-index:1;margin-top:7px;font-size:26px;line-height:1;
+      font-weight:900;letter-spacing:-.04em;
     }
-
-    .metric-note{
-      position:relative;
-      z-index:1;
-      margin-top:7px;
-      color:var(--muted);
-      font-size:12px;
-    }
+    .metric-note{position:relative;z-index:1;margin-top:7px;color:var(--muted);font-size:12px}
 
     .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin:20px 0 10px;
+      display:flex;justify-content:space-between;align-items:center;gap:10px;margin:20px 0 10px;
     }
+    .section-title{margin:0;font-size:17px;font-weight:900;letter-spacing:-.02em}
+    .section-note{color:var(--muted);font-size:12px}
 
-    .section-title{
-      margin:0;
-      font-size:17px;
-      font-weight:900;
-      letter-spacing:-.02em;
-    }
-
-    .section-note{
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:14px;
-    }
-
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
     .card{
-      background:var(--surface);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow-sm);
-      padding:16px;
+      background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+      box-shadow:var(--shadow-sm);padding:16px;
     }
 
-    .action-card{
-      padding:0;
-      overflow:hidden;
+    .quick-actions{
+      display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;
     }
-
-    .action-card .action-header{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:15px 16px 13px;
-      border-bottom:1px solid var(--line);
-      background:var(--surface-2);
+    .quick-btn{
+      min-height:92px;padding:16px;border-radius:18px;display:flex;align-items:center;
+      justify-content:flex-start;gap:12px;text-align:left;
     }
-
-    .action-icon{
-      width:38px;
-      height:38px;
-      border-radius:12px;
-      display:grid;
-      place-items:center;
-      font-size:18px;
-      flex:0 0 auto;
+    .quick-btn .qicon{
+      width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+      background:rgba(255,255,255,.16);font-size:21px;flex:0 0 auto;
     }
+    .quick-btn strong{display:block;font-size:16px}
+    .quick-btn small{display:block;margin-top:3px;font-size:12px;opacity:.82;font-weight:600}
 
-    .action-icon.plantio{
-      background:var(--green-soft);
-      color:var(--green-dark);
-    }
-
-    .action-icon.saida{
-      background:var(--blue-soft);
-      color:var(--blue);
-    }
-
-    .action-header strong{
-      display:block;
-      font-size:16px;
-      letter-spacing:-.01em;
-    }
-
-    .action-header small{
-      display:block;
-      color:var(--muted);
-      margin-top:2px;
-      font-size:12px;
-    }
-
-    .action-body{
-      padding:16px;
-    }
-
-    .form{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
-    .field.full{
-      grid-column:1/-1;
-    }
-
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .field.full{grid-column:1/-1}
     .field label{
-      display:block;
-      margin-bottom:6px;
-      color:var(--muted);
-      font-size:11px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.04em;
+      display:block;margin-bottom:6px;color:var(--muted);font-size:11px;font-weight:800;
+      text-transform:uppercase;letter-spacing:.04em;
     }
-
-    .field input,
-    .field select,
-    .field textarea{
-      width:100%;
-      min-height:46px;
-      padding:11px 12px;
-      color:var(--text);
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:12px;
-      outline:none;
-      transition:.15s ease;
+    .field input,.field select,.field textarea{
+      width:100%;min-height:46px;padding:11px 12px;color:var(--text);background:#fff;
+      border:1px solid var(--line);border-radius:12px;outline:none;transition:.15s ease;
     }
-
-    .field textarea{
-      resize:vertical;
-    }
-
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus{
-      border-color:rgba(31,107,59,.5);
-      box-shadow:0 0 0 3px rgba(31,107,59,.08);
+    .field textarea{resize:vertical}
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:rgba(31,107,59,.5);box-shadow:0 0 0 3px rgba(31,107,59,.08);
     }
 
     button{
-      border:0;
-      border-radius:12px;
-      padding:11px 13px;
-      font-weight:900;
-      cursor:pointer;
+      border:0;border-radius:12px;padding:11px 13px;font-weight:900;cursor:pointer;
       transition:transform .1s ease, filter .15s ease, box-shadow .15s ease;
     }
+    button:active{transform:translateY(1px)}
+    .primary{background:linear-gradient(145deg,var(--green),var(--green-dark));color:#fff;box-shadow:0 6px 18px rgba(31,107,59,.18)}
+    .blue{background:linear-gradient(145deg,#3B78AD,var(--blue));color:#fff;box-shadow:0 6px 18px rgba(46,106,158,.16)}
+    .secondary{background:#fff;color:var(--text);border:1px solid var(--line)}
+    .danger{background:var(--red-soft);color:var(--red);border:1px solid #FFD9D4}
+    .btnrow{display:flex;gap:8px;flex-wrap:wrap}
+    .btnrow button{flex:1}
 
-    button:active{
-      transform:translateY(1px);
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .toolbar input,.toolbar select{
+      flex:1;min-width:165px;min-height:44px;padding:10px 12px;background:#fff;
+      border:1px solid var(--line);border-radius:12px;color:var(--text);outline:none;
     }
 
-    .primary{
-      background:linear-gradient(145deg,var(--green),var(--green-dark));
-      color:#fff;
-      box-shadow:0 6px 18px rgba(31,107,59,.18);
-    }
-
-    .blue{
-      background:linear-gradient(145deg,#3B78AD,var(--blue));
-      color:#fff;
-      box-shadow:0 6px 18px rgba(46,106,158,.16);
-    }
-
-    .secondary{
-      background:#fff;
-      color:var(--text);
-      border:1px solid var(--line);
-    }
-
-    .danger{
-      background:var(--red-soft);
-      color:var(--red);
-      border:1px solid #FFD9D4;
-    }
-
-    .btnrow{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .btnrow button{
-      flex:1;
-    }
-
-    .toolbar{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-
-    .toolbar input,
-    .toolbar select{
-      flex:1;
-      min-width:165px;
-      min-height:44px;
-      padding:10px 12px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:12px;
-      color:var(--text);
-      outline:none;
-    }
-
-    .canteiro{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      padding:0;
-      overflow:hidden;
-    }
-
+    .canteiro{display:flex;flex-direction:column;gap:12px;padding:0;overflow:hidden}
     .canteiro-top{
-      padding:16px 16px 13px;
-      background:linear-gradient(180deg,#FFFFFF,#FBFDFB);
+      padding:16px 16px 13px;background:linear-gradient(180deg,#FFFFFF,#FBFDFB);
       border-bottom:1px solid var(--line);
     }
-
-    .canteiro-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
-    }
-
-    .canteiro h3{
-      margin:0;
-      font-size:19px;
-      letter-spacing:-.02em;
-    }
-
+    .canteiro-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .canteiro h3{margin:0;font-size:19px;letter-spacing:-.02em}
     .tag{
-      display:inline-flex;
-      margin-top:7px;
-      padding:6px 9px;
-      border-radius:999px;
-      background:var(--green-soft);
-      color:var(--green-dark);
-      font-size:11px;
-      font-weight:900;
+      display:inline-flex;margin-top:7px;padding:6px 9px;border-radius:999px;
+      background:var(--green-soft);color:var(--green-dark);font-size:11px;font-weight:900;
     }
-
     .status{
-      display:inline-flex;
-      padding:6px 9px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:900;
-      white-space:nowrap;
+      display:inline-flex;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;white-space:nowrap;
     }
+    .status.cheio{color:var(--green-dark);background:var(--green-soft)}
+    .status.andamento{color:var(--amber);background:var(--amber-soft)}
+    .status.vazio{color:var(--red);background:var(--red-soft)}
 
-    .status.cheio{
-      color:var(--green-dark);
-      background:var(--green-soft);
-    }
-
-    .status.andamento{
-      color:var(--amber);
-      background:var(--amber-soft);
-    }
-
-    .status.vazio{
-      color:var(--red);
-      background:var(--red-soft);
-    }
-
-    .canteiro-body{
-      padding:0 16px 16px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    .mini-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-    }
-
+    .canteiro-body{padding:0 16px 16px;display:flex;flex-direction:column;gap:12px}
+    .mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
     .mini{
-      padding:10px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:var(--surface-2);
-      min-width:0;
+      padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);min-width:0;
     }
-
     .mini small{
-      display:block;
-      font-size:10px;
-      line-height:1.2;
-      text-transform:uppercase;
-      letter-spacing:.05em;
-      font-weight:800;
-      color:var(--muted);
+      display:block;font-size:10px;line-height:1.2;text-transform:uppercase;letter-spacing:.05em;
+      font-weight:800;color:var(--muted);
     }
-
     .mini strong{
-      display:block;
-      margin-top:5px;
-      font-size:16px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:-.03em;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      display:block;margin-top:5px;font-size:16px;line-height:1;font-weight:900;letter-spacing:-.03em;
+      overflow:hidden;text-overflow:ellipsis;
     }
 
-    .progress-wrap{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-
-    .progress{
-      flex:1;
-      height:10px;
-      overflow:hidden;
-      border-radius:999px;
-      background:#E9EEE9;
-    }
-
-    .bar{
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--green),#4F8D62);
-    }
-
-    .pct{
-      min-width:46px;
-      text-align:right;
-      color:var(--green-dark);
-      font-size:12px;
-      font-weight:900;
-    }
-
+    .progress-wrap{display:flex;align-items:center;gap:10px}
+    .progress{flex:1;height:10px;overflow:hidden;border-radius:999px;background:#E9EEE9}
+    .bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--green),#4F8D62)}
+    .pct{min-width:46px;text-align:right;color:var(--green-dark);font-size:12px;font-weight:900}
     .note{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.45;
-      padding:9px 10px;
-      background:var(--surface-2);
-      border-radius:10px;
-      border:1px dashed var(--line);
+      color:var(--muted);font-size:12px;line-height:1.45;padding:9px 10px;
+      background:var(--surface-2);border-radius:10px;border:1px dashed var(--line);
     }
 
-    .history-card{
-      padding:0;
-      overflow:hidden;
-    }
-
+    .history-card{padding:0;overflow:hidden}
     .history-item{
-      display:grid;
-      grid-template-columns:auto 1fr auto;
-      gap:12px;
-      align-items:start;
-      padding:15px 16px;
-      border-bottom:1px solid var(--line);
+      display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;
+      padding:15px 16px;border-bottom:1px solid var(--line);
     }
-
-    .history-item:last-child{
-      border-bottom:0;
-    }
-
+    .history-item:last-child{border-bottom:0}
     .history-icon{
-      width:38px;
-      height:38px;
-      border-radius:12px;
-      display:grid;
-      place-items:center;
-      font-size:17px;
+      width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:17px;
     }
-
-    .history-icon.plantio{
-      background:var(--green-soft);
-    }
-
-    .history-icon.saida{
-      background:var(--blue-soft);
-    }
-
-    .history-main{
-      font-weight:900;
-      letter-spacing:-.01em;
-    }
-
-    .history-main.type-plantio{
-      color:var(--green-dark);
-    }
-
-    .history-main.type-saida{
-      color:var(--blue);
-    }
-
-    .history-meta{
-      margin-top:4px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.4;
-    }
-
-    .history-qty{
-      white-space:nowrap;
-      font-size:15px;
-      font-weight:900;
-    }
-
-    .history-actions{
-      display:flex;
-      gap:6px;
-      flex-wrap:wrap;
-      margin-top:9px;
-    }
-
-    .history-actions button{
-      padding:7px 10px;
-      font-size:11px;
-      box-shadow:none;
-    }
+    .history-icon.plantio{background:var(--green-soft)}
+    .history-icon.saida{background:var(--blue-soft)}
+    .history-main{font-weight:900;letter-spacing:-.01em}
+    .history-main.type-plantio{color:var(--green-dark)}
+    .history-main.type-saida{color:var(--blue)}
+    .history-meta{margin-top:4px;color:var(--muted);font-size:12px;line-height:1.4}
+    .history-qty{white-space:nowrap;font-size:15px;font-weight:900}
+    .history-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+    .history-actions button{padding:7px 10px;font-size:11px;box-shadow:none}
 
     .bottom-nav{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      z-index:15;
-      display:flex;
-      justify-content:center;
-      padding:8px 10px calc(8px + env(safe-area-inset-bottom));
-      background:rgba(255,255,255,.94);
-      backdrop-filter:blur(16px);
-      border-top:1px solid rgba(225,232,226,.92);
+      position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;justify-content:center;
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);
+      backdrop-filter:blur(16px);border-top:1px solid rgba(225,232,226,.92);
       box-shadow:0 -8px 28px rgba(23,77,45,.07);
     }
-
     .bottom-nav .inner{
-      width:min(720px,100%);
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-      padding:4px;
-      border-radius:18px;
-      background:#F8FAF8;
-      border:1px solid var(--line);
+      width:min(720px,100%);display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:4px;
+      border-radius:18px;background:#F8FAF8;border:1px solid var(--line);
     }
-
     .navbtn{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:7px;
-      padding:11px 9px;
-      background:transparent;
-      color:var(--muted);
-      border-radius:13px;
-      box-shadow:none;
+      display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 9px;
+      background:transparent;color:var(--muted);border-radius:13px;box-shadow:none;
     }
-
     .navbtn.active{
-      color:#fff;
-      background:linear-gradient(145deg,var(--green),var(--green-dark));
+      color:#fff;background:linear-gradient(145deg,var(--green),var(--green-dark));
       box-shadow:0 6px 16px rgba(31,107,59,.16);
     }
+    .navbtn span{font-size:12px;font-weight:900}
 
-    .navbtn span{
-      font-size:12px;
-      font-weight:900;
-    }
-
-    .hidden{
-      display:none!important;
-    }
+    .hidden{display:none!important}
 
     .modal{
-      position:fixed;
-      inset:0;
-      z-index:30;
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-      background:rgba(17,29,20,.44);
-      backdrop-filter:blur(4px);
+      position:fixed;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center;
+      background:rgba(17,29,20,.44);backdrop-filter:blur(4px);
     }
-
     .modal-card{
-      width:min(720px,100%);
-      max-height:90vh;
-      overflow:auto;
-      padding:18px;
-      background:#fff;
-      border-radius:24px 24px 0 0;
-      box-shadow:0 -20px 50px rgba(17,29,20,.18);
+      width:min(720px,100%);max-height:90vh;overflow:auto;padding:18px;background:#fff;
+      border-radius:24px 24px 0 0;box-shadow:0 -20px 50px rgba(17,29,20,.18);
     }
-
-    .modal-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin-bottom:14px;
-    }
-
-    .modal-head h3{
-      margin:0;
-      font-size:20px;
-      letter-spacing:-.02em;
-    }
-
-    .xbtn{
-      padding:8px 10px;
-      background:#F1F4F1;
-      color:var(--text);
-      box-shadow:none;
-    }
+    .modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+    .modal-head h3{margin:0;font-size:20px;letter-spacing:-.02em}
+    .xbtn{padding:8px 10px;background:#F1F4F1;color:var(--text);box-shadow:none}
 
     .toast{
-      position:fixed;
-      left:50%;
-      bottom:104px;
-      z-index:40;
-      transform:translateX(-50%) translateY(10px);
-      padding:11px 14px;
-      color:#fff;
-      background:#17211A;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:800;
-      opacity:0;
-      pointer-events:none;
-      transition:.2s ease;
-      box-shadow:0 12px 28px rgba(0,0,0,.18);
+      position:fixed;left:50%;bottom:104px;z-index:40;transform:translateX(-50%) translateY(10px);
+      padding:11px 14px;color:#fff;background:#17211A;border-radius:999px;font-size:12px;font-weight:800;
+      opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 12px 28px rgba(0,0,0,.18);
     }
-
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(0);
-    }
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
     @media(max-width:860px){
-      .summary{
-        grid-template-columns:repeat(2,1fr);
-      }
-      .summary .metric:first-child{
-        grid-column:span 2;
-      }
-      .grid{
-        grid-template-columns:1fr;
-      }
+      .summary{grid-template-columns:repeat(2,1fr)}
+      .summary .metric:first-child{grid-column:span 2}
+      .grid{grid-template-columns:1fr}
+    }
+
+    @media(max-width:620px){
+      .quick-actions{grid-template-columns:1fr}
     }
 
     @media(max-width:520px){
       body{padding-bottom:110px}
       .app{padding:14px}
-      .topbar{
-        margin:0 -14px 16px;
-        padding:12px 14px 10px;
-      }
-      .brand-mark{
-        width:40px;
-        height:40px;
-        border-radius:13px;
-      }
-      .top-chip{
-        display:none;
-      }
-      .summary{
-        gap:9px;
-      }
-      .metric{
-        padding:14px;
-        min-height:100px;
-      }
-      .metric-value{
-        font-size:23px;
-      }
-      .form{
-        grid-template-columns:1fr;
-      }
-      .field.full{
-        grid-column:auto;
-      }
-      .mini-grid{
-        grid-template-columns:repeat(3,1fr);
-        gap:6px;
-      }
-      .mini{
-        padding:9px 8px;
-      }
-      .mini strong{
-        font-size:15px;
-      }
-      .navbtn{
-        flex-direction:column;
-        gap:2px;
-        padding:8px 6px;
-      }
-      .navbtn span{
-        font-size:11px;
-      }
+      .topbar{margin:0 -14px 16px;padding:12px 14px 10px}
+      .brand-mark{width:40px;height:40px;border-radius:13px}
+      .top-chip{display:none}
+      .summary{gap:9px}
+      .metric{padding:14px;min-height:100px}
+      .metric-value{font-size:23px}
+      .form{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      .mini-grid{grid-template-columns:repeat(3,1fr);gap:6px}
+      .mini{padding:9px 8px}
+      .mini strong{font-size:15px}
+      .navbtn{flex-direction:column;gap:2px;padding:8px 6px}
+      .navbtn span{font-size:11px}
     }
   </style>
 </head>
@@ -809,9 +321,8 @@
   </header>
 
   <section id="tab-resumo">
-
     <div class="summary">
-      <div class="metric">
+      <div class="metric" id="metricCapacidade">
         <div class="metric-label">Capacidade</div>
         <div class="metric-value" id="sCap">0</div>
         <div class="metric-note">mudas</div>
@@ -835,7 +346,7 @@
         <div class="metric-note">no viveiro</div>
       </div>
 
-      <div class="metric">
+      <div class="metric" id="metricFaltam">
         <div class="metric-label">Faltam plantar</div>
         <div class="metric-value" id="sFalta">0</div>
         <div class="metric-note">mudas</div>
@@ -843,72 +354,26 @@
     </div>
 
     <div class="section-head">
-      <h2 class="section-title">Movimentação rápida</h2>
-      <div class="section-note">Registre sem sair da tela inicial</div>
+      <h2 class="section-title">Movimentações</h2>
+      <div class="section-note">Escolha o que deseja registrar</div>
     </div>
 
-    <div class="grid" style="margin-bottom:16px">
-      <div class="card action-card">
-        <div class="action-header">
-          <div class="action-icon plantio">🌱</div>
-          <div>
-            <strong>Registrar plantio</strong>
-            <small>Adicionar mudas plantadas ao canteiro</small>
-          </div>
+    <div class="quick-actions">
+      <button class="primary quick-btn" onclick="abrirModalPlantio()">
+        <div class="qicon">🌱</div>
+        <div>
+          <strong>Registrar plantio</strong>
+          <small>Adicionar mudas plantadas</small>
         </div>
-        <div class="action-body">
-          <div class="form">
-            <div class="field">
-              <label>Canteiro</label>
-              <select id="plantioBed"></select>
-            </div>
-            <div class="field">
-              <label>Quantidade</label>
-              <input id="plantioQty" type="number" min="1" placeholder="Ex.: 300">
-            </div>
-            <div class="field full">
-              <label>Observação</label>
-              <input id="plantioObs" placeholder="Opcional">
-            </div>
-            <div class="field full">
-              <button class="primary" onclick="registrarPlantio()">Adicionar plantio</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      </button>
 
-      <div class="card action-card">
-        <div class="action-header">
-          <div class="action-icon saida">📤</div>
-          <div>
-            <strong>Registrar saída</strong>
-            <small>Baixar mudas retiradas do viveiro</small>
-          </div>
+      <button class="blue quick-btn" onclick="abrirModalSaida()">
+        <div class="qicon">📤</div>
+        <div>
+          <strong>Registrar saída</strong>
+          <small>Dar baixa nas mudas retiradas</small>
         </div>
-        <div class="action-body">
-          <div class="form">
-            <div class="field">
-              <label>Canteiro</label>
-              <select id="saidaBed"></select>
-            </div>
-            <div class="field">
-              <label>Quantidade</label>
-              <input id="saidaQty" type="number" min="1" placeholder="Ex.: 500">
-            </div>
-            <div class="field">
-              <label>Destino / Cliente</label>
-              <input id="saidaDestino" placeholder="Ex.: Sítio AM">
-            </div>
-            <div class="field">
-              <label>Observação</label>
-              <input id="saidaObs" placeholder="Opcional">
-            </div>
-            <div class="field full">
-              <button class="blue" onclick="registrarSaida()">Registrar saída</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      </button>
     </div>
 
     <div class="section-head">
@@ -922,7 +387,7 @@
   <section id="tab-canteiros" class="hidden">
     <div class="section-head">
       <h2 class="section-title">Canteiros</h2>
-      <div class="section-note">Visão individual</div>
+      <button class="primary" onclick="abrirAdicionarCanteiro()">+ Adicionar canteiro</button>
     </div>
 
     <div class="toolbar">
@@ -975,6 +440,74 @@
   </div>
 </nav>
 
+<!-- MODAL PLANTIO -->
+<div id="modalPlantio" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Registrar plantio</h3>
+      <button class="xbtn" onclick="fecharModalPlantio()">Fechar</button>
+    </div>
+
+    <div class="form">
+      <div class="field">
+        <label>Canteiro</label>
+        <select id="plantioBed"></select>
+      </div>
+
+      <div class="field">
+        <label>Quantidade</label>
+        <input id="plantioQty" type="number" min="1" placeholder="Ex.: 300">
+      </div>
+
+      <div class="field full">
+        <label>Observação</label>
+        <input id="plantioObs" placeholder="Opcional">
+      </div>
+
+      <div class="field full">
+        <button class="primary" onclick="registrarPlantio()">Adicionar plantio</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SAÍDA -->
+<div id="modalSaida" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Registrar saída</h3>
+      <button class="xbtn" onclick="fecharModalSaida()">Fechar</button>
+    </div>
+
+    <div class="form">
+      <div class="field">
+        <label>Canteiro</label>
+        <select id="saidaBed"></select>
+      </div>
+
+      <div class="field">
+        <label>Quantidade</label>
+        <input id="saidaQty" type="number" min="1" placeholder="Ex.: 500">
+      </div>
+
+      <div class="field">
+        <label>Destino / Cliente</label>
+        <input id="saidaDestino" placeholder="Ex.: Sítio AM">
+      </div>
+
+      <div class="field">
+        <label>Observação</label>
+        <input id="saidaObs" placeholder="Opcional">
+      </div>
+
+      <div class="field full">
+        <button class="blue" onclick="registrarSaida()">Registrar saída</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR LANÇAMENTO -->
 <div id="modalEdit" class="modal hidden">
   <div class="modal-card">
     <div class="modal-head">
@@ -1018,6 +551,7 @@
   </div>
 </div>
 
+<!-- MODAL EDITAR / ADICIONAR CANTEIRO -->
 <div id="modalCanteiro" class="modal hidden">
   <div class="modal-card">
     <div class="modal-head">
@@ -1026,6 +560,11 @@
     </div>
 
     <div class="form">
+      <div class="field">
+        <label>Número do canteiro</label>
+        <input id="cNumero" type="number" min="1">
+      </div>
+
       <div class="field">
         <label>Variedade</label>
         <input id="cVar">
@@ -1071,11 +610,13 @@ let lancamentos = JSON.parse(localStorage.getItem("viveiro_v2_lancamentos") || "
 
 if(!lancamentos){
   lancamentos = [];
+
   canteiros.forEach(c=>{
-    const jaPlantado = c.capacidade - c.faltaInicial;
+    const jaPlantado = c.capacidade - (c.faltaInicial ?? c.capacidade);
+
     if(jaPlantado > 0){
       lancamentos.push({
-        id:crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()),
+        id:novoId(),
         tipo:"plantio",
         canteiro:c.id,
         quantidade:jaPlantado,
@@ -1086,53 +627,99 @@ if(!lancamentos){
       });
     }
   });
+
   salvar();
 }
 
 let editandoLancamentoId = null;
 let editandoCanteiroId = null;
+let modoNovoCanteiro = false;
+
+function novoId(){
+  return crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random());
+}
 
 function salvar(){
   localStorage.setItem("viveiro_v2_canteiros", JSON.stringify(canteiros));
   localStorage.setItem("viveiro_v2_lancamentos", JSON.stringify(lancamentos));
 }
 
-function fmt(n){ return Number(n||0).toLocaleString("pt-BR"); }
+function fmt(n){
+  return Number(n||0).toLocaleString("pt-BR");
+}
 
 function escapeHtml(s){
-  return String(s??"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  return String(s??"").replace(/[&<>"']/g,m=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#039;'
+  }[m]));
+}
+
+function ordenarCanteiros(){
+  canteiros.sort((a,b)=>Number(a.id)-Number(b.id));
 }
 
 function calculoCanteiro(id, ignorarLancamentoId=null){
   const c = canteiros.find(x=>x.id===id);
+
   if(!c) return null;
-  const lista = lancamentos.filter(l=>l.canteiro===id && l.id!==ignorarLancamentoId);
-  const plantadas = lista.filter(l=>l.tipo==="plantio").reduce((s,l)=>s+Number(l.quantidade||0),0);
-  const saidas = lista.filter(l=>l.tipo==="saida").reduce((s,l)=>s+Number(l.quantidade||0),0);
-  const disponiveis = Math.max(0, plantadas - saidas);
-  const falta = Math.max(0, c.capacidade - plantadas);
-  return {capacidade:c.capacidade,plantadas,saidas,disponiveis,falta};
+
+  const lista = lancamentos.filter(
+    l=>l.canteiro===id && l.id!==ignorarLancamentoId
+  );
+
+  const plantadas = lista
+    .filter(l=>l.tipo==="plantio")
+    .reduce((s,l)=>s+Number(l.quantidade||0),0);
+
+  const saidas = lista
+    .filter(l=>l.tipo==="saida")
+    .reduce((s,l)=>s+Number(l.quantidade||0),0);
+
+  const disponiveis = Math.max(0, plantadas-saidas);
+  const falta = Math.max(0, c.capacidade-plantadas);
+
+  return {
+    capacidade:c.capacidade,
+    plantadas,
+    saidas,
+    disponiveis,
+    falta
+  };
 }
 
 function statusItem(id){
   const r = calculoCanteiro(id);
+
   if(r.plantadas===0) return "vazio";
   if(r.falta===0) return "cheio";
+
   return "andamento";
 }
 
 function statusTexto(s){
-  return s==="cheio" ? "Completo" : s==="vazio" ? "Vazio" : "Em plantio";
+  return s==="cheio"
+    ? "Completo"
+    : s==="vazio"
+      ? "Vazio"
+      : "Em plantio";
 }
 
 function resumo(){
+  ordenarCanteiros();
+
   const total = canteiros.reduce((acc,c)=>{
     const r=calculoCanteiro(c.id);
-    acc.cap+=r.capacidade;
-    acc.plant+=r.plantadas;
-    acc.saidas+=r.saidas;
-    acc.disp+=r.disponiveis;
-    acc.falta+=r.falta;
+
+    acc.cap += r.capacidade;
+    acc.plant += r.plantadas;
+    acc.saidas += r.saidas;
+    acc.disp += r.disponiveis;
+    acc.falta += r.falta;
+
     return acc;
   },{cap:0,plant:0,saidas:0,disp:0,falta:0});
 
@@ -1142,7 +729,19 @@ function resumo(){
   sDisp.textContent=fmt(total.disp);
   sFalta.textContent=fmt(total.falta);
 
-  const opts = canteiros.map(c=>`<option value="${c.id}">Canteiro ${String(c.id).padStart(2,"0")} • ${escapeHtml(c.variedade)}</option>`).join("");
+  /*
+    Quando TODO o viveiro estiver com plantio concluído,
+    os cards "Capacidade" e "Faltam plantar" somem da aba Resumo.
+  */
+  const plantioGeralFechado = canteiros.length > 0 && canteiros.every(c=>calculoCanteiro(c.id).falta===0);
+
+  metricCapacidade.classList.toggle("hidden", plantioGeralFechado);
+  metricFaltam.classList.toggle("hidden", plantioGeralFechado);
+
+  const opts = canteiros.map(c=>
+    `<option value="${c.id}">Canteiro ${String(c.id).padStart(2,"0")} • ${escapeHtml(c.variedade)}</option>`
+  ).join("");
+
   plantioBed.innerHTML=opts;
   saidaBed.innerHTML=opts;
   eBed.innerHTML=opts;
@@ -1151,98 +750,271 @@ function resumo(){
 
   canteiros.forEach(c=>{
     const r=calculoCanteiro(c.id);
-    if(!porVar[c.variedade]) porVar[c.variedade]={cap:0,plant:0,saidas:0,disp:0,falta:0};
-    porVar[c.variedade].cap+=r.capacidade;
-    porVar[c.variedade].plant+=r.plantadas;
-    porVar[c.variedade].saidas+=r.saidas;
-    porVar[c.variedade].disp+=r.disponiveis;
-    porVar[c.variedade].falta+=r.falta;
+
+    if(!porVar[c.variedade]){
+      porVar[c.variedade]={
+        cap:0,
+        plant:0,
+        saidas:0,
+        disp:0,
+        falta:0
+      };
+    }
+
+    porVar[c.variedade].cap += r.capacidade;
+    porVar[c.variedade].plant += r.plantadas;
+    porVar[c.variedade].saidas += r.saidas;
+    porVar[c.variedade].disp += r.disponiveis;
+    porVar[c.variedade].falta += r.falta;
   });
 
-  varResumo.innerHTML=Object.entries(porVar).map(([v,d])=>`
-    <div class="card">
-      <div class="canteiro-head">
-        <div>
-          <h3 style="margin:0;font-size:18px">Variedade ${escapeHtml(v)}</h3>
-          <div class="tag">${fmt(d.disp)} disponíveis</div>
-        </div>
-        <div class="status andamento">${d.cap ? ((d.plant/d.cap)*100).toFixed(1).replace(".",",") : "0,0"}%</div>
-      </div>
-
-      <div class="mini-grid" style="margin-top:12px">
-        <div class="mini"><small>Plantadas</small><strong>${fmt(d.plant)}</strong></div>
-        <div class="mini"><small>Saídas</small><strong>${fmt(d.saidas)}</strong></div>
-        <div class="mini"><small>Disponíveis</small><strong>${fmt(d.disp)}</strong></div>
-      </div>
-
-      <div class="mini-grid" style="margin-top:8px">
-        <div class="mini"><small>Capacidade</small><strong>${fmt(d.cap)}</strong></div>
-        <div class="mini"><small>Faltam</small><strong>${fmt(d.falta)}</strong></div>
-        <div class="mini"><small>Ocupação</small><strong>${d.cap ? ((d.plant/d.cap)*100).toFixed(1).replace(".",",") : "0,0"}%</strong></div>
-      </div>
-    </div>
-  `).join("");
-}
-
-function renderCanteiros(){
-  const q=(busca?.value||"").trim().toLowerCase();
-  const sf=statusFiltro?.value||"todos";
-
-  canteirosGrid.innerHTML=canteiros.filter(c=>{
-    const st=statusItem(c.id);
-    return (!q || String(c.id).includes(q) || c.variedade.toLowerCase().includes(q)) && (sf==="todos" || sf===st);
-  }).map(c=>{
-    const r=calculoCanteiro(c.id);
-    const pct=r.capacidade ? r.plantadas/r.capacidade*100 : 0;
-    const st=statusItem(c.id);
+  varResumo.innerHTML = Object.entries(porVar).map(([v,d])=>{
+    const pct = d.cap ? (d.plant/d.cap)*100 : 0;
+    const plantioFechado = d.falta===0;
 
     return `
-      <div class="card canteiro">
-        <div class="canteiro-top">
-          <div class="canteiro-head">
-            <div>
-              <h3>Canteiro ${String(c.id).padStart(2,"0")}</h3>
-              <div class="tag">Variedade ${escapeHtml(c.variedade)}</div>
+      <div class="card">
+        <div class="canteiro-head">
+          <div>
+            <h3 style="margin:0;font-size:18px">Variedade ${escapeHtml(v)}</h3>
+            <div class="tag">${fmt(d.disp)} disponíveis</div>
+          </div>
+
+          <div class="status ${plantioFechado ? "cheio" : "andamento"}">
+            ${plantioFechado ? "Plantio fechado" : pct.toFixed(1).replace(".",",")+"%"}
+          </div>
+        </div>
+
+        <div class="mini-grid" style="margin-top:12px">
+          <div class="mini">
+            <small>Plantadas</small>
+            <strong>${fmt(d.plant)}</strong>
+          </div>
+
+          <div class="mini">
+            <small>Saídas</small>
+            <strong>${fmt(d.saidas)}</strong>
+          </div>
+
+          <div class="mini">
+            <small>Disponíveis</small>
+            <strong>${fmt(d.disp)}</strong>
+          </div>
+        </div>
+
+        ${
+          plantioFechado
+          ? ""
+          : `
+            <div class="mini-grid" style="margin-top:8px">
+              <div class="mini">
+                <small>Capacidade</small>
+                <strong>${fmt(d.cap)}</strong>
+              </div>
+
+              <div class="mini">
+                <small>Faltam</small>
+                <strong>${fmt(d.falta)}</strong>
+              </div>
+
+              <div class="mini">
+                <small>Ocupação</small>
+                <strong>${pct.toFixed(1).replace(".",",")}%</strong>
+              </div>
             </div>
-            <div class="status ${st}">${statusTexto(st)}</div>
-          </div>
-        </div>
-
-        <div class="canteiro-body">
-          <div class="mini-grid">
-            <div class="mini"><small>Cima</small><strong>${fmt(c.cima)}</strong></div>
-            <div class="mini"><small>Baixo</small><strong>${fmt(c.baixo)}</strong></div>
-            <div class="mini"><small>Capacidade</small><strong>${fmt(c.capacidade)}</strong></div>
-          </div>
-
-          <div class="progress-wrap">
-            <div class="progress"><div class="bar" style="width:${Math.min(100,pct)}%"></div></div>
-            <div class="pct">${pct.toFixed(1).replace(".",",")}%</div>
-          </div>
-
-          <div class="mini-grid">
-            <div class="mini"><small>Plantadas</small><strong>${fmt(r.plantadas)}</strong></div>
-            <div class="mini"><small>Saídas</small><strong>${fmt(r.saidas)}</strong></div>
-            <div class="mini"><small>Disponíveis</small><strong>${fmt(r.disponiveis)}</strong></div>
-          </div>
-
-          <div class="mini-grid">
-            <div class="mini"><small>Faltam</small><strong>${fmt(r.falta)}</strong></div>
-            <div class="mini"><small>Status</small><strong>${statusTexto(st)}</strong></div>
-            <div class="mini"><small>Total</small><strong>${fmt(c.capacidade)}</strong></div>
-          </div>
-
-          ${c.obs ? `<div class="note">📝 ${escapeHtml(c.obs)}</div>` : ""}
-
-          <div class="btnrow">
-            <button class="primary" onclick="preencherPlantio(${c.id})">Plantio</button>
-            <button class="blue" onclick="preencherSaida(${c.id})">Saída</button>
-            <button class="secondary" onclick="abrirCanteiro(${c.id})">Editar</button>
-          </div>
-        </div>
+          `
+        }
       </div>
     `;
   }).join("");
+}
+
+function renderCanteiros(){
+  ordenarCanteiros();
+
+  const q=(busca?.value||"").trim().toLowerCase();
+  const sf=statusFiltro?.value||"todos";
+
+  canteirosGrid.innerHTML = canteiros
+    .filter(c=>{
+      const st=statusItem(c.id);
+
+      return (
+        (!q || String(c.id).includes(q) || c.variedade.toLowerCase().includes(q))
+        &&
+        (sf==="todos" || sf===st)
+      );
+    })
+    .map(c=>{
+      const r=calculoCanteiro(c.id);
+      const pct=r.capacidade ? r.plantadas/r.capacidade*100 : 0;
+      const st=statusItem(c.id);
+
+      return `
+        <div class="card canteiro">
+          <div class="canteiro-top">
+            <div class="canteiro-head">
+              <div>
+                <h3>Canteiro ${String(c.id).padStart(2,"0")}</h3>
+                <div class="tag">Variedade ${escapeHtml(c.variedade)}</div>
+              </div>
+
+              <div class="status ${st}">
+                ${statusTexto(st)}
+              </div>
+            </div>
+          </div>
+
+          <div class="canteiro-body">
+            <div class="mini-grid">
+              <div class="mini">
+                <small>Cima</small>
+                <strong>${fmt(c.cima)}</strong>
+              </div>
+
+              <div class="mini">
+                <small>Baixo</small>
+                <strong>${fmt(c.baixo)}</strong>
+              </div>
+
+              <div class="mini">
+                <small>Capacidade</small>
+                <strong>${fmt(c.capacidade)}</strong>
+              </div>
+            </div>
+
+            <div class="progress-wrap">
+              <div class="progress">
+                <div class="bar" style="width:${Math.min(100,pct)}%"></div>
+              </div>
+              <div class="pct">${pct.toFixed(1).replace(".",",")}%</div>
+            </div>
+
+            <div class="mini-grid">
+              <div class="mini">
+                <small>Plantadas</small>
+                <strong>${fmt(r.plantadas)}</strong>
+              </div>
+
+              <div class="mini">
+                <small>Saídas</small>
+                <strong>${fmt(r.saidas)}</strong>
+              </div>
+
+              <div class="mini">
+                <small>Disponíveis</small>
+                <strong>${fmt(r.disponiveis)}</strong>
+              </div>
+            </div>
+
+            ${
+              r.falta>0
+              ? `
+                <div class="mini-grid">
+                  <div class="mini">
+                    <small>Faltam</small>
+                    <strong>${fmt(r.falta)}</strong>
+                  </div>
+
+                  <div class="mini">
+                    <small>Status</small>
+                    <strong>${statusTexto(st)}</strong>
+                  </div>
+
+                  <div class="mini">
+                    <small>Total</small>
+                    <strong>${fmt(c.capacidade)}</strong>
+                  </div>
+                </div>
+              `
+              : `
+                <div class="mini-grid">
+                  <div class="mini">
+                    <small>Status</small>
+                    <strong>Completo</strong>
+                  </div>
+
+                  <div class="mini">
+                    <small>Disponíveis</small>
+                    <strong>${fmt(r.disponiveis)}</strong>
+                  </div>
+
+                  <div class="mini">
+                    <small>Saídas</small>
+                    <strong>${fmt(r.saidas)}</strong>
+                  </div>
+                </div>
+              `
+            }
+
+            ${c.obs ? `<div class="note">📝 ${escapeHtml(c.obs)}</div>` : ""}
+
+            <div class="btnrow">
+              <button class="primary" onclick="abrirModalPlantio(${c.id})">Plantio</button>
+              <button class="blue" onclick="abrirModalSaida(${c.id})">Saída</button>
+              <button class="secondary" onclick="abrirCanteiro(${c.id})">Editar</button>
+              <button class="danger" onclick="removerCanteiro(${c.id})">Remover</button>
+            </div>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  if(!canteirosGrid.innerHTML.trim()){
+    canteirosGrid.innerHTML = `
+      <div class="card">
+        <div class="note">
+          Nenhum canteiro encontrado.
+        </div>
+      </div>
+    `;
+  }
+}
+
+function abrirModalPlantio(id=null){
+  if(canteiros.length===0){
+    toastMsg("Cadastre um canteiro primeiro.");
+    return;
+  }
+
+  plantioQty.value="";
+  plantioObs.value="";
+
+  if(id!==null){
+    plantioBed.value=String(id);
+  }
+
+  modalPlantio.classList.remove("hidden");
+
+  setTimeout(()=>plantioQty.focus(),100);
+}
+
+function fecharModalPlantio(){
+  modalPlantio.classList.add("hidden");
+}
+
+function abrirModalSaida(id=null){
+  if(canteiros.length===0){
+    toastMsg("Cadastre um canteiro primeiro.");
+    return;
+  }
+
+  saidaQty.value="";
+  saidaDestino.value="";
+  saidaObs.value="";
+
+  if(id!==null){
+    saidaBed.value=String(id);
+  }
+
+  modalSaida.classList.remove("hidden");
+
+  setTimeout(()=>saidaQty.focus(),100);
+}
+
+function fecharModalSaida(){
+  modalSaida.classList.add("hidden");
 }
 
 function registrarPlantio(){
@@ -1254,8 +1026,7 @@ function registrarPlantio(){
 
   novoLancamento("plantio",id,qtd,"",obs);
 
-  plantioQty.value="";
-  plantioObs.value="";
+  fecharModalPlantio();
 }
 
 function registrarSaida(){
@@ -1278,9 +1049,7 @@ function registrarSaida(){
 
   novoLancamento("saida",id,qtd,destino,obs);
 
-  saidaQty.value="";
-  saidaDestino.value="";
-  saidaObs.value="";
+  fecharModalSaida();
 }
 
 function validarPlantio(id,qtd,ignorar=null){
@@ -1290,6 +1059,11 @@ function validarPlantio(id,qtd,ignorar=null){
   }
 
   const r=calculoCanteiro(id,ignorar);
+
+  if(!r){
+    toastMsg("Canteiro não encontrado.");
+    return false;
+  }
 
   if(qtd>r.falta){
     toastMsg(`Nesse canteiro ainda cabem ${fmt(r.falta)} mudas.`);
@@ -1301,7 +1075,7 @@ function validarPlantio(id,qtd,ignorar=null){
 
 function novoLancamento(tipo,canteiro,quantidade,destino,obs){
   lancamentos.push({
-    id:crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()),
+    id:novoId(),
     tipo,
     canteiro,
     quantidade,
@@ -1313,32 +1087,31 @@ function novoLancamento(tipo,canteiro,quantidade,destino,obs){
 
   salvar();
   renderTudo();
-  toastMsg(tipo==="plantio" ? "Plantio registrado." : "Saída registrada.");
-}
 
-function preencherPlantio(id){
-  trocarAba("resumo",document.querySelectorAll(".navbtn")[0]);
-  plantioBed.value=id;
-  plantioQty.focus();
-}
-
-function preencherSaida(id){
-  trocarAba("resumo",document.querySelectorAll(".navbtn")[0]);
-  saidaBed.value=id;
-  saidaQty.focus();
+  toastMsg(
+    tipo==="plantio"
+      ? "Plantio registrado."
+      : "Saída registrada."
+  );
 }
 
 function renderHistorico(){
   const filtro=histFiltro?.value||"todos";
 
-  const visiveis=lancamentos.filter(l=>!l.inicial && (filtro==="todos" || l.tipo===filtro));
+  const visiveis = lancamentos.filter(
+    l=>!l.inicial && canteiros.some(c=>c.id===l.canteiro) && (filtro==="todos" || l.tipo===filtro)
+  );
 
   if(!visiveis.length){
-    historicoLista.innerHTML=`<div style="padding:18px;color:var(--muted);font-size:13px">Nenhum lançamento para mostrar.</div>`;
+    historicoLista.innerHTML = `
+      <div style="padding:18px;color:var(--muted);font-size:13px">
+        Nenhum lançamento para mostrar.
+      </div>
+    `;
     return;
   }
 
-  historicoLista.innerHTML=[...visiveis]
+  historicoLista.innerHTML = [...visiveis]
     .sort((a,b)=>new Date(b.data)-new Date(a.data))
     .map(l=>{
       const c=canteiros.find(x=>x.id===l.canteiro);
@@ -1346,11 +1119,17 @@ function renderHistorico(){
       const cls=l.tipo==="plantio" ? "type-plantio" : "type-saida";
       const iconCls=l.tipo==="plantio" ? "plantio" : "saida";
       const icon=l.tipo==="plantio" ? "🌱" : "📤";
-      const detalhes=l.tipo==="saida" && l.destino ? ` • Destino: ${escapeHtml(l.destino)}` : "";
+
+      const detalhes =
+        l.tipo==="saida" && l.destino
+          ? ` • Destino: ${escapeHtml(l.destino)}`
+          : "";
 
       return `
         <div class="history-item">
-          <div class="history-icon ${iconCls}">${icon}</div>
+          <div class="history-icon ${iconCls}">
+            ${icon}
+          </div>
 
           <div>
             <div class="history-main ${cls}">
@@ -1364,8 +1143,13 @@ function renderHistorico(){
             ${l.obs ? `<div class="history-meta">Obs.: ${escapeHtml(l.obs)}</div>` : ""}
 
             <div class="history-actions">
-              <button class="secondary" onclick="abrirEdicaoLancamento('${l.id}')">Editar</button>
-              <button class="danger" onclick="excluirLancamento('${l.id}')">Excluir</button>
+              <button class="secondary" onclick="abrirEdicaoLancamento('${l.id}')">
+                Editar
+              </button>
+
+              <button class="danger" onclick="excluirLancamento('${l.id}')">
+                Excluir
+              </button>
             </div>
           </div>
 
@@ -1380,26 +1164,32 @@ function renderHistorico(){
 
 function abrirEdicaoLancamento(id){
   const l=lancamentos.find(x=>x.id===id);
+
   if(!l) return;
 
   editandoLancamentoId=id;
 
   eTipo.value=l.tipo;
-  eBed.value=l.canteiro;
+  eBed.value=String(l.canteiro);
   eQtd.value=l.quantidade;
   eDestino.value=l.destino||"";
   eObs.value=l.obs||"";
 
   ajustarCamposEdicao();
+
   modalEdit.classList.remove("hidden");
 }
 
 function ajustarCamposEdicao(){
-  destinoWrap.classList.toggle("hidden",eTipo.value!=="saida");
+  destinoWrap.classList.toggle(
+    "hidden",
+    eTipo.value!=="saida"
+  );
 }
 
 function salvarEdicaoLancamento(){
   const l=lancamentos.find(x=>x.id===editandoLancamentoId);
+
   if(!l) return;
 
   const tipo=eTipo.value;
@@ -1418,6 +1208,11 @@ function salvarEdicaoLancamento(){
   }else{
     const r=calculoCanteiro(canteiro,l.id);
 
+    if(!r){
+      toastMsg("Canteiro não encontrado.");
+      return;
+    }
+
     if(qtd>r.disponiveis){
       toastMsg(`Há ${fmt(r.disponiveis)} mudas disponíveis considerando a correção.`);
       return;
@@ -1433,6 +1228,7 @@ function salvarEdicaoLancamento(){
   salvar();
   fecharModalEdit();
   renderTudo();
+
   toastMsg("Lançamento alterado.");
 }
 
@@ -1441,12 +1237,15 @@ function excluirLancamento(id){
 
   if(!l || l.inicial) return;
 
-  if(!confirm("Excluir este lançamento? Os saldos serão recalculados automaticamente.")) return;
+  if(!confirm("Excluir este lançamento? Os saldos serão recalculados automaticamente.")){
+    return;
+  }
 
   lancamentos=lancamentos.filter(x=>x.id!==id);
 
   salvar();
   renderTudo();
+
   toastMsg("Lançamento excluído.");
 }
 
@@ -1455,12 +1254,38 @@ function fecharModalEdit(){
   editandoLancamentoId=null;
 }
 
+function abrirAdicionarCanteiro(){
+  modoNovoCanteiro=true;
+  editandoCanteiroId=null;
+
+  const proximo = canteiros.length
+    ? Math.max(...canteiros.map(c=>Number(c.id))) + 1
+    : 1;
+
+  cTitle.textContent="Adicionar canteiro";
+  cNumero.disabled=false;
+  cNumero.value=proximo;
+  cVar.value="";
+  cCima.value="";
+  cBaixo.value="";
+  cObs.value="";
+
+  modalCanteiro.classList.remove("hidden");
+
+  setTimeout(()=>cVar.focus(),100);
+}
+
 function abrirCanteiro(id){
   const c=canteiros.find(x=>x.id===id);
 
+  if(!c) return;
+
+  modoNovoCanteiro=false;
   editandoCanteiroId=id;
 
   cTitle.textContent=`Editar Canteiro ${String(id).padStart(2,"0")}`;
+  cNumero.value=c.id;
+  cNumero.disabled=true;
   cVar.value=c.variedade;
   cCima.value=c.cima;
   cBaixo.value=c.baixo;
@@ -1470,66 +1295,162 @@ function abrirCanteiro(id){
 }
 
 function salvarCanteiro(){
+  const numero = Number(cNumero.value);
+  const variedade = cVar.value.trim();
+  const cima = Math.max(0,Number(cCima.value||0));
+  const baixo = Math.max(0,Number(cBaixo.value||0));
+  const capacidade = cima+baixo;
+  const obs = cObs.value.trim();
+
+  if(!Number.isInteger(numero)||numero<=0){
+    toastMsg("Informe um número de canteiro válido.");
+    return;
+  }
+
+  if(!variedade){
+    toastMsg("Informe a variedade.");
+    return;
+  }
+
+  if(capacidade<=0){
+    toastMsg("Informe a capacidade do canteiro de cima e/ou de baixo.");
+    return;
+  }
+
+  if(modoNovoCanteiro){
+    if(canteiros.some(c=>c.id===numero)){
+      toastMsg("Já existe um canteiro com esse número.");
+      return;
+    }
+
+    canteiros.push({
+      id:numero,
+      variedade,
+      cima,
+      baixo,
+      capacidade,
+      obs
+    });
+
+    salvar();
+    fecharModalCanteiro();
+    renderTudo();
+
+    toastMsg("Canteiro adicionado.");
+    return;
+  }
+
   const c=canteiros.find(x=>x.id===editandoCanteiroId);
+
   if(!c) return;
 
-  const cima=Math.max(0,Number(cCima.value||0));
-  const baixo=Math.max(0,Number(cBaixo.value||0));
-  const novaCap=cima+baixo;
   const r=calculoCanteiro(c.id);
 
-  if(novaCap<r.plantadas){
+  if(capacidade<r.plantadas){
     toastMsg(`A capacidade não pode ficar abaixo das ${fmt(r.plantadas)} mudas já plantadas.`);
     return;
   }
 
-  c.variedade=cVar.value.trim()||c.variedade;
+  c.variedade=variedade;
   c.cima=cima;
   c.baixo=baixo;
-  c.capacidade=novaCap;
-  c.obs=cObs.value.trim();
+  c.capacidade=capacidade;
+  c.obs=obs;
 
   salvar();
   fecharModalCanteiro();
   renderTudo();
+
   toastMsg("Canteiro atualizado.");
+}
+
+function removerCanteiro(id){
+  const c=canteiros.find(x=>x.id===id);
+
+  if(!c) return;
+
+  const r=calculoCanteiro(id);
+
+  const mensagem =
+    `Remover o Canteiro ${String(id).padStart(2,"0")} (${c.variedade})?\n\n` +
+    `Plantadas: ${fmt(r.plantadas)}\n` +
+    `Saídas: ${fmt(r.saidas)}\n` +
+    `Disponíveis: ${fmt(r.disponiveis)}\n\n` +
+    `Todos os lançamentos desse canteiro também serão apagados.`;
+
+  if(!confirm(mensagem)){
+    return;
+  }
+
+  canteiros = canteiros.filter(x=>x.id!==id);
+  lancamentos = lancamentos.filter(l=>l.canteiro!==id);
+
+  salvar();
+  renderTudo();
+
+  toastMsg("Canteiro removido.");
 }
 
 function fecharModalCanteiro(){
   modalCanteiro.classList.add("hidden");
   editandoCanteiroId=null;
+  modoNovoCanteiro=false;
 }
 
 function trocarAba(tab,btn){
   ["resumo","canteiros","historico"].forEach(t=>{
-    document.getElementById("tab-"+t).classList.toggle("hidden",t!==tab);
+    document
+      .getElementById("tab-"+t)
+      .classList
+      .toggle("hidden",t!==tab);
   });
 
-  document.querySelectorAll(".navbtn").forEach(b=>b.classList.remove("active"));
+  document
+    .querySelectorAll(".navbtn")
+    .forEach(b=>b.classList.remove("active"));
+
   btn.classList.add("active");
 
-  if(tab==="historico") renderHistorico();
-  if(tab==="canteiros") renderCanteiros();
+  if(tab==="historico"){
+    renderHistorico();
+  }
 
-  window.scrollTo({top:0,behavior:"smooth"});
+  if(tab==="canteiros"){
+    renderCanteiros();
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 }
 
 function exportarCSV(){
-  const linhas=[["Tipo","Data","Canteiro","Variedade","Quantidade","Destino","Observacao"]];
+  const linhas=[[
+    "Tipo",
+    "Data",
+    "Canteiro",
+    "Variedade",
+    "Quantidade",
+    "Destino",
+    "Observacao"
+  ]];
 
-  lancamentos.filter(l=>!l.inicial).forEach(l=>{
-    const c=canteiros.find(x=>x.id===l.canteiro);
+  lancamentos
+    .filter(l=>!l.inicial && canteiros.some(c=>c.id===l.canteiro))
+    .forEach(l=>{
+      const c=canteiros.find(x=>x.id===l.canteiro);
 
-    linhas.push([
-      l.tipo==="plantio" ? "Plantio" : "Saida",
-      new Date(l.data).toLocaleString("pt-BR"),
-      l.canteiro,
-      c?.variedade||"",
-      l.quantidade,
-      `"${String(l.destino||"").replaceAll('"','""')}"`,
-      `"${String(l.obs||"").replaceAll('"','""')}"`
-    ]);
-  });
+      linhas.push([
+        l.tipo==="plantio" ? "Plantio" : "Saida",
+        new Date(l.data).toLocaleString("pt-BR"),
+        l.canteiro,
+        c?.variedade||"",
+        l.quantidade,
+        `"${String(l.destino||"").replaceAll('"','""')}"`,
+        `"${String(l.obs||"").replaceAll('"','""')}"`
+      ]);
+    });
 
   baixarArquivo(
     "\uFEFF"+linhas.map(l=>l.join(";")).join("\n"),
@@ -1540,7 +1461,11 @@ function exportarCSV(){
 
 function exportarBackup(){
   baixarArquivo(
-    JSON.stringify({canteiros,lancamentos,exportadoEm:new Date().toISOString()},null,2),
+    JSON.stringify({
+      canteiros,
+      lancamentos,
+      exportadoEm:new Date().toISOString()
+    },null,2),
     "viveiro_backup.json",
     "application/json"
   );
