@@ -428,6 +428,25 @@
       </div>
     </div>
 
+    <div class="card" style="margin-bottom:14px">
+      <div class="section-head" style="margin:0 0 10px">
+        <h2 class="section-title">Backup</h2>
+        <div class="section-note" id="backupStatus">Nenhum backup automático ainda</div>
+      </div>
+
+      <div class="btnrow">
+        <button class="primary" onclick="salvarBackupArquivo()">Salvar backup</button>
+        <button class="secondary" onclick="document.getElementById('backupFile').click()">Importar backup</button>
+        <button class="secondary" onclick="restaurarUltimoBackup()">Restaurar último</button>
+      </div>
+
+      <input id="backupFile" type="file" accept=".json,application/json" class="hidden" onchange="importarBackupArquivo(event)">
+
+      <div class="note" style="margin-top:10px">
+        Antes de cada alteração, o app guarda automaticamente uma cópia no próprio aparelho.
+      </div>
+    </div>
+
     <div id="historicoLista" class="card history-card"></div>
   </section>
 </div>
@@ -642,6 +661,126 @@ function novoId(){
 function salvar(){
   localStorage.setItem("viveiro_v2_canteiros", JSON.stringify(canteiros));
   localStorage.setItem("viveiro_v2_lancamentos", JSON.stringify(lancamentos));
+  atualizarStatusBackup();
+}
+
+function criarSnapshot(){
+  return {
+    canteiros: structuredClone(canteiros),
+    lancamentos: structuredClone(lancamentos),
+    salvoEm: new Date().toISOString()
+  };
+}
+
+function backupAutomatico(){
+  const snapshot = criarSnapshot();
+  localStorage.setItem("viveiro_ultimo_backup", JSON.stringify(snapshot));
+  atualizarStatusBackup();
+}
+
+function atualizarStatusBackup(){
+  const el = document.getElementById("backupStatus");
+  if(!el) return;
+
+  const raw = localStorage.getItem("viveiro_ultimo_backup");
+
+  if(!raw){
+    el.textContent = "Nenhum backup automático ainda";
+    return;
+  }
+
+  try{
+    const bk = JSON.parse(raw);
+    el.textContent = "Último automático: " + new Date(bk.salvoEm).toLocaleString("pt-BR");
+  }catch{
+    el.textContent = "Backup local encontrado";
+  }
+}
+
+function salvarBackupArquivo(){
+  const conteudo = JSON.stringify({
+    canteiros,
+    lancamentos,
+    salvoEm: new Date().toISOString()
+  }, null, 2);
+
+  baixarArquivo(
+    conteudo,
+    "backup-viveiro.json",
+    "application/json"
+  );
+
+  toastMsg("Backup salvo em arquivo.");
+}
+
+function restaurarUltimoBackup(){
+  const raw = localStorage.getItem("viveiro_ultimo_backup");
+
+  if(!raw){
+    toastMsg("Ainda não existe backup automático.");
+    return;
+  }
+
+  if(!confirm("Restaurar o último backup automático? Os dados atuais serão substituídos.")){
+    return;
+  }
+
+  try{
+    const bk = JSON.parse(raw);
+
+    if(!Array.isArray(bk.canteiros) || !Array.isArray(bk.lancamentos)){
+      throw new Error("Backup inválido");
+    }
+
+    canteiros = structuredClone(bk.canteiros);
+    lancamentos = structuredClone(bk.lancamentos);
+
+    salvar();
+    renderTudo();
+
+    toastMsg("Último backup restaurado.");
+  }catch{
+    toastMsg("Não foi possível restaurar o backup.");
+  }
+}
+
+function importarBackupArquivo(event){
+  const arquivo = event.target.files?.[0];
+
+  if(!arquivo) return;
+
+  const leitor = new FileReader();
+
+  leitor.onload = () => {
+    try{
+      const bk = JSON.parse(leitor.result);
+
+      if(!Array.isArray(bk.canteiros) || !Array.isArray(bk.lancamentos)){
+        throw new Error("Arquivo inválido");
+      }
+
+      if(!confirm("Importar este backup? Os dados atuais serão substituídos.")){
+        event.target.value = "";
+        return;
+      }
+
+      backupAutomatico();
+
+      canteiros = structuredClone(bk.canteiros);
+      lancamentos = structuredClone(bk.lancamentos);
+
+      salvar();
+      renderTudo();
+
+      toastMsg("Backup importado.");
+    }catch{
+      toastMsg("Arquivo de backup inválido.");
+    }
+
+    event.target.value = "";
+  };
+
+  leitor.readAsText(arquivo);
 }
 
 function fmt(n){
@@ -1074,6 +1213,8 @@ function validarPlantio(id,qtd,ignorar=null){
 }
 
 function novoLancamento(tipo,canteiro,quantidade,destino,obs){
+  backupAutomatico();
+
   lancamentos.push({
     id:novoId(),
     tipo,
@@ -1219,6 +1360,8 @@ function salvarEdicaoLancamento(){
     }
   }
 
+  backupAutomatico();
+
   l.tipo=tipo;
   l.canteiro=canteiro;
   l.quantidade=qtd;
@@ -1240,6 +1383,8 @@ function excluirLancamento(id){
   if(!confirm("Excluir este lançamento? Os saldos serão recalculados automaticamente.")){
     return;
   }
+
+  backupAutomatico();
 
   lancamentos=lancamentos.filter(x=>x.id!==id);
 
@@ -1323,6 +1468,8 @@ function salvarCanteiro(){
       return;
     }
 
+    backupAutomatico();
+
     canteiros.push({
       id:numero,
       variedade,
@@ -1350,6 +1497,8 @@ function salvarCanteiro(){
     toastMsg(`A capacidade não pode ficar abaixo das ${fmt(r.plantadas)} mudas já plantadas.`);
     return;
   }
+
+  backupAutomatico();
 
   c.variedade=variedade;
   c.cima=cima;
@@ -1381,6 +1530,8 @@ function removerCanteiro(id){
   if(!confirm(mensagem)){
     return;
   }
+
+  backupAutomatico();
 
   canteiros = canteiros.filter(x=>x.id!==id);
   lancamentos = lancamentos.filter(l=>l.canteiro!==id);
@@ -1496,6 +1647,7 @@ function renderTudo(){
   resumo();
   renderCanteiros();
   renderHistorico();
+  atualizarStatusBackup();
 }
 
 if("serviceWorker" in navigator){
