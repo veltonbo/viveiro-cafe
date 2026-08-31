@@ -5,14 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#245c2e" />
   <title>Viveiro Café</title>
-
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon-192.png">
 
   <style>
     :root{
       --bg:#f4f7f3;
-      --card:#fff;
+      --card:#ffffff;
       --text:#1f2a21;
       --muted:#6e786f;
       --line:#dce5dc;
@@ -21,14 +20,12 @@
       --accent-soft:#e7f2e9;
       --warn:#b7791f;
       --danger:#b42318;
+      --blue:#245c8f;
+      --blue-soft:#e9f1f8;
       --shadow:0 8px 26px rgba(23,49,28,.08);
       --radius:18px;
     }
-
-    *{
-      box-sizing:border-box;
-    }
-
+    *{box-sizing:border-box}
     body{
       margin:0;
       background:var(--bg);
@@ -36,2025 +33,530 @@
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       padding-bottom:92px;
     }
-
-    .app{
-      max-width:980px;
-      margin:auto;
-      padding:18px;
+    .app{max-width:1000px;margin:auto;padding:18px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+    h1{margin:0;font-size:clamp(25px,4vw,36px)}
+    .sub{color:var(--muted);font-size:14px;margin-top:4px}
+    .chip{background:var(--accent-soft);color:var(--accent-dark);padding:7px 10px;border-radius:999px;font-weight:800;font-size:12px}
+    .summary{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+    .card{background:var(--card);border:1px solid #edf1ed;border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .metric-label{font-size:12px;color:var(--muted)}
+    .metric-value{font-size:25px;font-weight:900;margin-top:4px}
+    .metric-note{font-size:12px;color:var(--muted);margin-top:3px}
+    .section-title{font-size:18px;font-weight:900;margin:4px 0 10px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .field.full{grid-column:1/-1}
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
+    .field input,.field select,.field textarea{
+      width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:white;color:var(--text)
     }
-
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:center;
-      margin-bottom:16px;
-      flex-wrap:wrap;
+    button{border:0;border-radius:12px;padding:11px 13px;font-weight:800;cursor:pointer}
+    .primary{background:var(--accent);color:#fff}
+    .blue{background:var(--blue);color:#fff}
+    .secondary{background:#fff;border:1px solid var(--line);color:var(--text)}
+    .danger{background:#fff0ee;border:1px solid #ffd7d1;color:var(--danger)}
+    .btnrow{display:flex;gap:8px;flex-wrap:wrap}
+    .btnrow button{flex:1}
+    .hidden{display:none!important}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .toolbar input,.toolbar select{flex:1;min-width:160px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+    .canteiro{display:flex;flex-direction:column;gap:10px}
+    .canteiro-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+    .canteiro h3{margin:0;font-size:20px}
+    .tag{display:inline-block;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800;background:var(--accent-soft);color:var(--accent-dark)}
+    .status{font-size:12px;font-weight:800}
+    .status.cheio{color:var(--accent-dark)}
+    .status.andamento{color:var(--warn)}
+    .status.vazio{color:var(--danger)}
+    .mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .mini{background:#f8faf8;border:1px solid var(--line);border-radius:12px;padding:10px}
+    .mini small{display:block;color:var(--muted);font-size:11px}
+    .mini strong{display:block;font-size:16px;margin-top:2px}
+    .progress{height:12px;background:#e8ece8;border-radius:999px;overflow:hidden}
+    .bar{height:100%;background:var(--accent)}
+    .history-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;padding:13px 0;border-bottom:1px solid var(--line)}
+    .history-item:last-child{border-bottom:0}
+    .history-main{font-weight:900}
+    .history-meta{font-size:12px;color:var(--muted);margin-top:3px}
+    .history-qty{font-weight:900;white-space:nowrap}
+    .history-actions{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+    .history-actions button{padding:7px 9px;font-size:12px}
+    .type-plantio{color:var(--accent-dark)}
+    .type-saida{color:var(--blue)}
+    .bottom-nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:10;padding-bottom:env(safe-area-inset-bottom)}
+    .bottom-nav .inner{width:min(1000px,100%);display:grid;grid-template-columns:repeat(3,1fr)}
+    .navbtn{background:transparent;color:var(--muted);padding:12px 8px;border-radius:0}
+    .navbtn.active{color:var(--accent-dark)}
+    .navbtn span{display:block;font-size:12px;margin-top:2px}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.42);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+    .modal-card{width:min(720px,100%);background:#fff;border-radius:22px 22px 0 0;padding:18px;max-height:90vh;overflow:auto}
+    .modal-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+    .xbtn{background:#f2f4f2;color:var(--text);padding:8px 11px}
+    .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;background:#1d2a20;color:#fff;padding:10px 14px;border-radius:999px;font-size:13px;z-index:30;opacity:0;pointer-events:none;transition:.2s}
+    .toast.show{opacity:1}
+    .note{font-size:12px;color:var(--muted);margin-top:8px}
+    @media(max-width:820px){
+      .summary{grid-template-columns:repeat(2,1fr)}
+      .grid{grid-template-columns:1fr}
     }
-
-    h1{
-      margin:0;
-      font-size:clamp(25px,4vw,36px);
-    }
-
-    .sub{
-      color:var(--muted);
-      font-size:14px;
-      margin-top:4px;
-    }
-
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      background:var(--accent-soft);
-      color:var(--accent-dark);
-      padding:7px 10px;
-      border-radius:999px;
-      font-weight:800;
-      font-size:12px;
-    }
-
-    .summary{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-      margin-bottom:16px;
-    }
-
-    .card{
-      background:var(--card);
-      border:1px solid #edf1ed;
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:16px;
-    }
-
-    .metric-label{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .metric-value{
-      font-size:26px;
-      font-weight:900;
-      margin-top:4px;
-    }
-
-    .metric-note{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:3px;
-    }
-
-    .section-title{
-      font-size:18px;
-      font-weight:900;
-      margin:4px 0 10px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-    }
-
-    .canteiro{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .canteiro-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:8px;
-    }
-
-    .canteiro h3{
-      margin:0;
-      font-size:20px;
-    }
-
-    .tag{
-      border-radius:999px;
-      padding:5px 9px;
-      font-size:12px;
-      font-weight:800;
-      background:var(--accent-soft);
-      color:var(--accent-dark);
-    }
-
-    .status{
-      font-size:12px;
-      font-weight:800;
-    }
-
-    .status.cheio{
-      color:var(--accent-dark);
-    }
-
-    .status.andamento{
-      color:var(--warn);
-    }
-
-    .status.vazio{
-      color:var(--danger);
-    }
-
-    .mini-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:8px;
-    }
-
-    .mini{
-      background:#f8faf8;
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:10px;
-    }
-
-    .mini small{
-      display:block;
-      color:var(--muted);
-      font-size:11px;
-    }
-
-    .mini strong{
-      display:block;
-      font-size:16px;
-      margin-top:2px;
-    }
-
-    .progress{
-      height:12px;
-      background:#e8ece8;
-      border-radius:999px;
-      overflow:hidden;
-    }
-
-    .bar{
-      height:100%;
-      background:var(--accent);
-      width:0;
-    }
-
-    button,
-    input,
-    select,
-    textarea{
-      font:inherit;
-    }
-
-    button{
-      border:0;
-      border-radius:12px;
-      padding:11px 13px;
-      font-weight:800;
-      cursor:pointer;
-    }
-
-    .primary{
-      background:var(--accent);
-      color:white;
-    }
-
-    .secondary{
-      background:#fff;
-      border:1px solid var(--line);
-      color:var(--text);
-    }
-
-    .danger{
-      background:#fff0ee;
-      border:1px solid #ffd7d1;
-      color:var(--danger);
-    }
-
-    .btnrow{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .btnrow button{
-      flex:1;
-    }
-
-    .form{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-
-    .field label{
-      display:block;
-      font-size:12px;
-      color:var(--muted);
-      margin-bottom:5px;
-    }
-
-    .field input,
-    .field select,
-    .field textarea{
-      width:100%;
-      padding:11px 12px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:white;
-      color:var(--text);
-    }
-
-    .field.full{
-      grid-column:1/-1;
-    }
-
-    .hidden{
-      display:none !important;
-    }
-
-    .history-item{
-      display:grid;
-      grid-template-columns:auto 1fr auto;
-      gap:10px;
-      align-items:center;
-      padding:12px 0;
-      border-bottom:1px solid var(--line);
-    }
-
-    .history-item:last-child{
-      border-bottom:0;
-    }
-
-    .history-date{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .history-main{
-      font-weight:800;
-    }
-
-    .history-qty{
-      font-weight:900;
-    }
-
-    .toolbar{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-
-    .toolbar input,
-    .toolbar select{
-      flex:1;
-      min-width:160px;
-      padding:11px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:white;
-    }
-
-    .bottom-nav{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      background:rgba(255,255,255,.96);
-      backdrop-filter:blur(10px);
-      border-top:1px solid var(--line);
-      display:flex;
-      justify-content:center;
-      z-index:10;
-      padding-bottom:env(safe-area-inset-bottom);
-    }
-
-    .bottom-nav .inner{
-      width:min(980px,100%);
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-    }
-
-    .navbtn{
-      background:transparent;
-      color:var(--muted);
-      padding:12px 8px;
-      border-radius:0;
-    }
-
-    .navbtn.active{
-      color:var(--accent-dark);
-    }
-
-    .navbtn span{
-      display:block;
-      font-size:12px;
-      margin-top:2px;
-    }
-
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.42);
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-      z-index:20;
-    }
-
-    .modal-card{
-      width:min(700px,100%);
-      background:#fff;
-      border-radius:22px 22px 0 0;
-      padding:18px;
-      max-height:88vh;
-      overflow:auto;
-    }
-
-    .modal-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:8px;
-      margin-bottom:12px;
-    }
-
-    .xbtn{
-      background:#f2f4f2;
-      color:var(--text);
-      padding:8px 11px;
-    }
-
-    .toast{
-      position:fixed;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:92px;
-      background:#1d2a20;
-      color:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      font-size:13px;
-      z-index:30;
-      opacity:0;
-      pointer-events:none;
-      transition:.2s;
-    }
-
-    .toast.show{
-      opacity:1;
-    }
-
-    @media(max-width:760px){
-      .summary{
-        grid-template-columns:repeat(2,1fr);
-      }
-
-      .grid{
-        grid-template-columns:1fr;
-      }
-    }
-
     @media(max-width:480px){
-      .app{
-        padding:14px;
-      }
-
-      .summary{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .metric-value{
-        font-size:22px;
-      }
-
-      .form{
-        grid-template-columns:1fr;
-      }
-
-      .field.full{
-        grid-column:auto;
-      }
-
-      .mini-grid{
-        grid-template-columns:1fr 1fr 1fr;
-      }
+      .app{padding:14px}
+      .metric-value{font-size:22px}
+      .form{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      .mini-grid{grid-template-columns:1fr 1fr 1fr}
     }
   </style>
 </head>
-
 <body>
-
 <div class="app">
-
   <div class="topbar">
     <div>
       <h1>Viveiro Café</h1>
-      <div class="sub">Controle de canteiros e plantio</div>
+      <div class="sub">Plantio, saídas e histórico corrigível</div>
     </div>
-
-    <div class="chip">
-      25.604 vagas totais
-    </div>
+    <div class="chip">Controle do viveiro</div>
   </div>
-
 
   <section id="tab-resumo">
-
     <div class="summary">
-
-      <div class="card">
-        <div class="metric-label">Capacidade</div>
-        <div class="metric-value" id="sCap">0</div>
-        <div class="metric-note">mudas</div>
-      </div>
-
-      <div class="card">
-        <div class="metric-label">Plantadas</div>
-        <div class="metric-value" id="sPlant">0</div>
-        <div class="metric-note">mudas</div>
-      </div>
-
-      <div class="card">
-        <div class="metric-label">Faltam</div>
-        <div class="metric-value" id="sFalta">0</div>
-        <div class="metric-note">mudas</div>
-      </div>
-
-      <div class="card">
-        <div class="metric-label">Progresso</div>
-        <div class="metric-value" id="sPct">0%</div>
-        <div class="metric-note">geral</div>
-      </div>
-
+      <div class="card"><div class="metric-label">Capacidade</div><div class="metric-value" id="sCap">0</div><div class="metric-note">mudas</div></div>
+      <div class="card"><div class="metric-label">Plantadas</div><div class="metric-value" id="sPlant">0</div><div class="metric-note">acumulado</div></div>
+      <div class="card"><div class="metric-label">Saídas</div><div class="metric-value" id="sSaidas">0</div><div class="metric-note">mudas</div></div>
+      <div class="card"><div class="metric-label">Disponíveis</div><div class="metric-value" id="sDisp">0</div><div class="metric-note">no viveiro</div></div>
+      <div class="card"><div class="metric-label">Faltam plantar</div><div class="metric-value" id="sFalta">0</div><div class="metric-note">mudas</div></div>
     </div>
 
-
-    <div class="card" style="margin-bottom:14px">
-
-      <div class="section-title">
-        Plantio rápido
+    <div class="grid" style="margin-bottom:14px">
+      <div class="card">
+        <div class="section-title">Registrar plantio</div>
+        <div class="form">
+          <div class="field"><label>Canteiro</label><select id="plantioBed"></select></div>
+          <div class="field"><label>Quantidade</label><input id="plantioQty" type="number" min="1" placeholder="Ex.: 300"></div>
+          <div class="field full"><label>Observação</label><input id="plantioObs" placeholder="Opcional"></div>
+          <div class="field full"><button class="primary" onclick="registrarPlantio()">Adicionar plantio</button></div>
+        </div>
       </div>
 
-      <div class="form">
-
-        <div class="field">
-          <label>Canteiro</label>
-          <select id="quickBed"></select>
+      <div class="card">
+        <div class="section-title">Registrar saída</div>
+        <div class="form">
+          <div class="field"><label>Canteiro</label><select id="saidaBed"></select></div>
+          <div class="field"><label>Quantidade</label><input id="saidaQty" type="number" min="1" placeholder="Ex.: 500"></div>
+          <div class="field"><label>Destino / Cliente</label><input id="saidaDestino" placeholder="Ex.: Sítio AM"></div>
+          <div class="field"><label>Observação</label><input id="saidaObs" placeholder="Opcional"></div>
+          <div class="field full"><button class="blue" onclick="registrarSaida()">Registrar saída</button></div>
         </div>
-
-        <div class="field">
-          <label>Quantidade plantada agora</label>
-
-          <input
-            id="quickQty"
-            type="number"
-            min="1"
-            placeholder="Ex.: 300"
-          >
-        </div>
-
-        <div class="field full">
-          <button
-            class="primary"
-            onclick="adicionarPlantioRapido()"
-          >
-            Adicionar plantio
-          </button>
-        </div>
-
       </div>
-
     </div>
 
-
-    <div class="section-title">
-      Resumo por variedade
-    </div>
-
+    <div class="section-title">Resumo por variedade</div>
     <div id="varResumo" class="grid"></div>
-
   </section>
-
 
   <section id="tab-canteiros" class="hidden">
-
     <div class="toolbar">
-
-      <input
-        id="busca"
-        placeholder="Buscar canteiro ou variedade"
-        oninput="renderCanteiros()"
-      >
-
-      <select
-        id="statusFiltro"
-        onchange="renderCanteiros()"
-      >
-
-        <option value="todos">
-          Todos
-        </option>
-
-        <option value="andamento">
-          Em plantio
-        </option>
-
-        <option value="cheio">
-          Completos
-        </option>
-
-        <option value="vazio">
-          Vazios
-        </option>
-
+      <input id="busca" placeholder="Buscar canteiro ou variedade" oninput="renderCanteiros()">
+      <select id="statusFiltro" onchange="renderCanteiros()">
+        <option value="todos">Todos</option>
+        <option value="andamento">Em plantio</option>
+        <option value="cheio">Completos</option>
+        <option value="vazio">Vazios</option>
       </select>
-
     </div>
-
-    <div
-      id="canteirosGrid"
-      class="grid"
-    >
-    </div>
-
+    <div id="canteirosGrid" class="grid"></div>
   </section>
-
 
   <section id="tab-historico" class="hidden">
-
-    <div
-      class="card"
-      style="margin-bottom:14px"
-    >
-
-      <div class="section-title">
-        Histórico de plantios
+    <div class="card" style="margin-bottom:14px">
+      <div class="section-title">Histórico</div>
+      <div class="toolbar">
+        <select id="histFiltro" onchange="renderHistorico()">
+          <option value="todos">Todos os lançamentos</option>
+          <option value="plantio">Somente plantios</option>
+          <option value="saida">Somente saídas</option>
+        </select>
       </div>
-
       <div class="btnrow">
-
-        <button
-          class="secondary"
-          onclick="exportarCSV()"
-        >
-          Exportar CSV
-        </button>
-
-        <button
-          class="secondary"
-          onclick="exportarBackup()"
-        >
-          Backup JSON
-        </button>
-
-        <button
-          class="danger"
-          onclick="limparHistorico()"
-        >
-          Limpar histórico
-        </button>
-
+        <button class="secondary" onclick="exportarCSV()">Exportar CSV</button>
+        <button class="secondary" onclick="exportarBackup()">Backup JSON</button>
       </div>
-
+      <div class="note">Você pode editar ou excluir lançamentos feitos por engano. O app recalcula os saldos automaticamente.</div>
     </div>
-
-
-    <div
-      id="historicoLista"
-      class="card"
-    >
-    </div>
-
+    <div id="historicoLista" class="card"></div>
   </section>
-
 </div>
-
 
 <div class="bottom-nav">
-
   <div class="inner">
-
-    <button
-      class="navbtn active"
-      onclick="trocarAba('resumo',this)"
-    >
-      📊
-      <span>Resumo</span>
-    </button>
-
-    <button
-      class="navbtn"
-      onclick="trocarAba('canteiros',this)"
-    >
-      🌱
-      <span>Canteiros</span>
-    </button>
-
-    <button
-      class="navbtn"
-      onclick="trocarAba('historico',this)"
-    >
-      🕘
-      <span>Histórico</span>
-    </button>
-
+    <button class="navbtn active" onclick="trocarAba('resumo',this)">📊<span>Resumo</span></button>
+    <button class="navbtn" onclick="trocarAba('canteiros',this)">🌱<span>Canteiros</span></button>
+    <button class="navbtn" onclick="trocarAba('historico',this)">🕘<span>Histórico</span></button>
   </div>
-
 </div>
 
-
-<div id="modal" class="modal hidden">
-
+<div id="modalEdit" class="modal hidden">
   <div class="modal-card">
-
     <div class="modal-head">
-
-      <h3
-        id="modalTitle"
-        style="margin:0"
-      >
-        Editar canteiro
-      </h3>
-
-      <button
-        class="xbtn"
-        onclick="fecharModal()"
-      >
-        Fechar
-      </button>
-
+      <h3 style="margin:0">Editar lançamento</h3>
+      <button class="xbtn" onclick="fecharModalEdit()">Fechar</button>
     </div>
-
-
     <div class="form">
-
-      <div class="field">
-
-        <label>
-          Variedade
-        </label>
-
-        <input id="mVariedade">
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Capacidade total
-        </label>
-
-        <input
-          id="mCap"
-          type="number"
-          min="0"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Falta plantar
-        </label>
-
-        <input
-          id="mFalta"
-          type="number"
-          min="0"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Canteiro de cima
-        </label>
-
-        <input
-          id="mCima"
-          type="number"
-          min="0"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Canteiro de baixo
-        </label>
-
-        <input
-          id="mBaixo"
-          type="number"
-          min="0"
-        >
-
-      </div>
-
-
-      <div class="field full">
-
-        <label>
-          Observação
-        </label>
-
-        <textarea
-          id="mObs"
-          rows="3"
-          placeholder="Ex.: lote, data, pegamento, observações..."
-        ></textarea>
-
-      </div>
-
-
-      <div class="field full">
-
-        <button
-          class="primary"
-          onclick="salvarEdicao()"
-        >
-          Salvar alterações
-        </button>
-
-      </div>
-
+      <div class="field"><label>Tipo</label><select id="eTipo" onchange="ajustarCamposEdicao()"><option value="plantio">Plantio</option><option value="saida">Saída</option></select></div>
+      <div class="field"><label>Canteiro</label><select id="eBed"></select></div>
+      <div class="field"><label>Quantidade</label><input id="eQtd" type="number" min="1"></div>
+      <div class="field" id="destinoWrap"><label>Destino / Cliente</label><input id="eDestino"></div>
+      <div class="field full"><label>Observação</label><input id="eObs"></div>
+      <div class="field full"><button class="primary" onclick="salvarEdicaoLancamento()">Salvar alteração</button></div>
     </div>
-
   </div>
-
 </div>
 
-
-<div
-  id="toast"
-  class="toast"
->
+<div id="modalCanteiro" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="cTitle" style="margin:0">Editar canteiro</h3>
+      <button class="xbtn" onclick="fecharModalCanteiro()">Fechar</button>
+    </div>
+    <div class="form">
+      <div class="field"><label>Variedade</label><input id="cVar"></div>
+      <div class="field"><label>Canteiro de cima</label><input id="cCima" type="number" min="0"></div>
+      <div class="field"><label>Canteiro de baixo</label><input id="cBaixo" type="number" min="0"></div>
+      <div class="field full"><label>Observação</label><textarea id="cObs" rows="3"></textarea></div>
+      <div class="field full"><button class="primary" onclick="salvarCanteiro()">Salvar canteiro</button></div>
+    </div>
+  </div>
 </div>
 
+<div id="toast" class="toast"></div>
 
 <script>
-
 const PADRAO = [
-
-  {
-    id:1,
-    variedade:"156",
-    cima:1560,
-    baixo:1940,
-    capacidade:3500,
-    falta:2400,
-    obs:""
-  },
-
-  {
-    id:2,
-    variedade:"88",
-    cima:1560,
-    baixo:1932,
-    capacidade:3492,
-    falta:0,
-    obs:""
-  },
-
-  {
-    id:3,
-    variedade:"R22",
-    cima:1617,
-    baixo:2112,
-    capacidade:3729,
-    falta:962,
-    obs:""
-  },
-
-  {
-    id:4,
-    variedade:"25",
-    cima:1659,
-    baixo:2024,
-    capacidade:3683,
-    falta:955,
-    obs:""
-  },
-
-  {
-    id:5,
-    variedade:"08",
-    cima:1738,
-    baixo:2090,
-    capacidade:3828,
-    falta:3828,
-    obs:""
-  },
-
-  {
-    id:6,
-    variedade:"LB15",
-    cima:1638,
-    baixo:2134,
-    capacidade:3772,
-    falta:3772,
-    obs:""
-  },
-
-  {
-    id:7,
-    variedade:"04",
-    cima:1680,
-    baixo:1920,
-    capacidade:3600,
-    falta:3600,
-    obs:""
-  }
-
+  {id:1,variedade:"156",cima:1560,baixo:1940,capacidade:3500,faltaInicial:2400,obs:""},
+  {id:2,variedade:"88",cima:1560,baixo:1932,capacidade:3492,faltaInicial:0,obs:""},
+  {id:3,variedade:"R22",cima:1617,baixo:2112,capacidade:3729,faltaInicial:962,obs:""},
+  {id:4,variedade:"25",cima:1659,baixo:2024,capacidade:3683,faltaInicial:955,obs:""},
+  {id:5,variedade:"08",cima:1738,baixo:2090,capacidade:3828,faltaInicial:3828,obs:""},
+  {id:6,variedade:"LB15",cima:1638,baixo:2134,capacidade:3772,faltaInicial:3772,obs:""},
+  {id:7,variedade:"04",cima:1680,baixo:1920,capacidade:3600,faltaInicial:3600,obs:""}
 ];
 
+let canteiros = JSON.parse(localStorage.getItem("viveiro_v2_canteiros") || "null") || structuredClone(PADRAO);
+let lancamentos = JSON.parse(localStorage.getItem("viveiro_v2_lancamentos") || "null");
 
-let canteiros =
-  JSON.parse(
-    localStorage.getItem("viveiro_canteiros") || "null"
-  ) || structuredClone(PADRAO);
+if(!lancamentos){
+  lancamentos = [];
+  // Gera saldos iniciais como "ajuste inicial" invisível ao usuário.
+  canteiros.forEach(c=>{
+    const jaPlantado = c.capacidade - c.faltaInicial;
+    if(jaPlantado > 0){
+      lancamentos.push({
+        id:crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()),
+        tipo:"plantio",
+        canteiro:c.id,
+        quantidade:jaPlantado,
+        destino:"",
+        obs:"Saldo inicial do viveiro",
+        data:new Date().toISOString(),
+        inicial:true
+      });
+    }
+  });
+  salvar();
+}
 
-
-let historico =
-  JSON.parse(
-    localStorage.getItem("viveiro_historico") || "[]"
-  );
-
-
-let editandoId = null;
-
+let editandoLancamentoId = null;
+let editandoCanteiroId = null;
 
 function salvar(){
-
-  localStorage.setItem(
-    "viveiro_canteiros",
-    JSON.stringify(canteiros)
-  );
-
-  localStorage.setItem(
-    "viveiro_historico",
-    JSON.stringify(historico)
-  );
-
+  localStorage.setItem("viveiro_v2_canteiros", JSON.stringify(canteiros));
+  localStorage.setItem("viveiro_v2_lancamentos", JSON.stringify(lancamentos));
 }
 
+function fmt(n){ return Number(n||0).toLocaleString("pt-BR"); }
 
-function fmt(numero){
-
-  return Number(
-    numero || 0
-  ).toLocaleString("pt-BR");
-
+function escapeHtml(s){
+  return String(s??"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
 }
 
+function calculoCanteiro(id, ignorarLancamentoId=null){
+  const c = canteiros.find(x=>x.id===id);
+  if(!c) return null;
+  const lista = lancamentos.filter(l=>l.canteiro===id && l.id!==ignorarLancamentoId);
+  const plantadas = lista.filter(l=>l.tipo==="plantio").reduce((s,l)=>s+Number(l.quantidade||0),0);
+  const saidas = lista.filter(l=>l.tipo==="saida").reduce((s,l)=>s+Number(l.quantidade||0),0);
+  const disponiveis = Math.max(0, plantadas - saidas);
+  const falta = Math.max(0, c.capacidade - plantadas);
+  return {capacidade:c.capacidade,plantadas,saidas,disponiveis,falta};
+}
 
-function statusItem(item){
-
-  if(Number(item.falta) === 0){
-    return "cheio";
-  }
-
-  if(
-    Number(item.falta) ===
-    Number(item.capacidade)
-  ){
-    return "vazio";
-  }
-
+function statusItem(id){
+  const r = calculoCanteiro(id);
+  if(r.plantadas===0) return "vazio";
+  if(r.falta===0) return "cheio";
   return "andamento";
-
 }
-
-
-function statusTexto(status){
-
-  if(status === "cheio"){
-    return "Completo";
-  }
-
-  if(status === "vazio"){
-    return "Vazio";
-  }
-
-  return "Em plantio";
-
-}
-
+function statusTexto(s){ return s==="cheio"?"Completo":s==="vazio"?"Vazio":"Em plantio"; }
 
 function resumo(){
+  const total = canteiros.reduce((acc,c)=>{
+    const r=calculoCanteiro(c.id);
+    acc.cap+=r.capacidade; acc.plant+=r.plantadas; acc.saidas+=r.saidas; acc.disp+=r.disponiveis; acc.falta+=r.falta;
+    return acc;
+  },{cap:0,plant:0,saidas:0,disp:0,falta:0});
 
-  const capacidade =
-    canteiros.reduce(
-      (total,item) =>
-        total +
-        Number(item.capacidade || 0),
-      0
-    );
+  sCap.textContent=fmt(total.cap);
+  sPlant.textContent=fmt(total.plant);
+  sSaidas.textContent=fmt(total.saidas);
+  sDisp.textContent=fmt(total.disp);
+  sFalta.textContent=fmt(total.falta);
 
+  const opts = canteiros.map(c=>`<option value="${c.id}">Canteiro ${String(c.id).padStart(2,"0")} • ${escapeHtml(c.variedade)}</option>`).join("");
+  plantioBed.innerHTML=opts;
+  saidaBed.innerHTML=opts;
+  eBed.innerHTML=opts;
 
-  const faltam =
-    canteiros.reduce(
-      (total,item) =>
-        total +
-        Number(item.falta || 0),
-      0
-    );
-
-
-  const plantadas =
-    Math.max(
-      0,
-      capacidade - faltam
-    );
-
-
-  const percentual =
-    capacidade
-      ? plantadas / capacidade * 100
-      : 0;
-
-
-  document.getElementById("sCap").textContent =
-    fmt(capacidade);
-
-
-  document.getElementById("sPlant").textContent =
-    fmt(plantadas);
-
-
-  document.getElementById("sFalta").textContent =
-    fmt(faltam);
-
-
-  document.getElementById("sPct").textContent =
-    percentual
-      .toFixed(1)
-      .replace(".", ",") + "%";
-
-
-  document.getElementById("quickBed").innerHTML =
-    canteiros.map(item => `
-
-      <option value="${item.id}">
-
-        Canteiro
-        ${String(item.id).padStart(2,"0")}
-        •
-        ${item.variedade}
-
-      </option>
-
-    `).join("");
-
-
-  const porVariedade = {};
-
-
-  canteiros.forEach(item => {
-
-    if(!porVariedade[item.variedade]){
-
-      porVariedade[item.variedade] = {
-        capacidade:0,
-        plantadas:0,
-        falta:0
-      };
-
-    }
-
-
-    porVariedade[item.variedade].capacidade +=
-      Number(item.capacidade);
-
-
-    porVariedade[item.variedade].falta +=
-      Number(item.falta);
-
-
-    porVariedade[item.variedade].plantadas +=
-      Number(item.capacidade) -
-      Number(item.falta);
-
+  const porVar={};
+  canteiros.forEach(c=>{
+    const r=calculoCanteiro(c.id);
+    if(!porVar[c.variedade]) porVar[c.variedade]={cap:0,plant:0,saidas:0,disp:0,falta:0};
+    porVar[c.variedade].cap+=r.capacidade;
+    porVar[c.variedade].plant+=r.plantadas;
+    porVar[c.variedade].saidas+=r.saidas;
+    porVar[c.variedade].disp+=r.disponiveis;
+    porVar[c.variedade].falta+=r.falta;
   });
-
-
-  document.getElementById("varResumo").innerHTML =
-    Object.entries(
-      porVariedade
-    ).map(([variedade,dados]) => {
-
-
-      const percentual =
-        dados.capacidade
-          ? dados.plantadas /
-            dados.capacidade * 100
-          : 0;
-
-
-      return `
-
-        <div class="card">
-
-          <div class="canteiro-head">
-
-            <h3 style="margin:0">
-              Variedade ${variedade}
-            </h3>
-
-            <span class="tag">
-
-              ${percentual
-                .toFixed(1)
-                .replace(".", ",")
-              }%
-
-            </span>
-
-          </div>
-
-
-          <div
-            class="mini-grid"
-            style="margin-top:10px"
-          >
-
-            <div class="mini">
-
-              <small>
-                Capacidade
-              </small>
-
-              <strong>
-                ${fmt(dados.capacidade)}
-              </strong>
-
-            </div>
-
-
-            <div class="mini">
-
-              <small>
-                Plantadas
-              </small>
-
-              <strong>
-                ${fmt(dados.plantadas)}
-              </strong>
-
-            </div>
-
-
-            <div class="mini">
-
-              <small>
-                Faltam
-              </small>
-
-              <strong>
-                ${fmt(dados.falta)}
-              </strong>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      `;
-
-    }).join("");
-
+  varResumo.innerHTML=Object.entries(porVar).map(([v,d])=>`
+    <div class="card">
+      <div class="canteiro-head"><h3 style="margin:0">Variedade ${escapeHtml(v)}</h3><span class="tag">${fmt(d.disp)} disponíveis</span></div>
+      <div class="mini-grid" style="margin-top:10px">
+        <div class="mini"><small>Plantadas</small><strong>${fmt(d.plant)}</strong></div>
+        <div class="mini"><small>Saídas</small><strong>${fmt(d.saidas)}</strong></div>
+        <div class="mini"><small>Disponíveis</small><strong>${fmt(d.disp)}</strong></div>
+      </div>
+      <div class="mini-grid" style="margin-top:8px">
+        <div class="mini"><small>Capacidade</small><strong>${fmt(d.cap)}</strong></div>
+        <div class="mini"><small>Faltam plantar</small><strong>${fmt(d.falta)}</strong></div>
+        <div class="mini"><small>Ocupação</small><strong>${d.cap ? ((d.plant/d.cap)*100).toFixed(1).replace(".",",") : "0,0"}%</strong></div>
+      </div>
+    </div>
+  `).join("");
 }
-
 
 function renderCanteiros(){
-
-  const busca =
-    (
-      document.getElementById("busca")?.value || ""
-    )
-    .trim()
-    .toLowerCase();
-
-
-  const filtro =
-    document.getElementById("statusFiltro")?.value ||
-    "todos";
-
-
-  document.getElementById("canteirosGrid").innerHTML =
-    canteiros
-    .filter(item => {
-
-
-      const status =
-        statusItem(item);
-
-
-      const bateBusca =
-
-        !busca ||
-
-        String(item.id)
-          .includes(busca) ||
-
-        item.variedade
-          .toLowerCase()
-          .includes(busca);
-
-
-      return (
-        bateBusca &&
-        (
-          filtro === "todos" ||
-          status === filtro
-        )
-      );
-
-    })
-    .map(item => {
-
-
-      const plantadas =
-        Math.max(
-          0,
-          Number(item.capacidade) -
-          Number(item.falta)
-        );
-
-
-      const percentual =
-        item.capacidade
-          ? plantadas /
-            item.capacidade * 100
-          : 0;
-
-
-      const status =
-        statusItem(item);
-
-
-      return `
-
-        <div class="card canteiro">
-
-          <div class="canteiro-head">
-
-            <div>
-
-              <h3>
-                Canteiro
-                ${String(item.id).padStart(2,"0")}
-              </h3>
-
-              <div class="tag">
-                Variedade ${item.variedade}
-              </div>
-
-            </div>
-
-
-            <div class="status ${status}">
-
-              ${statusTexto(status)}
-
-            </div>
-
-          </div>
-
-
-          <div class="mini-grid">
-
-            <div class="mini">
-
-              <small>
-                Cima
-              </small>
-
-              <strong>
-                ${fmt(item.cima)}
-              </strong>
-
-            </div>
-
-
-            <div class="mini">
-
-              <small>
-                Baixo
-              </small>
-
-              <strong>
-                ${fmt(item.baixo)}
-              </strong>
-
-            </div>
-
-
-            <div class="mini">
-
-              <small>
-                Total
-              </small>
-
-              <strong>
-                ${fmt(item.capacidade)}
-              </strong>
-
-            </div>
-
-          </div>
-
-
-          <div class="progress">
-
-            <div
-              class="bar"
-              style="
-                width:
-                ${Math.min(
-                  100,
-                  percentual
-                )}%
-              "
-            >
-            </div>
-
-          </div>
-
-
-          <div class="mini-grid">
-
-            <div class="mini">
-
-              <small>
-                Plantadas
-              </small>
-
-              <strong>
-                ${fmt(plantadas)}
-              </strong>
-
-            </div>
-
-
-            <div class="mini">
-
-              <small>
-                Faltam
-              </small>
-
-              <strong>
-                ${fmt(item.falta)}
-              </strong>
-
-            </div>
-
-
-            <div class="mini">
-
-              <small>
-                Progresso
-              </small>
-
-              <strong>
-
-                ${percentual
-                  .toFixed(1)
-                  .replace(".", ",")
-                }%
-
-              </strong>
-
-            </div>
-
-          </div>
-
-
-          ${
-            item.obs
-            ? `
-              <div
-                style="
-                  font-size:13px;
-                  color:var(--muted)
-                "
-              >
-                📝
-                ${escapeHtml(item.obs)}
-              </div>
-            `
-            : ""
-          }
-
-
-          <div class="btnrow">
-
-            <button
-              class="primary"
-              onclick="abrirPlantio(${item.id})"
-            >
-              Adicionar plantio
-            </button>
-
-
-            <button
-              class="secondary"
-              onclick="abrirEdicao(${item.id})"
-            >
-              Editar
-            </button>
-
-          </div>
-
+  const q=(busca?.value||"").trim().toLowerCase();
+  const sf=statusFiltro?.value||"todos";
+  canteirosGrid.innerHTML=canteiros.filter(c=>{
+    const st=statusItem(c.id);
+    return (!q || String(c.id).includes(q) || c.variedade.toLowerCase().includes(q)) && (sf==="todos" || sf===st);
+  }).map(c=>{
+    const r=calculoCanteiro(c.id);
+    const pct=r.capacidade ? r.plantadas/r.capacidade*100 : 0;
+    const st=statusItem(c.id);
+    return `
+      <div class="card canteiro">
+        <div class="canteiro-head">
+          <div><h3>Canteiro ${String(c.id).padStart(2,"0")}</h3><div class="tag">Variedade ${escapeHtml(c.variedade)}</div></div>
+          <div class="status ${st}">${statusTexto(st)}</div>
         </div>
-
-      `;
-
-    })
-    .join("");
-
+        <div class="mini-grid">
+          <div class="mini"><small>Cima</small><strong>${fmt(c.cima)}</strong></div>
+          <div class="mini"><small>Baixo</small><strong>${fmt(c.baixo)}</strong></div>
+          <div class="mini"><small>Capacidade</small><strong>${fmt(c.capacidade)}</strong></div>
+        </div>
+        <div class="progress"><div class="bar" style="width:${Math.min(100,pct)}%"></div></div>
+        <div class="mini-grid">
+          <div class="mini"><small>Plantadas</small><strong>${fmt(r.plantadas)}</strong></div>
+          <div class="mini"><small>Saídas</small><strong>${fmt(r.saidas)}</strong></div>
+          <div class="mini"><small>Disponíveis</small><strong>${fmt(r.disponiveis)}</strong></div>
+        </div>
+        <div class="mini-grid">
+          <div class="mini"><small>Faltam plantar</small><strong>${fmt(r.falta)}</strong></div>
+          <div class="mini"><small>Progresso</small><strong>${pct.toFixed(1).replace(".",",")}%</strong></div>
+          <div class="mini"><small>Status</small><strong>${statusTexto(st)}</strong></div>
+        </div>
+        ${c.obs?`<div class="note">📝 ${escapeHtml(c.obs)}</div>`:""}
+        <div class="btnrow">
+          <button class="primary" onclick="preencherPlantio(${c.id})">Plantio</button>
+          <button class="blue" onclick="preencherSaida(${c.id})">Saída</button>
+          <button class="secondary" onclick="abrirCanteiro(${c.id})">Editar</button>
+        </div>
+      </div>
+    `;
+  }).join("");
 }
 
+function registrarPlantio(){
+  const id=Number(plantioBed.value), qtd=Number(plantioQty.value), obs=plantioObs.value.trim();
+  if(!validarPlantio(id,qtd)) return;
+  novoLancamento("plantio",id,qtd,"",obs);
+  plantioQty.value=""; plantioObs.value="";
+}
+
+function registrarSaida(){
+  const id=Number(saidaBed.value), qtd=Number(saidaQty.value), destino=saidaDestino.value.trim(), obs=saidaObs.value.trim();
+  const r=calculoCanteiro(id);
+  if(!Number.isFinite(qtd)||qtd<=0){toastMsg("Informe uma quantidade válida.");return;}
+  if(qtd>r.disponiveis){toastMsg(`Há ${fmt(r.disponiveis)} mudas disponíveis nesse canteiro.`);return;}
+  novoLancamento("saida",id,qtd,destino,obs);
+  saidaQty.value=""; saidaDestino.value=""; saidaObs.value="";
+}
+
+function validarPlantio(id,qtd,ignorar=null){
+  if(!Number.isFinite(qtd)||qtd<=0){toastMsg("Informe uma quantidade válida.");return false;}
+  const r=calculoCanteiro(id,ignorar);
+  if(qtd>r.falta){toastMsg(`Nesse canteiro ainda cabem ${fmt(r.falta)} mudas.`);return false;}
+  return true;
+}
+
+function novoLancamento(tipo,canteiro,quantidade,destino,obs){
+  lancamentos.push({
+    id:crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()),
+    tipo,canteiro,quantidade,destino,obs,
+    data:new Date().toISOString(),
+    inicial:false
+  });
+  salvar(); renderTudo(); toastMsg(tipo==="plantio"?"Plantio registrado.":"Saída registrada.");
+}
+
+function preencherPlantio(id){
+  trocarAba("resumo",document.querySelectorAll(".navbtn")[0]);
+  plantioBed.value=id; plantioQty.focus();
+}
+function preencherSaida(id){
+  trocarAba("resumo",document.querySelectorAll(".navbtn")[0]);
+  saidaBed.value=id; saidaQty.focus();
+}
 
 function renderHistorico(){
-
-  const lista =
-    document.getElementById("historicoLista");
-
-
-  if(!historico.length){
-
-    lista.innerHTML = `
-
-      <div
-        style="
-          color:var(--muted)
-        "
-      >
-        Nenhum plantio registrado ainda.
-      </div>
-
-    `;
-
+  const filtro=histFiltro?.value||"todos";
+  const visiveis=lancamentos.filter(l=>!l.inicial && (filtro==="todos"||l.tipo===filtro));
+  if(!visiveis.length){
+    historicoLista.innerHTML=`<div class="note">Nenhum lançamento para mostrar.</div>`;
     return;
-
   }
-
-
-  lista.innerHTML =
-    [...historico]
-    .reverse()
-    .map(item => `
-
+  historicoLista.innerHTML=[...visiveis].sort((a,b)=>new Date(b.data)-new Date(a.data)).map(l=>{
+    const c=canteiros.find(x=>x.id===l.canteiro);
+    const tipoTxt=l.tipo==="plantio"?"🌱 Plantio":"📤 Saída";
+    const cls=l.tipo==="plantio"?"type-plantio":"type-saida";
+    const detalhes=l.tipo==="saida" && l.destino ? ` • Destino: ${escapeHtml(l.destino)}` : "";
+    return `
       <div class="history-item">
-
+        <div>${l.tipo==="plantio"?"🌱":"📤"}</div>
         <div>
-          🌱
-        </div>
-
-
-        <div>
-
-          <div class="history-main">
-
-            Canteiro
-            ${String(item.canteiro).padStart(2,"0")}
-            •
-            ${escapeHtml(item.variedade)}
-
+          <div class="history-main ${cls}">${tipoTxt} • Canteiro ${String(l.canteiro).padStart(2,"0")} • ${escapeHtml(c?.variedade||"")}</div>
+          <div class="history-meta">${new Date(l.data).toLocaleString("pt-BR")}${detalhes}</div>
+          ${l.obs?`<div class="history-meta">Obs.: ${escapeHtml(l.obs)}</div>`:""}
+          <div class="history-actions">
+            <button class="secondary" onclick="abrirEdicaoLancamento('${l.id}')">Editar</button>
+            <button class="danger" onclick="excluirLancamento('${l.id}')">Excluir</button>
           </div>
-
-
-          <div class="history-date">
-
-            ${escapeHtml(item.data)}
-
-          </div>
-
         </div>
-
-
-        <div class="history-qty">
-
-          +${fmt(item.quantidade)}
-
-        </div>
-
+        <div class="history-qty">${l.tipo==="plantio"?"+":"-"}${fmt(l.quantidade)}</div>
       </div>
-
-    `)
-    .join("");
-
+    `;
+  }).join("");
 }
 
-
-function adicionarPlantioRapido(){
-
-  const id =
-    Number(
-      document.getElementById("quickBed").value
-    );
-
-
-  const quantidade =
-    Number(
-      document.getElementById("quickQty").value
-    );
-
-
-  registrarPlantio(
-    id,
-    quantidade
-  );
-
-
-  document.getElementById("quickQty").value =
-    "";
-
+function abrirEdicaoLancamento(id){
+  const l=lancamentos.find(x=>x.id===id);
+  if(!l) return;
+  editandoLancamentoId=id;
+  eTipo.value=l.tipo; eBed.value=l.canteiro; eQtd.value=l.quantidade; eDestino.value=l.destino||""; eObs.value=l.obs||"";
+  ajustarCamposEdicao();
+  modalEdit.classList.remove("hidden");
 }
 
+function ajustarCamposEdicao(){
+  destinoWrap.classList.toggle("hidden",eTipo.value!=="saida");
+}
 
-function abrirPlantio(id){
+function salvarEdicaoLancamento(){
+  const l=lancamentos.find(x=>x.id===editandoLancamentoId);
+  if(!l) return;
 
-  const quantidade =
-    prompt(
-      "Quantas mudas foram plantadas agora?"
-    );
+  const tipo=eTipo.value, canteiro=Number(eBed.value), qtd=Number(eQtd.value), destino=eDestino.value.trim(), obs=eObs.value.trim();
 
+  if(!Number.isFinite(qtd)||qtd<=0){toastMsg("Informe uma quantidade válida.");return;}
 
-  if(quantidade === null){
-    return;
+  if(tipo==="plantio"){
+    if(!validarPlantio(canteiro,qtd,l.id)) return;
+  } else {
+    const r=calculoCanteiro(canteiro,l.id);
+    if(qtd>r.disponiveis){toastMsg(`Há ${fmt(r.disponiveis)} mudas disponíveis considerando a correção.`);return;}
   }
 
-
-  registrarPlantio(
-    id,
-    Number(quantidade)
-  );
-
+  l.tipo=tipo; l.canteiro=canteiro; l.quantidade=qtd; l.destino=tipo==="saida"?destino:""; l.obs=obs;
+  salvar(); fecharModalEdit(); renderTudo(); toastMsg("Lançamento alterado.");
 }
 
-
-function registrarPlantio(
-  id,
-  quantidade
-){
-
-  const item =
-    canteiros.find(
-      canteiro =>
-        canteiro.id === id
-    );
-
-
-  if(
-    !item ||
-    !Number.isFinite(quantidade) ||
-    quantidade <= 0
-  ){
-
-    toastMsg(
-      "Informe uma quantidade válida."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    quantidade >
-    item.falta
-  ){
-
-    toastMsg(
-      `Nesse canteiro faltam ${fmt(item.falta)} mudas.`
-    );
-
-    return;
-
-  }
-
-
-  item.falta -=
-    quantidade;
-
-
-  historico.push({
-
-    canteiro:item.id,
-
-    variedade:item.variedade,
-
-    quantidade:quantidade,
-
-    data:new Date()
-      .toLocaleString("pt-BR")
-
-  });
-
-
-  salvar();
-
-  renderTudo();
-
-  toastMsg(
-    "Plantio registrado."
-  );
-
+function excluirLancamento(id){
+  const l=lancamentos.find(x=>x.id===id);
+  if(!l || l.inicial) return;
+  if(!confirm("Excluir este lançamento? Os saldos serão recalculados automaticamente.")) return;
+  lancamentos=lancamentos.filter(x=>x.id!==id);
+  salvar(); renderTudo(); toastMsg("Lançamento excluído.");
 }
 
+function fecharModalEdit(){ modalEdit.classList.add("hidden"); editandoLancamentoId=null; }
 
-function abrirEdicao(id){
-
-  editandoId =
-    id;
-
-
-  const item =
-    canteiros.find(
-      canteiro =>
-        canteiro.id === id
-    );
-
-
-  document.getElementById("modalTitle").textContent =
-    `Editar Canteiro ${String(id).padStart(2,"0")}`;
-
-
-  document.getElementById("mVariedade").value =
-    item.variedade;
-
-
-  document.getElementById("mCap").value =
-    item.capacidade;
-
-
-  document.getElementById("mFalta").value =
-    item.falta;
-
-
-  document.getElementById("mCima").value =
-    item.cima;
-
-
-  document.getElementById("mBaixo").value =
-    item.baixo;
-
-
-  document.getElementById("mObs").value =
-    item.obs || "";
-
-
-  document.getElementById("modal")
-    .classList
-    .remove("hidden");
-
+function abrirCanteiro(id){
+  const c=canteiros.find(x=>x.id===id);
+  editandoCanteiroId=id;
+  cTitle.textContent=`Editar Canteiro ${String(id).padStart(2,"0")}`;
+  cVar.value=c.variedade; cCima.value=c.cima; cBaixo.value=c.baixo; cObs.value=c.obs||"";
+  modalCanteiro.classList.remove("hidden");
 }
-
-
-function salvarEdicao(){
-
-  const item =
-    canteiros.find(
-      canteiro =>
-        canteiro.id === editandoId
-    );
-
-
-  if(!item){
-    return;
-  }
-
-
-  const cima =
-    Math.max(
-      0,
-      Number(
-        document.getElementById("mCima").value || 0
-      )
-    );
-
-
-  const baixo =
-    Math.max(
-      0,
-      Number(
-        document.getElementById("mBaixo").value || 0
-      )
-    );
-
-
-  let capacidade =
-    Math.max(
-      0,
-      Number(
-        document.getElementById("mCap").value || 0
-      )
-    );
-
-
-  if(
-    cima + baixo >
-    0
-  ){
-
-    capacidade =
-      cima + baixo;
-
-  }
-
-
-  let falta =
-    Math.max(
-      0,
-      Number(
-        document.getElementById("mFalta").value || 0
-      )
-    );
-
-
-  falta =
-    Math.min(
-      falta,
-      capacidade
-    );
-
-
-  item.variedade =
-    document.getElementById("mVariedade")
-      .value
-      .trim() ||
-    item.variedade;
-
-
-  item.cima =
-    cima;
-
-
-  item.baixo =
-    baixo;
-
-
-  item.capacidade =
-    capacidade;
-
-
-  item.falta =
-    falta;
-
-
-  item.obs =
-    document.getElementById("mObs")
-      .value
-      .trim();
-
-
-  salvar();
-
-  fecharModal();
-
-  renderTudo();
-
-  toastMsg(
-    "Canteiro atualizado."
-  );
-
+function salvarCanteiro(){
+  const c=canteiros.find(x=>x.id===editandoCanteiroId);
+  if(!c) return;
+  const cima=Math.max(0,Number(cCima.value||0)), baixo=Math.max(0,Number(cBaixo.value||0));
+  const novaCap=cima+baixo;
+  const r=calculoCanteiro(c.id);
+  if(novaCap<r.plantadas){toastMsg(`A capacidade não pode ficar abaixo das ${fmt(r.plantadas)} mudas já plantadas.`);return;}
+  c.variedade=cVar.value.trim()||c.variedade; c.cima=cima; c.baixo=baixo; c.capacidade=novaCap; c.obs=cObs.value.trim();
+  salvar(); fecharModalCanteiro(); renderTudo(); toastMsg("Canteiro atualizado.");
 }
+function fecharModalCanteiro(){modalCanteiro.classList.add("hidden");editandoCanteiroId=null;}
 
-
-function fecharModal(){
-
-  document.getElementById("modal")
-    .classList
-    .add("hidden");
-
-
-  editandoId =
-    null;
-
+function trocarAba(tab,btn){
+  ["resumo","canteiros","historico"].forEach(t=>document.getElementById("tab-"+t).classList.toggle("hidden",t!==tab));
+  document.querySelectorAll(".navbtn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  if(tab==="historico") renderHistorico();
+  if(tab==="canteiros") renderCanteiros();
 }
-
-
-function trocarAba(
-  aba,
-  botao
-){
-
-  [
-    "resumo",
-    "canteiros",
-    "historico"
-  ].forEach(nome => {
-
-    document.getElementById(
-      "tab-" + nome
-    )
-    .classList
-    .toggle(
-      "hidden",
-      nome !== aba
-    );
-
-  });
-
-
-  document
-    .querySelectorAll(".navbtn")
-    .forEach(botao => {
-
-      botao.classList.remove(
-        "active"
-      );
-
-    });
-
-
-  botao.classList.add(
-    "active"
-  );
-
-
-  if(
-    aba === "historico"
-  ){
-
-    renderHistorico();
-
-  }
-
-
-  if(
-    aba === "canteiros"
-  ){
-
-    renderCanteiros();
-
-  }
-
-}
-
 
 function exportarCSV(){
-
-  const linhas = [[
-
-    "Canteiro",
-    "Variedade",
-    "Cima",
-    "Baixo",
-    "Capacidade",
-    "Plantadas",
-    "Faltam",
-    "Status",
-    "Observacao"
-
-  ]];
-
-
-  canteiros.forEach(item => {
-
+  const linhas=[["Tipo","Data","Canteiro","Variedade","Quantidade","Destino","Observacao"]];
+  lancamentos.filter(l=>!l.inicial).forEach(l=>{
+    const c=canteiros.find(x=>x.id===l.canteiro);
     linhas.push([
-
-      item.id,
-
-      item.variedade,
-
-      item.cima,
-
-      item.baixo,
-
-      item.capacidade,
-
-      item.capacidade -
-      item.falta,
-
-      item.falta,
-
-      statusTexto(
-        statusItem(item)
-      ),
-
-      `"${String(
-        item.obs || ""
-      ).replaceAll(
-        '"',
-        '""'
-      )}"`
-
+      l.tipo==="plantio"?"Plantio":"Saida",
+      new Date(l.data).toLocaleString("pt-BR"),
+      l.canteiro,
+      c?.variedade||"",
+      l.quantidade,
+      `"${String(l.destino||"").replaceAll('"','""')}"`,
+      `"${String(l.obs||"").replaceAll('"','""')}"`
     ]);
-
   });
-
-
-  baixarArquivo(
-
-    "\uFEFF" +
-
-    linhas
-      .map(linha =>
-        linha.join(";")
-      )
-      .join("\n"),
-
-    "viveiro_canteiros.csv",
-
-    "text/csv;charset=utf-8;"
-
-  );
-
+  baixarArquivo("\uFEFF"+linhas.map(l=>l.join(";")).join("\n"),"viveiro_historico.csv","text/csv;charset=utf-8;");
 }
-
-
 function exportarBackup(){
-
-  const conteudo =
-    JSON.stringify({
-
-      canteiros,
-
-      historico,
-
-      exportadoEm:
-        new Date()
-          .toISOString()
-
-    }, null, 2);
-
-
-  baixarArquivo(
-
-    conteudo,
-
-    "viveiro_backup.json",
-
-    "application/json"
-
-  );
-
+  baixarArquivo(JSON.stringify({canteiros,lancamentos,exportadoEm:new Date().toISOString()},null,2),"viveiro_backup.json","application/json");
 }
-
-
-function baixarArquivo(
-  conteudo,
-  nome,
-  tipo
-){
-
-  const blob =
-    new Blob(
-      [conteudo],
-      {
-        type:tipo
-      }
-    );
-
-
-  const url =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  const link =
-    document.createElement(
-      "a"
-    );
-
-
-  link.href =
-    url;
-
-
-  link.download =
-    nome;
-
-
-  link.click();
-
-
-  URL.revokeObjectURL(
-    url
-  );
-
+function baixarArquivo(conteudo,nome,tipo){
+  const blob=new Blob([conteudo],{type:tipo}), url=URL.createObjectURL(blob), a=document.createElement("a");
+  a.href=url;a.download=nome;a.click();URL.revokeObjectURL(url);
 }
-
-
-function limparHistorico(){
-
-  if(
-    confirm(
-      "Apagar somente o histórico de plantios?"
-    )
-  ){
-
-    historico =
-      [];
-
-
-    salvar();
-
-    renderHistorico();
-
-    toastMsg(
-      "Histórico apagado."
-    );
-
-  }
-
+function toastMsg(msg){
+  toast.textContent=msg;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1800);
 }
-
-
-function toastMsg(mensagem){
-
-  const toast =
-    document.getElementById("toast");
-
-
-  toast.textContent =
-    mensagem;
-
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  setTimeout(
-    () =>
-      toast.classList.remove(
-        "show"
-      ),
-    1800
-  );
-
-}
-
-
-function escapeHtml(texto){
-
-  return String(texto)
-    .replace(
-      /[&<>"']/g,
-      caractere => ({
-
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-
-      })[caractere]
-    );
-
-}
-
-
-function renderTudo(){
-
-  resumo();
-
-  renderCanteiros();
-
-  renderHistorico();
-
-}
-
-
-if(
-  "serviceWorker" in navigator
-){
-
-  window.addEventListener(
-    "load",
-    () => {
-
-      navigator
-        .serviceWorker
-        .register("sw.js")
-        .catch(() => {});
-
-    }
-  );
-
-}
-
-
+function renderTudo(){resumo();renderCanteiros();renderHistorico();}
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}
 renderTudo();
-
 </script>
-
 </body>
 </html>
