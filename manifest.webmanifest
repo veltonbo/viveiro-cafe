@@ -3,8 +3,8 @@
   "short_name": "Viveiro",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f4f7f3",
-  "theme_color": "#245c2e",
+  "background_color": "#F4F7F3",
+  "theme_color": "#174D2D",
   "icons": [
     {
       "src": "icon-192.png",
