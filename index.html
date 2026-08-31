@@ -1161,6 +1161,838 @@
       }
     }
 
+
+    /* ===== V14 PROFESSIONAL UI ===== */
+    :root{
+      --bg:#F4F6F3;
+      --surface:#FFFFFF;
+      --surface-2:#F8FAF8;
+      --text:#162019;
+      --muted:#6F7D73;
+      --line:#E2E8E3;
+      --green:#236A3B;
+      --green-dark:#153F27;
+      --green-soft:#EAF3EC;
+      --blue:#315F7D;
+      --blue-soft:#ECF3F7;
+      --amber:#9A651D;
+      --amber-soft:#FFF5E8;
+      --red:#A93B35;
+      --red-soft:#FFF1EF;
+      --shadow-sm:0 4px 16px rgba(24,52,32,.055);
+      --shadow:0 18px 48px rgba(24,52,32,.11);
+      --radius:20px;
+    }
+
+    body{
+      background:
+        radial-gradient(circle at 8% -8%, rgba(35,106,59,.09), transparent 26%),
+        linear-gradient(180deg,#FAFCFA 0%,#F4F6F3 42%,#EFF3EF 100%);
+      color:var(--text);
+    }
+
+    svg{
+      width:1em;
+      height:1em;
+      display:block;
+    }
+
+    .app{
+      width:min(1120px,100%);
+      padding:18px 22px 28px;
+    }
+
+    .topbar{
+      margin:0 -22px 22px;
+      padding:12px 22px;
+      background:rgba(250,252,250,.92);
+      border-bottom:1px solid rgba(226,232,227,.92);
+      box-shadow:0 4px 18px rgba(24,52,32,.035);
+    }
+
+    .topbar-inner{
+      width:min(1120px,100%);
+    }
+
+    .brand{
+      gap:11px;
+    }
+
+    .brand-mark{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      font-size:25px;
+      background:linear-gradient(145deg,#2B7B48,#17472C);
+      box-shadow:0 9px 22px rgba(35,106,59,.18);
+    }
+
+    .brand-mark svg,
+    .auth-brand-mark svg{
+      width:25px;
+      height:25px;
+    }
+
+    h1{
+      font-size:clamp(24px,3vw,31px);
+      font-weight:850;
+      letter-spacing:-.04em;
+    }
+
+    .sub{
+      margin-top:3px;
+      font-size:11px;
+      color:#77847B;
+    }
+
+    .user-menu{
+      flex-wrap:nowrap;
+    }
+
+    .user-badge{
+      height:40px;
+      border-radius:13px;
+      padding:5px 10px 5px 5px;
+      gap:8px;
+      max-width:250px;
+      color:#33443A;
+      background:#fff;
+      box-shadow:none;
+    }
+
+    .user-avatar{
+      width:29px;
+      height:29px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+      background:var(--green-soft);
+      color:var(--green-dark);
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+
+    .logout-btn{
+      height:40px;
+      min-height:40px;
+      padding:0 11px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      border-radius:12px;
+      background:#fff;
+      color:#6C3A36;
+      border-color:#EADDDC;
+    }
+
+    .button-icon{
+      display:inline-grid;
+      place-items:center;
+      font-size:16px;
+    }
+
+    .dashboard-hero{
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:14px;
+      padding:22px 23px;
+      color:#fff;
+      background:
+        radial-gradient(circle at 90% 0%, rgba(255,255,255,.12), transparent 28%),
+        linear-gradient(135deg,#153F27 0%,#1D5B34 58%,#277247 100%);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:24px;
+      box-shadow:0 18px 44px rgba(21,63,39,.18);
+    }
+
+    .dashboard-hero::after{
+      content:"";
+      position:absolute;
+      width:210px;
+      height:210px;
+      right:-80px;
+      bottom:-135px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.09);
+      box-shadow:
+        0 0 0 28px rgba(255,255,255,.025),
+        0 0 0 58px rgba(255,255,255,.018);
+      pointer-events:none;
+    }
+
+    .dashboard-hero-copy{
+      position:relative;
+      z-index:1;
+      max-width:620px;
+    }
+
+    .eyebrow{
+      margin-bottom:7px;
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.14em;
+      color:rgba(255,255,255,.66);
+    }
+
+    .dashboard-hero h2{
+      margin:0;
+      font-size:clamp(23px,3vw,31px);
+      line-height:1.05;
+      letter-spacing:-.035em;
+    }
+
+    .dashboard-hero p{
+      margin:8px 0 0;
+      max-width:560px;
+      color:rgba(255,255,255,.72);
+      font-size:12px;
+      line-height:1.55;
+    }
+
+    .sync-pill{
+      position:relative;
+      z-index:1;
+      min-width:178px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:15px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.11);
+      backdrop-filter:blur(8px);
+    }
+
+    .sync-dot{
+      width:9px;
+      height:9px;
+      flex:0 0 auto;
+      border-radius:50%;
+      background:#E7B452;
+      box-shadow:0 0 0 4px rgba(231,180,82,.13);
+    }
+
+    .sync-pill.sync-ok .sync-dot{
+      background:#7FD39A;
+      box-shadow:0 0 0 4px rgba(127,211,154,.12);
+    }
+
+    .sync-pill.sync-error .sync-dot{
+      background:#F0958F;
+      box-shadow:0 0 0 4px rgba(240,149,143,.12);
+    }
+
+    .sync-pill small{
+      display:block;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:rgba(255,255,255,.58);
+    }
+
+    .sync-pill strong{
+      display:block;
+      margin-top:2px;
+      max-width:150px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:11px;
+      color:#fff;
+    }
+
+    .summary{
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+      margin-bottom:24px;
+    }
+
+    .metric{
+      min-height:118px;
+      padding:14px 15px 15px;
+      border-radius:18px;
+      background:#fff;
+      box-shadow:var(--shadow-sm);
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+
+    .metric::after{
+      display:none;
+    }
+
+    .metric-topline{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .metric-icon{
+      width:29px;
+      height:29px;
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+      border-radius:9px;
+      font-size:16px;
+      color:var(--green);
+      background:var(--green-soft);
+    }
+
+    .metric-icon svg{
+      width:16px;
+      height:16px;
+    }
+
+    .metric-saida .metric-icon{
+      color:var(--blue);
+      background:var(--blue-soft);
+    }
+
+    .metric-falta .metric-icon{
+      color:var(--amber);
+      background:var(--amber-soft);
+    }
+
+    .metric-label{
+      font-size:9px;
+      letter-spacing:.085em;
+    }
+
+    .metric-value{
+      margin-top:14px;
+      font-size:28px;
+      letter-spacing:-.045em;
+    }
+
+    .metric-note{
+      margin-top:7px;
+      font-size:10px;
+    }
+
+    .metric.primary-metric{
+      color:#fff;
+      background:linear-gradient(145deg,#17472C,#236A3B);
+      border-color:transparent;
+      box-shadow:0 13px 30px rgba(21,63,39,.17);
+    }
+
+    .primary-metric .metric-icon{
+      background:rgba(255,255,255,.13);
+      color:#fff;
+    }
+
+    .primary-metric .metric-label,
+    .primary-metric .metric-note{
+      color:rgba(255,255,255,.68);
+    }
+
+    .section-head{
+      margin:25px 0 11px;
+    }
+
+    .section-title{
+      font-size:17px;
+      font-weight:850;
+      color:#1D2A21;
+    }
+
+    .section-note{
+      color:#879188;
+      font-size:10px;
+    }
+
+    .quick-actions{
+      gap:10px;
+    }
+
+    .quick-btn{
+      min-height:84px;
+      padding:13px 15px;
+      border-radius:17px;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-sm);
+    }
+
+    .quick-btn.primary{
+      color:#203328;
+      background:#fff;
+    }
+
+    .quick-btn.blue{
+      color:#243743;
+      background:#fff;
+    }
+
+    .quick-btn.primary:hover,
+    .quick-btn.blue:hover{
+      transform:translateY(-1px);
+      box-shadow:0 8px 22px rgba(24,52,32,.08);
+    }
+
+    .quick-btn .qicon{
+      width:43px;
+      height:43px;
+      border-radius:13px;
+      font-size:21px;
+      background:var(--green-soft);
+      color:var(--green);
+    }
+
+    .quick-btn.blue .qicon{
+      color:var(--blue);
+      background:var(--blue-soft);
+    }
+
+    .quick-btn .qicon svg{
+      width:21px;
+      height:21px;
+    }
+
+    .quick-btn strong{
+      color:inherit;
+      font-size:14px;
+      font-weight:850;
+    }
+
+    .quick-btn small{
+      color:#7D887F;
+      font-size:10px;
+      opacity:1;
+    }
+
+    .grid{
+      gap:12px;
+    }
+
+    .card{
+      border-radius:18px;
+      border-color:#E3E9E4;
+      box-shadow:var(--shadow-sm);
+    }
+
+    .canteiro{
+      position:relative;
+      overflow:hidden;
+      border-radius:19px;
+    }
+
+    .canteiro::before{
+      content:"";
+      position:absolute;
+      inset:0 auto 0 0;
+      width:3px;
+      background:linear-gradient(180deg,#2B7B48,#72A982);
+    }
+
+    .canteiro-top{
+      padding:15px 16px 12px 18px;
+      background:#fff;
+    }
+
+    .canteiro h3{
+      font-size:17px;
+      letter-spacing:-.025em;
+    }
+
+    .canteiro-body{
+      padding:0 16px 16px 18px;
+    }
+
+    .mini{
+      border:1px solid #E9EDE9;
+      background:#FAFBFA;
+    }
+
+    .progress{
+      height:7px;
+      background:#E9EEEA;
+    }
+
+    .bar{
+      background:linear-gradient(90deg,#236A3B,#6EA17C);
+    }
+
+    .toolbar input,
+    .toolbar select,
+    .field input,
+    .field select,
+    .field textarea{
+      border-color:#DDE5DF;
+      box-shadow:0 1px 0 rgba(24,52,32,.015);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus{
+      border-color:#78A489!important;
+      box-shadow:0 0 0 3px rgba(35,106,59,.08)!important;
+    }
+
+    button{
+      font-weight:750;
+      letter-spacing:-.005em;
+    }
+
+    .primary{
+      background:linear-gradient(145deg,#287547,#1D5D36);
+      box-shadow:0 6px 16px rgba(35,106,59,.13);
+    }
+
+    .blue{
+      background:linear-gradient(145deg,#3D6B89,#2E566F);
+    }
+
+    .secondary{
+      color:#33443A;
+      background:#fff;
+    }
+
+    .history-card{
+      overflow:hidden;
+    }
+
+    .history-item{
+      position:relative;
+      padding:14px 15px 14px 17px;
+    }
+
+    .history-item::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:10px;
+      bottom:10px;
+      width:2px;
+      border-radius:99px;
+      background:#D8E6DC;
+    }
+
+    .report-hero{
+      background:linear-gradient(135deg,#153F27,#246A3D);
+      border-radius:22px;
+    }
+
+    .report-kpi{
+      background:rgba(255,255,255,.095);
+    }
+
+    .bottom-nav{
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+      background:rgba(249,251,249,.90);
+      border-top:1px solid rgba(224,231,225,.8);
+      box-shadow:0 -8px 30px rgba(24,52,32,.065);
+      backdrop-filter:blur(18px);
+    }
+
+    .bottom-nav .inner{
+      max-width:720px;
+      padding:4px;
+      gap:3px;
+      border:1px solid #E4EAE5;
+      border-radius:18px;
+      background:rgba(255,255,255,.88);
+      box-shadow:0 5px 18px rgba(24,52,32,.045);
+    }
+
+    .navbtn{
+      min-height:50px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      border-radius:13px;
+      color:#758078;
+      background:transparent;
+      box-shadow:none;
+      font-size:12px;
+    }
+
+    .nav-icon{
+      display:grid;
+      place-items:center;
+      font-size:18px;
+    }
+
+    .nav-icon svg{
+      width:18px;
+      height:18px;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:1.9;
+    }
+
+    .navbtn.active{
+      color:#17472C;
+      background:#EAF3EC;
+      box-shadow:none;
+    }
+
+    .navbtn.active .nav-icon{
+      color:#236A3B;
+    }
+
+    .navbtn span:last-child{
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .auth-screen{
+      background:
+        radial-gradient(circle at 15% 0%, rgba(35,106,59,.12), transparent 28%),
+        linear-gradient(180deg,#F9FBF9,#EEF3EF);
+    }
+
+    .auth-card{
+      width:min(420px,100%);
+      border-radius:24px;
+      padding:25px;
+      border-color:#E2E8E3;
+      box-shadow:0 28px 72px rgba(21,63,39,.14);
+    }
+
+    .auth-brand{
+      margin-bottom:22px;
+    }
+
+    .auth-brand-mark{
+      width:50px;
+      height:50px;
+      border-radius:15px;
+      font-size:25px;
+      background:linear-gradient(145deg,#2B7B48,#17472C);
+      box-shadow:0 10px 24px rgba(35,106,59,.17);
+    }
+
+    .auth-title{
+      font-size:24px;
+      font-weight:850;
+    }
+
+    .auth-sub{
+      margin-top:5px;
+      max-width:260px;
+      color:#7A867E;
+      line-height:1.45;
+      font-size:11px;
+    }
+
+    .auth-tabs{
+      gap:4px;
+      padding:4px;
+      border-radius:13px;
+      background:#F4F7F4;
+    }
+
+    .auth-tab{
+      min-height:40px;
+      border-radius:10px;
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .auth-tab.active{
+      color:#1D5D36;
+      box-shadow:0 3px 10px rgba(24,52,32,.05);
+    }
+
+    .modal-card{
+      border-radius:25px 25px 0 0;
+      box-shadow:0 -22px 60px rgba(21,40,27,.18);
+    }
+
+    .toast{
+      box-shadow:0 13px 32px rgba(21,40,27,.16);
+    }
+
+    @media(min-width:900px){
+      .metric:hover{
+        transform:translateY(-2px);
+        box-shadow:0 10px 25px rgba(24,52,32,.075);
+      }
+    }
+
+    @media(max-width:760px){
+      .app{
+        padding:13px 12px 22px;
+      }
+
+      .topbar{
+        margin:0 -12px 15px;
+        padding:10px 12px;
+      }
+
+      .brand-mark{
+        width:39px;
+        height:39px;
+        border-radius:12px;
+      }
+
+      .brand-mark svg{
+        width:22px;
+        height:22px;
+      }
+
+      h1{
+        font-size:21px;
+      }
+
+      .sub{
+        font-size:10px;
+      }
+
+      .user-badge{
+        max-width:132px;
+        height:36px;
+      }
+
+      .user-avatar{
+        width:26px;
+        height:26px;
+        border-radius:8px;
+      }
+
+      .logout-btn{
+        width:36px;
+        height:36px;
+        min-height:36px;
+        padding:0;
+      }
+
+      .logout-text{
+        display:none;
+      }
+
+      .dashboard-hero{
+        align-items:flex-start;
+        flex-direction:column;
+        padding:18px;
+        border-radius:20px;
+      }
+
+      .dashboard-hero h2{
+        font-size:24px;
+      }
+
+      .dashboard-hero p{
+        font-size:11px;
+      }
+
+      .sync-pill{
+        min-width:0;
+        width:100%;
+        padding:9px 10px;
+      }
+
+      .summary{
+        grid-template-columns:repeat(2,1fr);
+        grid-auto-flow:dense;
+        gap:8px;
+      }
+
+      .summary .metric:first-child{
+        grid-column:auto;
+      }
+
+      .metric{
+        min-height:104px;
+        padding:12px;
+      }
+
+      .metric.primary-metric{
+        grid-column:1/-1;
+      }
+
+      .metric-topline{
+        gap:6px;
+      }
+
+      .metric-icon{
+        width:26px;
+        height:26px;
+        border-radius:8px;
+      }
+
+      .metric-icon svg{
+        width:14px;
+        height:14px;
+      }
+
+      .metric-label{
+        font-size:8px;
+      }
+
+      .metric-value{
+        margin-top:12px;
+        font-size:24px;
+      }
+
+      .metric-note{
+        font-size:9px;
+      }
+
+      .quick-actions{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .quick-btn{
+        min-height:78px;
+        padding:12px;
+      }
+
+      .quick-btn .qicon{
+        width:37px;
+        height:37px;
+        border-radius:11px;
+      }
+
+      .quick-btn strong{
+        font-size:12px;
+      }
+
+      .quick-btn small{
+        display:none;
+      }
+
+      .section-head{
+        margin-top:21px;
+      }
+
+      .bottom-nav .inner{
+        border-radius:17px;
+      }
+
+      .navbtn{
+        min-height:47px;
+        flex-direction:column;
+        gap:2px;
+      }
+
+      .navbtn span:last-child{
+        font-size:9px;
+      }
+    }
+
+    @media(max-width:390px){
+      .user-badge{
+        max-width:110px;
+      }
+
+      .quick-actions{
+        grid-template-columns:1fr;
+      }
+
+      .quick-btn small{
+        display:block;
+      }
+    }
+
   </style>
 </head>
 
@@ -1169,10 +2001,10 @@
 <div id="authScreen" class="auth-screen">
   <div class="auth-card">
     <div class="auth-brand">
-      <div class="auth-brand-mark">🌿</div>
+      <div class="auth-brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.8 4.2C14.3 4.3 9 6.1 6.2 9.5c-2.1 2.5-2.7 5.4-1.8 8.4 2.6-4.2 6.4-7.2 11.2-9.2-4.2 2.5-7.4 5.8-9.5 10 .8.6 1.8 1 2.9 1 3.5 0 6.4-2.2 8.2-5.2 1.8-3.1 2.6-6.9 2.6-10.3Z" fill="currentColor"/></svg></div>
       <div>
         <h2 class="auth-title">Viveiro Café</h2>
-        <div class="auth-sub">Acesse sua conta para continuar</div>
+        <div class="auth-sub">Sua gestão de viveiro, organizada e segura</div>
       </div>
     </div>
 
@@ -1223,49 +2055,86 @@
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <div class="brand-mark">🌿</div>
+        <div class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.8 4.2C14.3 4.3 9 6.1 6.2 9.5c-2.1 2.5-2.7 5.4-1.8 8.4 2.6-4.2 6.4-7.2 11.2-9.2-4.2 2.5-7.4 5.8-9.5 10 .8.6 1.8 1 2.9 1 3.5 0 6.4-2.2 8.2-5.2 1.8-3.1 2.6-6.9 2.6-10.3Z" fill="currentColor"/></svg></div>
         <div>
           <h1>Viveiro Café</h1>
-          <div class="sub">Gestão do viveiro em tempo real</div>
+          <div class="sub">Gestão inteligente do viveiro</div>
         </div>
       </div>
       <div class="user-menu">
-        <div class="user-badge">👤 <span id="usuarioLogado">Aguardando login...</span></div>
-        <button class="logout-btn" onclick="sairDaConta()">Sair</button>
+        <div class="user-badge">
+          <span class="user-avatar" id="userAvatar">U</span>
+          <span id="usuarioLogado">Aguardando login...</span>
+        </div>
+        <button class="logout-btn" onclick="sairDaConta()" aria-label="Sair da conta">
+          <span class="button-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5M14 8l4 4-4 4M18 12H9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="logout-text">Sair</span>
+        </button>
       </div>
     </div>
   </header>
 
   <section id="tab-resumo">
+    <div class="dashboard-hero">
+      <div class="dashboard-hero-copy">
+        <div class="eyebrow">PAINEL PRINCIPAL</div>
+        <h2>Visão geral do viveiro</h2>
+        <p>Acompanhe o plantio, o estoque de mudas e as movimentações em um só lugar.</p>
+      </div>
+
+      <div class="sync-pill">
+        <span class="sync-dot"></span>
+        <div>
+          <small>Sincronização</small>
+          <strong id="dashboardSync">Conectando...</strong>
+        </div>
+      </div>
+    </div>
+
     <div class="summary">
-      <div class="metric" id="metricCapacidade">
-        <div class="metric-label">Capacidade</div>
+      <div class="metric metric-cap" id="metricCapacidade">
+        <div class="metric-topline">
+          <div class="metric-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div class="metric-label">Capacidade</div>
+        </div>
         <div class="metric-value" id="sCap">0</div>
-        <div class="metric-note">mudas</div>
+        <div class="metric-note">mudas no total</div>
       </div>
 
-      <div class="metric">
-        <div class="metric-label">Plantadas</div>
+      <div class="metric metric-plant">
+        <div class="metric-topline">
+          <div class="metric-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8M12 13c-4 0-7-2-7-6 4 0 7 2 7 6Zm0-2c0-4 3-7 7-7 0 4-3 7-7 7Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="metric-label">Plantadas</div>
+        </div>
         <div class="metric-value" id="sPlant">0</div>
-        <div class="metric-note">acumulado</div>
+        <div class="metric-note">plantio acumulado</div>
       </div>
 
-      <div class="metric">
-        <div class="metric-label">Saídas</div>
+      <div class="metric metric-saida">
+        <div class="metric-topline">
+          <div class="metric-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8M19 14v5H5V5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="metric-label">Saídas</div>
+        </div>
         <div class="metric-value" id="sSaidas">0</div>
-        <div class="metric-note">mudas</div>
+        <div class="metric-note">mudas retiradas</div>
       </div>
 
-      <div class="metric primary-metric">
-        <div class="metric-label">Disponíveis</div>
+      <div class="metric primary-metric metric-disp">
+        <div class="metric-topline">
+          <div class="metric-icon"><svg viewBox="0 0 24 24"><path d="M4 8h16v11H4V8Zm3-3h10v3H7V5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
+          <div class="metric-label">Disponíveis</div>
+        </div>
         <div class="metric-value" id="sDisp">0</div>
-        <div class="metric-note">no viveiro</div>
+        <div class="metric-note">saldo no viveiro</div>
       </div>
 
-      <div class="metric" id="metricFaltam">
-        <div class="metric-label">Faltam plantar</div>
+      <div class="metric metric-falta" id="metricFaltam">
+        <div class="metric-topline">
+          <div class="metric-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div class="metric-label">Faltam plantar</div>
+        </div>
         <div class="metric-value" id="sFalta">0</div>
-        <div class="metric-note">mudas</div>
+        <div class="metric-note">para completar</div>
       </div>
     </div>
 
@@ -1276,7 +2145,7 @@
 
     <div class="quick-actions">
       <button class="primary quick-btn" onclick="abrirModalPlantio()">
-        <div class="qicon">🌱</div>
+        <div class="qicon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></div>
         <div>
           <strong>Registrar plantio</strong>
           <small>Adicionar mudas plantadas</small>
@@ -1284,7 +2153,7 @@
       </button>
 
       <button class="blue quick-btn" onclick="abrirModalSaida()">
-        <div class="qicon">📤</div>
+        <div class="qicon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8M19 14v5H5V5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div>
           <strong>Registrar saída</strong>
           <small>Dar baixa nas mudas retiradas</small>
@@ -1532,10 +2401,18 @@
 
 <nav class="bottom-nav">
   <div class="inner">
-    <button class="navbtn active" onclick="trocarAba('resumo',this)">📊<span>Resumo</span></button>
-    <button class="navbtn" onclick="trocarAba('canteiros',this)">🌱<span>Canteiros</span></button>
-    <button class="navbtn" onclick="trocarAba('historico',this)">🕘<span>Histórico</span></button>
-    <button class="navbtn" onclick="trocarAba('relatorio',this)">📄<span>Relatório</span></button>
+    <button class="navbtn active" onclick="trocarAba('resumo',this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><span>Resumo</span>
+    </button>
+    <button class="navbtn" onclick="trocarAba('canteiros',this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8M12 13c-4 0-7-2-7-6 4 0 7 2 7 6Zm0-2c0-4 3-7 7-7 0 4-3 7-7 7Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Canteiros</span>
+    </button>
+    <button class="navbtn" onclick="trocarAba('historico',this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Histórico</span>
+    </button>
+    <button class="navbtn" onclick="trocarAba('relatorio',this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7V3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5M10 13h5M10 17h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>Relatório</span>
+    </button>
   </div>
 </nav>
 
@@ -2948,9 +3825,20 @@ function toastMsg(msg){
 function atualizarStatusFirebase(texto, tipo="normal"){
   const status = document.getElementById("firebaseStatus");
   const top = document.getElementById("firebaseTopStatus");
+  const dash = document.getElementById("dashboardSync");
+  const pill = document.querySelector(".sync-pill");
 
   if(status){
     status.textContent = texto;
+  }
+
+  if(dash){
+    dash.textContent = texto;
+  }
+
+  if(pill){
+    pill.classList.toggle("sync-error", tipo === "erro");
+    pill.classList.toggle("sync-ok", tipo === "ok");
   }
 
   if(top){
@@ -3162,9 +4050,15 @@ async function sairDaConta(){
 
 function exibirUsuarioLogado(user){
   const badge = document.getElementById("usuarioLogado");
+  const avatar = document.getElementById("userAvatar");
+  const email = user?.email || "Usuário";
 
   if(badge){
-    badge.textContent = user?.email || "Usuário";
+    badge.textContent = email;
+  }
+
+  if(avatar){
+    avatar.textContent = email.charAt(0).toUpperCase();
   }
 
   document.getElementById("authScreen").classList.add("hidden");

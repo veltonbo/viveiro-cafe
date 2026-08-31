@@ -1,0 +1,19 @@
+VIVEIRO CAFÉ - V14 PROFISSIONAL
+
+Esta versão mantém o funcionamento da V13/V12 e aprimora a interface:
+
+- novo painel principal com status de sincronização;
+- identidade visual mais sóbria e profissional;
+- ícones vetoriais no lugar de emojis na navegação;
+- cards de indicadores redesenhados;
+- ações de plantio e saída mais limpas;
+- cabeçalho e identificação do usuário refinados;
+- canteiros com visual mais organizado;
+- histórico com melhor hierarquia visual;
+- navegação inferior com acabamento de aplicativo;
+- tela de login redesenhada;
+- melhor experiência no iPhone e em telas pequenas;
+- cache atualizado para V14.
+
+Firebase, login, regras por usuário, sincronização em tempo real, backup,
+relatórios, canteiros, plantios e saídas permanecem funcionando.
