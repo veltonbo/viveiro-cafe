@@ -240,7 +240,7 @@
       box-shadow:0 -8px 28px rgba(23,77,45,.07);
     }
     .bottom-nav .inner{
-      width:min(720px,100%);display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:4px;
+      width:min(720px,100%);display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:4px;
       border-radius:18px;background:#F8FAF8;border:1px solid var(--line);
     }
     .navbtn{
@@ -301,6 +301,32 @@
       .navbtn{flex-direction:column;gap:2px;padding:8px 6px}
       .navbtn span{font-size:11px}
     }
+
+    .report-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+    .report-title{margin:0;font-size:22px;font-weight:900}
+    .report-date{margin-top:4px;color:var(--muted);font-size:12px}
+    .report-summary{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0 16px}
+    .report-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff}
+    .report-table{width:100%;border-collapse:collapse;min-width:760px}
+    .report-table th,.report-table td{padding:10px 11px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;white-space:nowrap}
+    .report-table th{background:var(--surface-2);color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+    .report-table tr:last-child td{border-bottom:0}
+    .report-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+
+    @media print{
+      @page{size:A4;margin:12mm}
+      body{background:#fff!important;padding:0!important}
+      .topbar,.bottom-nav,#tab-resumo,#tab-canteiros,#tab-historico,.report-actions{display:none!important}
+      #tab-relatorio{display:block!important}
+      .app{width:100%!important;max-width:none!important;padding:0!important}
+      #tab-relatorio>.card{box-shadow:none!important;border:0!important;padding:0!important}
+      .report-table-wrap{overflow:visible!important;border:1px solid #ccc!important}
+      .report-table{min-width:0!important;width:100%!important}
+      .report-table th,.report-table td{font-size:9px!important;padding:6px 5px!important}
+      .report-summary{grid-template-columns:repeat(5,1fr)!important}
+      .report-summary .mini{border:1px solid #ddd!important}
+    }
+
   </style>
 </head>
 
@@ -449,6 +475,58 @@
 
     <div id="historicoLista" class="card history-card"></div>
   </section>
+
+  <section id="tab-relatorio" class="hidden">
+    <div class="section-head">
+      <h2 class="section-title">Relatório do viveiro</h2>
+      <div class="section-note">Situação atual</div>
+    </div>
+
+    <div class="report-actions">
+      <button class="primary" onclick="gerarRelatorio()">Atualizar relatório</button>
+      <button class="secondary" onclick="imprimirRelatorio()">Imprimir / Salvar PDF</button>
+      <button class="secondary" onclick="exportarRelatorioCSV()">Exportar CSV</button>
+    </div>
+
+    <div class="card">
+      <div class="report-header">
+        <div>
+          <h2 class="report-title">Relatório do Viveiro Café</h2>
+          <div class="report-date" id="relatorioData"></div>
+        </div>
+        <div class="tag" id="relatorioQtdCanteiros"></div>
+      </div>
+
+      <div class="report-summary">
+        <div class="mini"><small>Capacidade</small><strong id="rCap">0</strong></div>
+        <div class="mini"><small>Plantadas</small><strong id="rPlant">0</strong></div>
+        <div class="mini"><small>Saídas</small><strong id="rSaidas">0</strong></div>
+        <div class="mini"><small>Disponíveis</small><strong id="rDisp">0</strong></div>
+        <div class="mini"><small>Faltam plantar</small><strong id="rFalta">0</strong></div>
+      </div>
+
+      <div class="section-head"><h3 class="section-title">Canteiros</h3><div class="section-note">Detalhamento completo</div></div>
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr>
+            <th>Canteiro</th><th>Variedade</th><th>Capacidade</th><th>Plantadas</th>
+            <th>Saídas</th><th>Disponíveis</th><th>Faltam</th><th>Status</th>
+          </tr></thead>
+          <tbody id="relatorioTabela"></tbody>
+        </table>
+      </div>
+
+      <div class="section-head"><h3 class="section-title">Resumo por variedade</h3><div class="section-note">Saldo consolidado</div></div>
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr>
+            <th>Variedade</th><th>Capacidade</th><th>Plantadas</th><th>Saídas</th><th>Disponíveis</th><th>Faltam</th>
+          </tr></thead>
+          <tbody id="relatorioVariedades"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 </div>
 
 <nav class="bottom-nav">
@@ -456,6 +534,7 @@
     <button class="navbtn active" onclick="trocarAba('resumo',this)">📊<span>Resumo</span></button>
     <button class="navbtn" onclick="trocarAba('canteiros',this)">🌱<span>Canteiros</span></button>
     <button class="navbtn" onclick="trocarAba('historico',this)">🕘<span>Histórico</span></button>
+    <button class="navbtn" onclick="trocarAba('relatorio',this)">📄<span>Relatório</span></button>
   </div>
 </nav>
 
@@ -1549,7 +1628,7 @@ function fecharModalCanteiro(){
 }
 
 function trocarAba(tab,btn){
-  ["resumo","canteiros","historico"].forEach(t=>{
+  ["resumo","canteiros","historico","relatorio"].forEach(t=>{
     document
       .getElementById("tab-"+t)
       .classList
@@ -1570,10 +1649,99 @@ function trocarAba(tab,btn){
     renderCanteiros();
   }
 
+  if(tab==="relatorio"){
+    gerarRelatorio();
+  }
+
   window.scrollTo({
     top:0,
     behavior:"smooth"
   });
+}
+
+
+function gerarRelatorio(){
+  ordenarCanteiros();
+
+  const total = canteiros.reduce((acc,c)=>{
+    const r = calculoCanteiro(c.id);
+    acc.cap += r.capacidade;
+    acc.plant += r.plantadas;
+    acc.saidas += r.saidas;
+    acc.disp += r.disponiveis;
+    acc.falta += r.falta;
+    return acc;
+  },{cap:0,plant:0,saidas:0,disp:0,falta:0});
+
+  relatorioData.textContent = "Gerado em " + new Date().toLocaleString("pt-BR");
+  relatorioQtdCanteiros.textContent = canteiros.length + (canteiros.length===1 ? " canteiro" : " canteiros");
+
+  rCap.textContent = fmt(total.cap);
+  rPlant.textContent = fmt(total.plant);
+  rSaidas.textContent = fmt(total.saidas);
+  rDisp.textContent = fmt(total.disp);
+  rFalta.textContent = fmt(total.falta);
+
+  relatorioTabela.innerHTML = canteiros.map(c=>{
+    const r = calculoCanteiro(c.id);
+    return `
+      <tr>
+        <td>${String(c.id).padStart(2,"0")}</td>
+        <td>${escapeHtml(c.variedade)}</td>
+        <td>${fmt(r.capacidade)}</td>
+        <td>${fmt(r.plantadas)}</td>
+        <td>${fmt(r.saidas)}</td>
+        <td>${fmt(r.disponiveis)}</td>
+        <td>${fmt(r.falta)}</td>
+        <td>${statusTexto(statusItem(c.id))}</td>
+      </tr>
+    `;
+  }).join("");
+
+  const porVar = {};
+  canteiros.forEach(c=>{
+    const r = calculoCanteiro(c.id);
+    if(!porVar[c.variedade]) porVar[c.variedade]={cap:0,plant:0,saidas:0,disp:0,falta:0};
+    porVar[c.variedade].cap += r.capacidade;
+    porVar[c.variedade].plant += r.plantadas;
+    porVar[c.variedade].saidas += r.saidas;
+    porVar[c.variedade].disp += r.disponiveis;
+    porVar[c.variedade].falta += r.falta;
+  });
+
+  relatorioVariedades.innerHTML = Object.entries(porVar)
+    .sort((a,b)=>a[0].localeCompare(b[0],"pt-BR"))
+    .map(([v,d])=>`
+      <tr>
+        <td>${escapeHtml(v)}</td>
+        <td>${fmt(d.cap)}</td>
+        <td>${fmt(d.plant)}</td>
+        <td>${fmt(d.saidas)}</td>
+        <td>${fmt(d.disp)}</td>
+        <td>${fmt(d.falta)}</td>
+      </tr>
+    `).join("");
+}
+
+function imprimirRelatorio(){
+  gerarRelatorio();
+  setTimeout(()=>window.print(),100);
+}
+
+function exportarRelatorioCSV(){
+  ordenarCanteiros();
+  const linhas=[["Canteiro","Variedade","Capacidade","Plantadas","Saidas","Disponiveis","Faltam","Status"]];
+
+  canteiros.forEach(c=>{
+    const r=calculoCanteiro(c.id);
+    linhas.push([c.id,c.variedade,r.capacidade,r.plantadas,r.saidas,r.disponiveis,r.falta,statusTexto(statusItem(c.id))]);
+  });
+
+  baixarArquivo(
+    "\uFEFF"+linhas.map(l=>l.join(";")).join("\n"),
+    "relatorio-viveiro.csv",
+    "text/csv;charset=utf-8;"
+  );
 }
 
 function exportarCSV(){
@@ -1648,6 +1816,7 @@ function renderTudo(){
   renderCanteiros();
   renderHistorico();
   atualizarStatusBackup();
+  gerarRelatorio();
 }
 
 if("serviceWorker" in navigator){
