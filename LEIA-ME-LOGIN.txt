@@ -1,0 +1,38 @@
+VIVEIRO CAFÉ - V12 LOGIN
+
+NOVIDADES
+- Login por e-mail e senha.
+- Cadastro de novos usuários.
+- Botão Sair.
+- Cada usuário acessa somente os próprios dados.
+- Dados no Firebase ficam em:
+  viveiroCafe/users/UID_DO_USUARIO/estado
+
+CONFIGURAÇÃO OBRIGATÓRIA NO FIREBASE
+
+1. Abra Firebase Console.
+2. Authentication > Sign-in method.
+3. Ative Email/Password.
+
+4. Realtime Database > Rules.
+5. Substitua pelas regras do arquivo database.rules.json.
+6. Clique em Publish.
+
+REGRAS:
+{
+  "rules": {
+    "viveiroCafe": {
+      "users": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    }
+  }
+}
+
+IMPORTANTE
+- Depois desta versão, os dados deixam de ficar em viveiroCafe/estado.
+- Cada conta terá seu próprio caminho.
+- No primeiro login, se houver dados locais no aparelho, eles são enviados para a conta.

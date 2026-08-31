@@ -565,10 +565,189 @@
       .report-meta-pill{border:1px solid #ccc!important;background:#fff!important;color:#444!important}
     }
 
+
+    .auth-screen{
+      position:fixed;
+      inset:0;
+      z-index:100;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:
+        radial-gradient(circle at top left, rgba(31,107,59,.18), transparent 30%),
+        linear-gradient(180deg,#F4F7F3,#EEF4EE);
+    }
+
+    .auth-card{
+      width:min(430px,100%);
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:0 24px 60px rgba(23,77,45,.14);
+    }
+
+    .auth-brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .auth-brand-mark{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(145deg,var(--green),var(--green-dark));
+      color:#fff;
+      font-size:24px;
+    }
+
+    .auth-title{
+      margin:0;
+      font-size:24px;
+      font-weight:900;
+      letter-spacing:-.03em;
+    }
+
+    .auth-sub{
+      margin-top:4px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .auth-tabs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      padding:4px;
+      margin-bottom:16px;
+      background:var(--surface-2);
+      border:1px solid var(--line);
+      border-radius:14px;
+    }
+
+    .auth-tab{
+      background:transparent;
+      color:var(--muted);
+      box-shadow:none;
+    }
+
+    .auth-tab.active{
+      background:#fff;
+      color:var(--green-dark);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-sm);
+    }
+
+    .auth-message{
+      min-height:20px;
+      margin-top:10px;
+      font-size:12px;
+      color:var(--red);
+    }
+
+    .user-menu{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .user-badge{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      color:var(--green-dark);
+      font-size:11px;
+      font-weight:800;
+      max-width:240px;
+    }
+
+    .user-badge span{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .logout-btn{
+      padding:8px 10px;
+      background:var(--red-soft);
+      color:var(--red);
+      border:1px solid #FFD9D4;
+      box-shadow:none;
+    }
+
+    @media(max-width:520px){
+      .user-badge{
+        max-width:165px;
+      }
+    }
+
   </style>
 </head>
 
 <body>
+
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="auth-brand-mark">🌿</div>
+      <div>
+        <h2 class="auth-title">Viveiro Café</h2>
+        <div class="auth-sub">Entre para acessar os dados do seu viveiro</div>
+      </div>
+    </div>
+
+    <div class="auth-tabs">
+      <button id="tabLogin" class="auth-tab active" onclick="mostrarLogin()">Entrar</button>
+      <button id="tabCadastro" class="auth-tab" onclick="mostrarCadastro()">Criar conta</button>
+    </div>
+
+    <div id="loginForm">
+      <div class="field">
+        <label>E-mail</label>
+        <input id="loginEmail" type="email" autocomplete="email" placeholder="seuemail@exemplo.com">
+      </div>
+
+      <div class="field" style="margin-top:10px">
+        <label>Senha</label>
+        <input id="loginSenha" type="password" autocomplete="current-password" placeholder="Sua senha">
+      </div>
+
+      <button class="primary" style="width:100%;margin-top:14px" onclick="entrarComEmail()">Entrar</button>
+    </div>
+
+    <div id="cadastroForm" class="hidden">
+      <div class="field">
+        <label>E-mail</label>
+        <input id="cadastroEmail" type="email" autocomplete="email" placeholder="seuemail@exemplo.com">
+      </div>
+
+      <div class="field" style="margin-top:10px">
+        <label>Senha</label>
+        <input id="cadastroSenha" type="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres">
+      </div>
+
+      <div class="field" style="margin-top:10px">
+        <label>Confirmar senha</label>
+        <input id="cadastroSenha2" type="password" autocomplete="new-password" placeholder="Repita a senha">
+      </div>
+
+      <button class="primary" style="width:100%;margin-top:14px" onclick="criarContaEmail()">Criar conta</button>
+    </div>
+
+    <div id="authMessage" class="auth-message"></div>
+  </div>
+</div>
+
 <div class="app">
 
   <header class="topbar">
@@ -580,7 +759,10 @@
           <div class="sub">Controle de plantio e saídas</div>
         </div>
       </div>
-      <div class="top-chip" id="firebaseTopStatus">☁️ Firebase: conectando...</div>
+      <div class="user-menu">
+        <div class="user-badge">👤 <span id="usuarioLogado">Aguardando login...</span></div>
+        <button class="logout-btn" onclick="sairDaConta()">Sair</button>
+      </div>
     </div>
   </header>
 
@@ -2421,6 +2603,190 @@ window.viveiroCloudBridge = {
   }
 };
 
+
+function mostrarLogin(){
+  document.getElementById("loginForm").classList.remove("hidden");
+  document.getElementById("cadastroForm").classList.add("hidden");
+  document.getElementById("tabLogin").classList.add("active");
+  document.getElementById("tabCadastro").classList.remove("active");
+  document.getElementById("authMessage").textContent = "";
+}
+
+function mostrarCadastro(){
+  document.getElementById("cadastroForm").classList.remove("hidden");
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("tabCadastro").classList.add("active");
+  document.getElementById("tabLogin").classList.remove("active");
+  document.getElementById("authMessage").textContent = "";
+}
+
+function mensagemAuth(texto){
+  const el = document.getElementById("authMessage");
+  if(el) el.textContent = texto || "";
+}
+
+async function entrarComEmail(){
+  const email = document.getElementById("loginEmail").value.trim();
+  const senha = document.getElementById("loginSenha").value;
+
+  if(!email || !senha){
+    mensagemAuth("Informe e-mail e senha.");
+    return;
+  }
+
+  if(!window.authActions){
+    mensagemAuth("Firebase Authentication ainda está carregando.");
+    return;
+  }
+
+  try{
+    mensagemAuth("");
+    await window.authActions.login(email, senha);
+  }catch(erro){
+    mensagemAuth(window.authActions.traduzErro(erro));
+  }
+}
+
+async function criarContaEmail(){
+  const email = document.getElementById("cadastroEmail").value.trim();
+  const senha = document.getElementById("cadastroSenha").value;
+  const senha2 = document.getElementById("cadastroSenha2").value;
+
+  if(!email || !senha){
+    mensagemAuth("Informe e-mail e senha.");
+    return;
+  }
+
+  if(senha.length < 6){
+    mensagemAuth("A senha precisa ter pelo menos 6 caracteres.");
+    return;
+  }
+
+  if(senha !== senha2){
+    mensagemAuth("As senhas não conferem.");
+    return;
+  }
+
+  if(!window.authActions){
+    mensagemAuth("Firebase Authentication ainda está carregando.");
+    return;
+  }
+
+  try{
+    mensagemAuth("");
+    await window.authActions.cadastrar(email, senha);
+  }catch(erro){
+    mensagemAuth(window.authActions.traduzErro(erro));
+  }
+}
+
+async function sairDaConta(){
+  if(!window.authActions) return;
+
+  try{
+    await window.authActions.logout();
+  }catch{
+    toastMsg("Não foi possível sair da conta.");
+  }
+}
+
+function exibirUsuarioLogado(user){
+  const badge = document.getElementById("usuarioLogado");
+
+  if(badge){
+    badge.textContent = user?.email || "Usuário";
+  }
+
+  document.getElementById("authScreen").classList.add("hidden");
+}
+
+function exibirTelaLogin(){
+  const badge = document.getElementById("usuarioLogado");
+
+  if(badge){
+    badge.textContent = "Não autenticado";
+  }
+
+  document.getElementById("authScreen").classList.remove("hidden");
+}
+
+function limparDadosDaSessaoLocal(){
+  canteiros = [];
+  lancamentos = [];
+
+  localStorage.removeItem("viveiro_v2_canteiros");
+  localStorage.removeItem("viveiro_v2_lancamentos");
+  localStorage.removeItem("viveiro_last_modified");
+  localStorage.removeItem("viveiro_cloud_last_sync");
+
+  renderTudo();
+}
+
+window.viveiroAuthBridge = {
+  exibirUsuarioLogado,
+  exibirTelaLogin,
+  limparDadosDaSessaoLocal,
+
+  obterDadosLocais(){
+    return {
+      canteiros: structuredClone(canteiros),
+      lancamentos: structuredClone(lancamentos)
+    };
+  },
+
+  aplicarDadosDoUsuario(estado){
+    if(
+      !estado ||
+      !Array.isArray(estado.canteiros) ||
+      !Array.isArray(estado.lancamentos)
+    ){
+      throw new Error("Dados inválidos");
+    }
+
+    canteiros = structuredClone(estado.canteiros);
+    lancamentos = structuredClone(estado.lancamentos);
+
+    localStorage.setItem(
+      "viveiro_v2_canteiros",
+      JSON.stringify(canteiros)
+    );
+
+    localStorage.setItem(
+      "viveiro_v2_lancamentos",
+      JSON.stringify(lancamentos)
+    );
+
+    renderTudo();
+  },
+
+  criarDadosIniciais(){
+    const iniciais = structuredClone(PADRAO);
+    const movs = [];
+
+    iniciais.forEach(c=>{
+      const jaPlantado = c.capacidade - (c.faltaInicial ?? c.capacidade);
+
+      if(jaPlantado > 0){
+        movs.push({
+          id:novoId(),
+          tipo:"plantio",
+          canteiro:c.id,
+          quantidade:jaPlantado,
+          destino:"",
+          obs:"Saldo inicial do viveiro",
+          data:new Date().toISOString(),
+          inicial:true
+        });
+      }
+    });
+
+    return {
+      canteiros:iniciais,
+      lancamentos:movs
+    };
+  }
+};
+
 function renderTudo(){
   resumo();
   renderCanteiros();
@@ -2441,9 +2807,19 @@ renderTudo();
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
   import {
     getDatabase,
     ref,
+    get,
     set,
     onValue,
     serverTimestamp
@@ -2459,222 +2835,170 @@ renderTudo();
     appId: "1:808931200634:web:71357af2ff0dc2e4f5f5c3"
   };
 
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
   const bridge = window.viveiroCloudBridge;
+  const authBridge = window.viveiroAuthBridge;
 
-  let timer = null;
-  let db = null;
+  let user = null;
   let stateRef = null;
+  let unsubscribeState = null;
+  let timer = null;
   let aplicandoNuvem = false;
-  let primeiraLeituraConcluida = false;
+  let autenticadoNestaSessao = false;
 
-  const CLIENT_ID_KEY = "viveiro_firebase_client_id";
+  function traduzErro(erro){
+    const code = erro?.code || "";
 
-  let clientId = localStorage.getItem(CLIENT_ID_KEY);
+    const mapa = {
+      "auth/invalid-credential":"E-mail ou senha incorretos.",
+      "auth/user-not-found":"Usuário não encontrado.",
+      "auth/wrong-password":"Senha incorreta.",
+      "auth/email-already-in-use":"Esse e-mail já está cadastrado.",
+      "auth/invalid-email":"E-mail inválido.",
+      "auth/weak-password":"A senha precisa ter pelo menos 6 caracteres.",
+      "auth/too-many-requests":"Muitas tentativas. Tente novamente mais tarde.",
+      "auth/network-request-failed":"Falha de internet. Verifique a conexão."
+    };
 
-  if(!clientId){
-    clientId = crypto.randomUUID
-      ? crypto.randomUUID()
-      : "cliente-" + Date.now() + "-" + Math.random().toString(36).slice(2);
-
-    localStorage.setItem(CLIENT_ID_KEY, clientId);
+    return mapa[code] || "Não foi possível concluir a operação.";
   }
+
+  window.authActions = {
+    login(email,senha){
+      return signInWithEmailAndPassword(auth,email,senha);
+    },
+
+    cadastrar(email,senha){
+      return createUserWithEmailAndPassword(auth,email,senha);
+    },
+
+    logout(){
+      return signOut(auth);
+    },
+
+    traduzErro
+  };
 
   function marcarSincronizado(){
     const iso = new Date().toISOString();
 
-    localStorage.setItem(
-      "viveiro_cloud_last_sync",
-      iso
-    );
-
+    localStorage.setItem("viveiro_cloud_last_sync", iso);
     bridge.ultimaSync(iso);
   }
 
   async function enviarParaNuvem(){
-    if(!stateRef){
-      throw new Error("Firebase ainda não inicializado.");
+    if(!user || !stateRef){
+      return;
     }
 
-    bridge.status("sincronizando...");
+    const estado = authBridge.obterDadosLocais();
 
-    const estado = bridge.obterEstado();
-
-    await set(stateRef, {
-      canteiros: estado.canteiros,
-      lancamentos: estado.lancamentos,
-
-      // O horário agora é gerado pelo servidor do Firebase.
-      updatedAt: serverTimestamp(),
-
-      updatedBy: clientId,
-
-      sincronizadoEm: serverTimestamp()
+    await set(stateRef,{
+      canteiros:estado.canteiros,
+      lancamentos:estado.lancamentos,
+      updatedAt:serverTimestamp(),
+      updatedBy:user.uid,
+      sincronizadoEm:serverTimestamp()
     });
 
     marcarSincronizado();
-    bridge.status("sincronizado", "ok");
+    bridge.status("sincronizado","ok");
   }
 
-  function aplicarSnapshot(snapshot){
-    if(!snapshot.exists()){
-      return false;
+  async function carregarOuCriarDadosDoUsuario(){
+    if(!user || !stateRef) return;
+
+    bridge.status("carregando seus dados...");
+
+    const snapshot = await get(stateRef);
+
+    if(snapshot.exists()){
+      const remoto = snapshot.val();
+
+      aplicandoNuvem = true;
+      window.firebaseSync.aplicandoNuvem = true;
+
+      try{
+        authBridge.aplicarDadosDoUsuario(remoto);
+      }finally{
+        aplicandoNuvem = false;
+        window.firebaseSync.aplicandoNuvem = false;
+      }
+
+      marcarSincronizado();
+      bridge.status("conectado","ok");
+      return;
     }
 
-    const remoto = snapshot.val();
+    /*
+      Primeiro acesso desse usuário:
+      se já houver dados locais no aparelho, eles viram os dados iniciais da conta.
+      Caso contrário, cria a estrutura padrão do viveiro.
+    */
+    const local = authBridge.obterDadosLocais();
 
-    if(
-      !remoto ||
-      !Array.isArray(remoto.canteiros) ||
-      !Array.isArray(remoto.lancamentos)
-    ){
-      bridge.status("dados inválidos na nuvem", "erro");
-      return false;
-    }
+    const possuiDadosLocais =
+      Array.isArray(local.canteiros) &&
+      local.canteiros.length > 0;
+
+    const inicial = possuiDadosLocais
+      ? local
+      : authBridge.criarDadosIniciais();
 
     aplicandoNuvem = true;
     window.firebaseSync.aplicandoNuvem = true;
 
     try{
-      bridge.aplicarEstado(remoto);
-
-      if(remoto.updatedAt){
-        localStorage.setItem(
-          "viveiro_last_modified",
-          String(remoto.updatedAt)
-        );
-      }
-
-      marcarSincronizado();
-
-      bridge.status(
-        remoto.updatedBy === clientId
-          ? "sincronizado"
-          : "atualizado de outro aparelho",
-        "ok"
-      );
-
+      authBridge.aplicarDadosDoUsuario(inicial);
     }finally{
       aplicandoNuvem = false;
       window.firebaseSync.aplicandoNuvem = false;
     }
 
-    return true;
+    await enviarParaNuvem();
   }
 
-  window.firebaseSync = {
-    aplicandoNuvem:false,
-
-    agendar(){
-      if(aplicandoNuvem){
-        return;
-      }
-
-      clearTimeout(timer);
-
-      timer = setTimeout(()=>{
-        enviarParaNuvem().catch(erro=>{
-          console.error(erro);
-
-          bridge.status(
-            erro?.code === "PERMISSION_DENIED" ||
-            erro?.code === "PERMISSION_DENIED".toLowerCase()
-              ? "permissão negada"
-              : "erro de sincronização",
-            "erro"
-          );
-        });
-      }, 500);
-    },
-
-    async sincronizarAgora(){
-      clearTimeout(timer);
-      await enviarParaNuvem();
-    },
-
-    async restaurarDaNuvem(){
-      if(!stateRef){
-        throw new Error("Firebase ainda não inicializado.");
-      }
-
-      return await new Promise((resolve,reject)=>{
-        let terminou = false;
-
-        const parar = onValue(
-          stateRef,
-          snapshot=>{
-            if(terminou) return;
-            terminou = true;
-            parar();
-
-            if(!snapshot.exists()){
-              bridge.status("sem dados na nuvem");
-              resolve(false);
-              return;
-            }
-
-            try{
-              resolve(aplicarSnapshot(snapshot));
-            }catch(erro){
-              reject(erro);
-            }
-          },
-          erro=>{
-            if(terminou) return;
-            terminou = true;
-            parar();
-            reject(erro);
-          },
-          {onlyOnce:true}
-        );
-      });
+  function iniciarListenerUsuario(){
+    if(unsubscribeState){
+      unsubscribeState();
+      unsubscribeState = null;
     }
-  };
 
-  try{
-    bridge.status("conectando...");
-
-    const app = initializeApp(firebaseConfig);
-
-    db = getDatabase(app);
-
-    stateRef = ref(
-      db,
-      "viveiroCafe/estado"
-    );
-
-    /*
-      O onValue é a fonte principal da sincronização:
-      ele dispara com o estado inicial e novamente sempre
-      que qualquer outro aparelho alterar o banco.
-    */
-    onValue(
+    unsubscribeState = onValue(
       stateRef,
-
       snapshot=>{
-        if(!snapshot.exists()){
-          // Primeiro aparelho / banco ainda vazio:
-          if(!primeiraLeituraConcluida){
-            primeiraLeituraConcluida = true;
-
-            enviarParaNuvem().catch(erro=>{
-              console.error(erro);
-              bridge.status("erro ao enviar dados", "erro");
-            });
-          }
-
+        if(!snapshot.exists() || aplicandoNuvem){
           return;
         }
 
-        primeiraLeituraConcluida = true;
+        const remoto = snapshot.val();
 
-        aplicarSnapshot(snapshot);
+        if(
+          !Array.isArray(remoto?.canteiros) ||
+          !Array.isArray(remoto?.lancamentos)
+        ){
+          return;
+        }
+
+        aplicandoNuvem = true;
+        window.firebaseSync.aplicandoNuvem = true;
+
+        try{
+          authBridge.aplicarDadosDoUsuario(remoto);
+          marcarSincronizado();
+          bridge.status("atualizado em tempo real","ok");
+        }finally{
+          aplicandoNuvem = false;
+          window.firebaseSync.aplicandoNuvem = false;
+        }
       },
-
       erro=>{
         console.error(erro);
 
         bridge.status(
-          erro?.code === "PERMISSION_DENIED" ||
           erro?.message?.toLowerCase().includes("permission")
             ? "permissão negada"
             : "erro de conexão",
@@ -2682,55 +3006,117 @@ renderTudo();
         );
       }
     );
+  }
+
+  window.firebaseSync = {
+    aplicandoNuvem:false,
+
+    agendar(){
+      if(!user || aplicandoNuvem) return;
+
+      clearTimeout(timer);
+
+      timer=setTimeout(()=>{
+        enviarParaNuvem().catch(erro=>{
+          console.error(erro);
+          bridge.status("erro de sincronização","erro");
+        });
+      },500);
+    },
+
+    async sincronizarAgora(){
+      if(!user){
+        throw new Error("Usuário não autenticado");
+      }
+
+      clearTimeout(timer);
+      await enviarParaNuvem();
+    },
+
+    async restaurarDaNuvem(){
+      if(!user || !stateRef){
+        throw new Error("Usuário não autenticado");
+      }
+
+      const snapshot = await get(stateRef);
+
+      if(!snapshot.exists()){
+        return false;
+      }
+
+      const remoto = snapshot.val();
+
+      aplicandoNuvem = true;
+      window.firebaseSync.aplicandoNuvem = true;
+
+      try{
+        authBridge.aplicarDadosDoUsuario(remoto);
+        marcarSincronizado();
+        bridge.status("restaurado da nuvem","ok");
+      }finally{
+        aplicandoNuvem = false;
+        window.firebaseSync.aplicandoNuvem = false;
+      }
+
+      return true;
+    }
+  };
+
+  onAuthStateChanged(auth,async currentUser=>{
+    user=currentUser;
+
+    if(!user){
+      clearTimeout(timer);
+
+      if(unsubscribeState){
+        unsubscribeState();
+        unsubscribeState=null;
+      }
+
+      stateRef=null;
+
+      /*
+        Na primeira abertura da V12, preserva os dados locais antigos
+        para que possam ser enviados para a primeira conta criada/logada.
+        Depois que uma conta já esteve autenticada nesta sessão, ao sair
+        os dados locais são removidos para proteger a conta anterior.
+      */
+      if(autenticadoNestaSessao){
+        authBridge.limparDadosDaSessaoLocal();
+      }
+
+      authBridge.exibirTelaLogin();
+      bridge.status("aguardando login");
+      return;
+    }
+
+    autenticadoNestaSessao = true;
+
+    authBridge.exibirUsuarioLogado(user);
 
     /*
-      Mostra se este aparelho está realmente conectado
-      ao servidor do Realtime Database.
+      Cada login recebe um caminho exclusivo.
+      Um usuário nunca lê os dados do outro.
     */
-    onValue(
-      ref(db, ".info/connected"),
-
-      snapshot=>{
-        const conectado = snapshot.val() === true;
-
-        if(conectado){
-          bridge.status(
-            "conectado em tempo real",
-            "ok"
-          );
-
-          // Se houve alteração local enquanto estava offline,
-          // tenta enviar novamente ao reconectar.
-          const pendente =
-            Number(localStorage.getItem("viveiro_last_modified") || 0) >
-            0;
-
-          if(
-            primeiraLeituraConcluida &&
-            pendente &&
-            !aplicandoNuvem
-          ){
-            // Não força escrita imediata do estado ao conectar;
-            // alterações locais já chamam agendar().
-          }
-
-        }else{
-          bridge.status(
-            "offline",
-            "erro"
-          );
-        }
-      }
+    stateRef=ref(
+      db,
+      `viveiroCafe/users/${user.uid}/estado`
     );
 
-  }catch(erro){
-    console.error(erro);
+    try{
+      await carregarOuCriarDadosDoUsuario();
+      iniciarListenerUsuario();
+    }catch(erro){
+      console.error(erro);
 
-    bridge.status(
-      "não conectado",
-      "erro"
-    );
-  }
+      bridge.status(
+        erro?.message?.toLowerCase().includes("permission")
+          ? "permissão negada"
+          : "erro ao carregar dados",
+        "erro"
+      );
+    }
+  });
 </script>
 
 </body>
