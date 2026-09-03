@@ -1,10 +1,10 @@
 {
-  "name": "Viveiro Café",
-  "short_name": "Viveiro",
+  "name": "Viveiro Café — Gestão Completa",
+  "short_name": "Viveiro Café",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#F4F7F3",
-  "theme_color": "#174D2D",
+  "background_color": "#F3F6F2",
+  "theme_color": "#174B35",
   "icons": [
     {
       "src": "icon-192.png",
@@ -16,5 +16,6 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "description": "Gestão completa do viveiro de café: canteiros, mudas, reservas, perdas, transferências, manejo, insumos e relatórios."
 }

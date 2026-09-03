@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#174D2D" />
-  <title>Viveiro Café</title>
+  <meta name="theme-color" content="#174B35" />
+  <title>Viveiro Café • V16 Final</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon-192.png">
 
@@ -1994,6 +1994,7 @@
     }
 
   </style>
+  <link rel="stylesheet" href="./viveiro-final.css?v=16">
 </head>
 
 <body>
@@ -2058,10 +2059,13 @@
         <div class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.8 4.2C14.3 4.3 9 6.1 6.2 9.5c-2.1 2.5-2.7 5.4-1.8 8.4 2.6-4.2 6.4-7.2 11.2-9.2-4.2 2.5-7.4 5.8-9.5 10 .8.6 1.8 1 2.9 1 3.5 0 6.4-2.2 8.2-5.2 1.8-3.1 2.6-6.9 2.6-10.3Z" fill="currentColor"/></svg></div>
         <div>
           <h1>Viveiro Café</h1>
-          <div class="sub">Gestão inteligente do viveiro</div>
+          <div class="sub">Gestão inteligente do viveiro <span class="v16-version">V16 FINAL</span></div>
         </div>
       </div>
       <div class="user-menu">
+        <button class="v16-top-btn" onclick="abrirBuscaFinal()" aria-label="Buscar no viveiro" title="Buscar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
         <div class="user-badge">
           <span class="user-avatar" id="userAvatar">U</span>
           <span id="usuarioLogado">Aguardando login...</span>
@@ -2138,6 +2142,37 @@
       </div>
     </div>
 
+
+    <div class="section-head v16-operacao-head">
+      <h2 class="section-title">Situação do viveiro</h2>
+      <div class="section-note">Disponibilidade real e qualidade</div>
+    </div>
+
+    <div class="v16-status-grid">
+      <div class="v16-status-card">
+        <small>Reservadas</small>
+        <strong id="v16Reservadas">0</strong>
+        <span>mudas comprometidas</span>
+      </div>
+      <div class="v16-status-card">
+        <small>Perdas</small>
+        <strong id="v16Perdas">0</strong>
+        <span>mortalidade e descarte</span>
+      </div>
+      <div class="v16-status-card">
+        <small>Sobrevivência</small>
+        <strong id="v16Sobrevivencia">100%</strong>
+        <span>sobre o plantio efetivo</span>
+      </div>
+      <div class="v16-status-card">
+        <small>Prontas</small>
+        <strong id="v16Prontas">0</strong>
+        <span>canteiros na fase pronta</span>
+      </div>
+    </div>
+
+    <div id="v16Alertas" class="v16-alertas"></div>
+
     <div class="section-head">
       <h2 class="section-title">Movimentações</h2>
       <div class="section-note">Escolha o que deseja registrar</div>
@@ -2191,7 +2226,7 @@
   <section id="tab-historico" class="hidden">
     <div class="section-head">
       <h2 class="section-title">Histórico</h2>
-      <div class="section-note">Plantios e saídas</div>
+      <div class="section-note">Plantios, saídas, perdas e transferências</div>
     </div>
 
     <div class="card" style="margin-bottom:14px">
@@ -2200,6 +2235,8 @@
           <option value="todos">Todos os lançamentos</option>
           <option value="plantio">Somente plantios</option>
           <option value="saida">Somente saídas</option>
+          <option value="perda">Somente perdas</option>
+          <option value="transferencia">Somente transferências</option>
         </select>
       </div>
 
@@ -2283,6 +2320,14 @@
             <strong id="rFalta">0</strong>
           </div>
         </div>
+      </div>
+
+
+      <div class="v16-report-ops">
+        <div><small>Disponíveis reais</small><strong id="v16RDisponiveis">0</strong></div>
+        <div><small>Reservadas</small><strong id="v16RReservadas">0</strong></div>
+        <div><small>Perdas</small><strong id="v16RPerdas">0</strong></div>
+        <div><small>Sobrevivência</small><strong id="v16RSobrevivencia">100%</strong></div>
       </div>
 
       <div class="card report-filter-card">
@@ -2397,21 +2442,69 @@
 
     </div>
   </section>
+  <section id="tab-gestao" class="hidden">
+    <div class="v16-module-head">
+      <div>
+        <div class="v16-kicker">GESTÃO OPERACIONAL</div>
+        <h2>Viveiro completo</h2>
+        <p>Reservas, manejos, insumos, previsões e segurança dos registros.</p>
+      </div>
+      <button class="primary" onclick="abrirMenuAdicionarFinal()">+ Novo</button>
+    </div>
+
+    <div class="v16-gestao-kpis">
+      <div class="v16-gestao-kpi"><small>Reservas pendentes</small><strong id="v16KpiReservas">0</strong></div>
+      <div class="v16-gestao-kpi"><small>Manejos pendentes</small><strong id="v16KpiManejos">0</strong></div>
+      <div class="v16-gestao-kpi"><small>Insumos baixos</small><strong id="v16KpiInsumos">0</strong></div>
+      <div class="v16-gestao-kpi"><small>Lixeira</small><strong id="v16KpiLixeira">0</strong></div>
+    </div>
+
+    <div class="section-head">
+      <h2 class="section-title">Reservas e pedidos</h2>
+      <button class="primary" onclick="abrirReservaFinal()">+ Reserva</button>
+    </div>
+    <div id="v16ReservasLista" class="v16-list"></div>
+
+    <div class="section-head">
+      <h2 class="section-title">Manejo do viveiro</h2>
+      <button class="primary" onclick="abrirManejoFinal()">+ Manejo</button>
+    </div>
+    <div id="v16ManejosLista" class="v16-list"></div>
+
+    <div class="section-head">
+      <h2 class="section-title">Estoque de insumos</h2>
+      <div class="btnrow v16-inline-actions">
+        <button class="secondary" onclick="abrirMovInsumoFinal()">Movimentar</button>
+        <button class="primary" onclick="abrirInsumoFinal()">+ Produto</button>
+      </div>
+    </div>
+    <div id="v16InsumosLista" class="v16-stock-grid"></div>
+
+    <div class="section-head">
+      <h2 class="section-title">Lixeira e segurança</h2>
+      <div class="section-note">Registros excluídos podem ser restaurados</div>
+    </div>
+    <div id="v16LixeiraLista" class="v16-list"></div>
+  </section>
+
 </div>
 
 <nav class="bottom-nav">
   <div class="inner">
-    <button class="navbtn active" onclick="trocarAba('resumo',this)">
+    <button class="navbtn active" data-nav="resumo" onclick="trocarAba('resumo',this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><span>Resumo</span>
     </button>
-    <button class="navbtn" onclick="trocarAba('canteiros',this)">
+    <button class="navbtn" data-nav="canteiros" onclick="trocarAba('canteiros',this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8M12 13c-4 0-7-2-7-6 4 0 7 2 7 6Zm0-2c0-4 3-7 7-7 0 4-3 7-7 7Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Canteiros</span>
     </button>
-    <button class="navbtn" onclick="trocarAba('historico',this)">
+    <button class="navbtn" data-nav="historico" onclick="trocarAba('historico',this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Histórico</span>
     </button>
-    <button class="navbtn" onclick="trocarAba('relatorio',this)">
+    <button class="navbtn" data-nav="relatorio" onclick="trocarAba('relatorio',this)">
       <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7V3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5M10 13h5M10 17h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span>Relatório</span>
+    </button>
+    <button class="navbtn" data-nav="gestao" onclick="trocarAba('gestao',this)">
+      <span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M7 4v6M17 4v6M5 12h14v8H5v-8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Gestão</span>
     </button>
   </div>
 </nav>
@@ -2469,6 +2562,16 @@
       <div class="field">
         <label>Destino / Cliente</label>
         <input id="saidaDestino" placeholder="Ex.: Sítio AM">
+      </div>
+
+      <div class="field">
+        <label>Telefone</label>
+        <input id="saidaTelefone" inputmode="tel" placeholder="Opcional">
+      </div>
+
+      <div class="field">
+        <label>Responsável pela retirada</label>
+        <input id="saidaResponsavel" placeholder="Opcional">
       </div>
 
       <div class="field">
@@ -2556,6 +2659,41 @@
         <input id="cBaixo" type="number" min="0">
       </div>
 
+
+      <div class="field">
+        <label>Lote / identificação</label>
+        <input id="cLote" placeholder="Ex.: R22-01">
+      </div>
+
+      <div class="field">
+        <label>Origem / planta matriz</label>
+        <input id="cOrigem" placeholder="Opcional">
+      </div>
+
+      <div class="field">
+        <label>Data da estaquia</label>
+        <input id="cDataEstaquia" type="date">
+      </div>
+
+      <div class="field">
+        <label>Data do transplante</label>
+        <input id="cDataTransplante" type="date">
+      </div>
+
+      <div class="field">
+        <label>Previsão de muda pronta</label>
+        <input id="cPrevisaoPronta" type="date">
+      </div>
+
+      <div class="field">
+        <label>Fase atual</label>
+        <select id="cFase">
+          <option value="formacao">Formação</option>
+          <option value="rustificacao">Rustificação</option>
+          <option value="pronta">Pronta para saída</option>
+        </select>
+      </div>
+
       <div class="field full">
         <label>Observação</label>
         <textarea id="cObs" rows="3"></textarea>
@@ -2568,21 +2706,142 @@
   </div>
 </div>
 
+
+<!-- V16 FINAL — PERDA -->
+<div id="modalPerdaFinal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="perdaTitleFinal">Registrar perda</h3><button class="xbtn" onclick="fecharModalFinal('modalPerdaFinal')">Fechar</button></div>
+    <input id="perdaEditIdFinal" type="hidden">
+    <div class="form">
+      <div class="field"><label>Canteiro</label><select id="perdaBedFinal"></select></div>
+      <div class="field"><label>Quantidade</label><input id="perdaQtyFinal" type="number" min="1"></div>
+      <div class="field"><label>Motivo</label><select id="perdaMotivoFinal"><option>Mortalidade</option><option>Descarte</option><option>Seleção</option><option>Doença</option><option>Outro</option></select></div>
+      <div class="field"><label>Data</label><input id="perdaDataFinal" type="date"></div>
+      <div class="field full"><label>Observação</label><input id="perdaObsFinal" placeholder="Opcional"></div>
+      <div class="field full"><button class="primary" onclick="salvarPerdaFinal()">Salvar perda</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- V16 FINAL — TRANSFERÊNCIA -->
+<div id="modalTransferFinal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="transferTitleFinal">Transferir mudas</h3><button class="xbtn" onclick="fecharModalFinal('modalTransferFinal')">Fechar</button></div>
+    <input id="transferEditIdFinal" type="hidden">
+    <div class="form">
+      <div class="field"><label>Origem</label><select id="transferOrigemFinal"></select></div>
+      <div class="field"><label>Destino</label><select id="transferDestinoFinal"></select></div>
+      <div class="field"><label>Quantidade</label><input id="transferQtyFinal" type="number" min="1"></div>
+      <div class="field"><label>Data</label><input id="transferDataFinal" type="date"></div>
+      <div class="field full"><label>Observação</label><input id="transferObsFinal" placeholder="Opcional"></div>
+      <div class="field full"><button class="primary" onclick="salvarTransferFinal()">Salvar transferência</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- V16 FINAL — RESERVA -->
+<div id="modalReservaFinal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="reservaTitleFinal">Nova reserva</h3><button class="xbtn" onclick="fecharModalFinal('modalReservaFinal')">Fechar</button></div>
+    <input id="reservaEditIdFinal" type="hidden">
+    <div class="form">
+      <div class="field"><label>Canteiro</label><select id="reservaBedFinal"></select></div>
+      <div class="field"><label>Quantidade</label><input id="reservaQtyFinal" type="number" min="1"></div>
+      <div class="field"><label>Cliente / destino</label><input id="reservaClienteFinal"></div>
+      <div class="field"><label>Telefone</label><input id="reservaTelefoneFinal" inputmode="tel"></div>
+      <div class="field"><label>Previsão de retirada</label><input id="reservaDataFinal" type="date"></div>
+      <div class="field"><label>Status</label><select id="reservaStatusFinal"><option value="pendente">Pendente</option><option value="cancelada">Cancelada</option></select></div>
+      <div class="field full"><label>Observação</label><input id="reservaObsFinal" placeholder="Opcional"></div>
+      <div class="field full"><button class="primary" onclick="salvarReservaFinal()">Salvar reserva</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- V16 FINAL — MANEJO -->
+<div id="modalManejoFinal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="manejoTitleFinal">Novo manejo</h3><button class="xbtn" onclick="fecharModalFinal('modalManejoFinal')">Fechar</button></div>
+    <input id="manejoEditIdFinal" type="hidden">
+    <div class="form">
+      <div class="field"><label>Data</label><input id="manejoDataFinal" type="date"></div>
+      <div class="field"><label>Canteiro</label><select id="manejoBedFinal"><option value="">Viveiro inteiro</option></select></div>
+      <div class="field"><label>Tipo</label><select id="manejoTipoFinal"><option>Irrigação</option><option>Adubação</option><option>Fungicida</option><option>Inseticida</option><option>Biológico</option><option>Limpeza</option><option>Seleção</option><option>Rustificação</option><option>Outro</option></select></div>
+      <div class="field"><label>Status</label><select id="manejoStatusFinal"><option value="programado">Programado</option><option value="concluido">Concluído</option></select></div>
+      <div class="field"><label>Insumo utilizado</label><select id="manejoInsumoFinal"><option value="">Sem baixa de estoque</option></select></div>
+      <div class="field"><label>Quantidade do insumo</label><input id="manejoQtdInsumoFinal" type="number" min="0" step="0.01" placeholder="Opcional"></div>
+      <div class="field full"><label>Observação</label><input id="manejoObsFinal" placeholder="Dose, produto, serviço ou observação"></div>
+      <div class="field full"><button class="primary" onclick="salvarManejoFinal()">Salvar manejo</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- V16 FINAL — INSUMO -->
+<div id="modalInsumoFinal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="insumoTitleFinal">Novo insumo</h3><button class="xbtn" onclick="fecharModalFinal('modalInsumoFinal')">Fechar</button></div>
+    <input id="insumoEditIdFinal" type="hidden">
+    <div class="form">
+      <div class="field"><label>Produto</label><input id="insumoNomeFinal"></div>
+      <div class="field"><label>Unidade</label><select id="insumoUnidadeFinal"><option>kg</option><option>L</option><option>un</option><option>saco</option><option>caixa</option></select></div>
+      <div class="field"><label>Estoque mínimo</label><input id="insumoMinFinal" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>Observação</label><input id="insumoObsFinal" placeholder="Opcional"></div>
+      <div class="field full"><button class="primary" onclick="salvarInsumoFinal()">Salvar produto</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- V16 FINAL — MOVIMENTO INSUMO -->
+<div id="modalMovInsumoFinal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head"><h3>Movimentar insumo</h3><button class="xbtn" onclick="fecharModalFinal('modalMovInsumoFinal')">Fechar</button></div>
+    <div class="form">
+      <div class="field"><label>Produto</label><select id="movInsumoFinal"></select></div>
+      <div class="field"><label>Tipo</label><select id="movTipoFinal" onchange="ajustarMovInsumoFinal()"><option value="entrada">Entrada</option><option value="saida">Saída / consumo</option></select></div>
+      <div class="field"><label>Quantidade</label><input id="movQtdFinal" type="number" min="0" step="0.01"></div>
+      <div class="field" id="movCustoWrapFinal"><label>Custo unitário</label><input id="movCustoFinal" type="number" min="0" step="0.01"></div>
+      <div class="field"><label>Data</label><input id="movDataFinal" type="date"></div>
+      <div class="field"><label>Observação</label><input id="movObsFinal" placeholder="Opcional"></div>
+      <div class="field full"><div id="movSaldoFinal" class="note"></div></div>
+      <div class="field full"><button class="primary" onclick="salvarMovInsumoFinal()">Salvar movimentação</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- V16 FINAL — BUSCA -->
+<div id="modalBuscaFinal" class="modal hidden">
+  <div class="modal-card v16-wide-modal">
+    <div class="modal-head"><h3>Buscar no viveiro</h3><button class="xbtn" onclick="fecharModalFinal('modalBuscaFinal')">Fechar</button></div>
+    <div class="v16-search-box">
+      <input id="buscaGlobalFinal" type="search" placeholder="Canteiro, variedade, lote, cliente, produto..." oninput="renderBuscaFinal()">
+    </div>
+    <div id="buscaResultadosFinal" class="v16-list" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<!-- V16 FINAL — MENU FLUTUANTE -->
+<div id="v16FabBackdrop" class="v16-fab-backdrop hidden" onclick="fecharMenuAdicionarFinal()"></div>
+<div id="v16FabMenu" class="v16-fab-menu hidden">
+  <div class="v16-fab-head"><div><small>ADICIONAR</small><strong>Novo registro</strong></div><button onclick="fecharMenuAdicionarFinal()">×</button></div>
+  <div class="v16-fab-grid">
+    <button onclick="acaoFabFinal('plantio')"><span>＋</span><strong>Plantio</strong></button>
+    <button onclick="acaoFabFinal('saida')"><span>↗</span><strong>Saída</strong></button>
+    <button onclick="acaoFabFinal('perda')"><span>!</span><strong>Perda</strong></button>
+    <button onclick="acaoFabFinal('transferencia')"><span>⇄</span><strong>Transferir</strong></button>
+    <button onclick="acaoFabFinal('reserva')"><span>R</span><strong>Reserva</strong></button>
+    <button onclick="acaoFabFinal('manejo')"><span>M</span><strong>Manejo</strong></button>
+    <button onclick="acaoFabFinal('canteiro')"><span>C</span><strong>Canteiro</strong></button>
+    <button onclick="acaoFabFinal('insumo')"><span>I</span><strong>Insumo</strong></button>
+  </div>
+</div>
+<button id="v16Fab" class="v16-fab" onclick="abrirMenuAdicionarFinal()" aria-label="Adicionar registro">+</button>
+
 <div id="toast" class="toast"></div>
 
 <script>
-const PADRAO = [
-  {id:1,variedade:"156",cima:1560,baixo:1940,capacidade:3500,faltaInicial:2400,obs:""},
-  {id:2,variedade:"88",cima:1560,baixo:1932,capacidade:3492,faltaInicial:0,obs:""},
-  {id:3,variedade:"R22",cima:1617,baixo:2112,capacidade:3729,faltaInicial:962,obs:""},
-  {id:4,variedade:"25",cima:1659,baixo:2024,capacidade:3683,faltaInicial:955,obs:""},
-  {id:5,variedade:"08",cima:1738,baixo:2090,capacidade:3828,faltaInicial:3828,obs:""},
-  {id:6,variedade:"LB15",cima:1638,baixo:2134,capacidade:3772,faltaInicial:3772,obs:""},
-  {id:7,variedade:"04",cima:1680,baixo:1920,capacidade:3600,faltaInicial:3600,obs:""}
-];
+const PADRAO = [];
 
-let canteiros = JSON.parse(localStorage.getItem("viveiro_v2_canteiros") || "null") || structuredClone(PADRAO);
-let lancamentos = JSON.parse(localStorage.getItem("viveiro_v2_lancamentos") || "null");
+let canteiros = JSON.parse(localStorage.getItem("viveiro_v2_canteiros") || "null") || [];
+let lancamentos = JSON.parse(localStorage.getItem("viveiro_v2_lancamentos") || "null") || [];
 
 if(!lancamentos){
   lancamentos = [];
@@ -2957,7 +3216,7 @@ function renderCanteiros(){
       const st=statusItem(c.id);
 
       return `
-        <div class="card canteiro">
+        <div class="card canteiro" data-canteiro-id="${c.id}">
           <div class="canteiro-top">
             <div class="canteiro-head">
               <div>
@@ -4162,12 +4421,14 @@ function renderTudo(){
 
 if("serviceWorker" in navigator){
   window.addEventListener("load",()=>{
-    navigator.serviceWorker.register("sw.js").catch(()=>{});
+    navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(r=>r.update().catch(()=>{})).catch(()=>{});
   });
 }
 
 renderTudo();
 </script>
+
+<script src="./viveiro-final.js?v=16"></script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
@@ -4186,7 +4447,8 @@ renderTudo();
     get,
     set,
     onValue,
-    serverTimestamp
+    serverTimestamp,
+    runTransaction
   } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
   const firebaseConfig = {
@@ -4258,15 +4520,35 @@ renderTudo();
       return;
     }
 
-    const estado = authBridge.obterDadosLocais();
+    const estadoLocal = authBridge.obterDadosLocais();
 
-    await set(stateRef,{
-      canteiros:estado.canteiros,
-      lancamentos:estado.lancamentos,
-      updatedAt:serverTimestamp(),
-      updatedBy:user.uid,
-      sincronizadoEm:serverTimestamp()
+    bridge.status("sincronizando...");
+
+    const resultado = await runTransaction(stateRef, atual=>{
+      const mesclado = window.viveiroFinalState
+        ? window.viveiroFinalState.mesclarEstado(atual || {}, estadoLocal)
+        : { ...atual, ...estadoLocal };
+
+      return {
+        ...mesclado,
+        updatedAt: Date.now(),
+        updatedBy: user.uid,
+        sincronizadoEm: Date.now(),
+        versao: "16-final"
+      };
     });
+
+    if(resultado.committed && resultado.snapshot.exists()){
+      aplicandoNuvem = true;
+      window.firebaseSync.aplicandoNuvem = true;
+
+      try{
+        authBridge.aplicarDadosDoUsuario(resultado.snapshot.val());
+      }finally{
+        aplicandoNuvem = false;
+        window.firebaseSync.aplicandoNuvem = false;
+      }
+    }
 
     marcarSincronizado();
     bridge.status("sincronizado","ok");
@@ -4304,7 +4586,13 @@ renderTudo();
     */
     const inicial = {
       canteiros: [],
-      lancamentos: []
+      lancamentos: [],
+      reservas: [],
+      manejos: [],
+      insumos: [],
+      movimentosInsumos: [],
+      lixeira: [],
+      auditoria: []
     };
 
     aplicandoNuvem = true;
@@ -4346,7 +4634,11 @@ renderTudo();
         window.firebaseSync.aplicandoNuvem = true;
 
         try{
-          authBridge.aplicarDadosDoUsuario(remoto);
+          const combinado = window.viveiroFinalState
+            ? window.viveiroFinalState.mesclarEstado(remoto, authBridge.obterDadosLocais())
+            : remoto;
+
+          authBridge.aplicarDadosDoUsuario(combinado);
           marcarSincronizado();
           bridge.status("atualizado em tempo real","ok");
         }finally{
@@ -4423,6 +4715,7 @@ renderTudo();
 
   onAuthStateChanged(auth,async currentUser=>{
     user=currentUser;
+    window.viveiroUid = user?.uid || "";
 
     if(!user){
       clearTimeout(timer);

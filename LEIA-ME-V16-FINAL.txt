@@ -1,0 +1,41 @@
+VIVEIRO CAFÉ — V16 FINAL
+
+Base oficial: V15 usuário novo zerado.
+
+PRINCIPAIS EVOLUÇÕES
+- Usuário novo continua 100% vazio.
+- Dados de usuários existentes preservados e migrados sem pré-carga histórica.
+- Cache local separado por usuário autenticado.
+- Sincronização Firebase com transação + mesclagem por registro, reduzindo sobrescrita entre aparelhos.
+- Metadados updatedAt para conflitos de sincronização.
+- Lixeira com restauração de canteiros, movimentações, reservas e manejos.
+- Exclusão de canteiro preserva os registros ligados em um pacote restaurável.
+- Plantio e saída.
+- Mortalidade / perdas.
+- Transferência entre canteiros.
+- Reservas e pedidos com entrega gerando saída automática.
+- Comprovante imprimível de saída.
+- Canteiros com lote, origem, data de estaquia, transplante, previsão de muda pronta e fase.
+- Indicadores de sobrevivência, perdas, reservas e mudas disponíveis reais.
+- Alertas de reserva atrasada, manejo atrasado, estoque baixo e perda elevada.
+- Manejo do viveiro: irrigação, adubação, fungicida, inseticida, biológico, limpeza, seleção, rustificação e outros.
+- Estoque de insumos com entrada, saída, estoque mínimo e custo médio.
+- Baixa de insumo automática ao concluir manejo.
+- Busca geral.
+- Botão flutuante +.
+- Aba Gestão.
+- Relatório operacional mais completo.
+- CSV com perdas, reservas, disponibilidade real, sobrevivência, lote, fase e previsão.
+- Backup V16 completo.
+- PWA / Service Worker atualizado.
+
+ESTRUTURAS NOVAS NO FIREBASE
+reservas
+manejos
+insumos
+movimentosInsumos
+lixeira
+auditoria
+
+O caminho permanece:
+viveiroCafe/users/{uid}/estado
