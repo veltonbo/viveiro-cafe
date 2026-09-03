@@ -1,0 +1,553 @@
+
+/* =========================================================
+   VIVEIRO CAFÉ — V16.1
+   CORREÇÕES DE SOBREPOSIÇÃO / MOBILE / SAFE AREA
+   ========================================================= */
+
+:root{
+  --v161-nav-h:72px;
+}
+
+/* ---------------------------------------------------------
+   Reserva espaço real para a navegação fixa e o FAB
+   --------------------------------------------------------- */
+body{
+  padding-bottom:calc(var(--v161-nav-h) + 34px + env(safe-area-inset-bottom))!important;
+  overflow-x:hidden!important;
+}
+
+.app{
+  padding-bottom:26px!important;
+  overflow:visible!important;
+}
+
+/* ---------------------------------------------------------
+   Topo: evita marca + usuário + botões se atropelarem
+   --------------------------------------------------------- */
+.topbar{
+  overflow:visible!important;
+}
+
+.topbar-inner{
+  min-width:0!important;
+}
+
+.brand{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+
+.brand > div:last-child{
+  min-width:0!important;
+}
+
+.brand h1{
+  overflow-wrap:normal!important;
+}
+
+.user-menu{
+  flex:0 0 auto!important;
+  min-width:0!important;
+}
+
+.user-badge{
+  min-width:0!important;
+}
+
+#usuarioLogado{
+  display:block;
+  min-width:0;
+  max-width:118px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* ---------------------------------------------------------
+   Cabeçalhos e ações: podem quebrar linha, nunca se sobrepor
+   --------------------------------------------------------- */
+.section-head,
+.v16-module-head,
+.canteiro-head,
+.report-header,
+.modal-head{
+  min-width:0!important;
+}
+
+.section-head{
+  flex-wrap:wrap!important;
+}
+
+.section-head > *{
+  min-width:0!important;
+}
+
+.v16-module-head{
+  flex-wrap:wrap!important;
+}
+
+.v16-module-head > div:first-child{
+  min-width:0!important;
+  flex:1 1 280px!important;
+}
+
+.v16-module-head > button{
+  flex:0 0 auto!important;
+}
+
+/* ---------------------------------------------------------
+   Navegação inferior: eram 5 botões em grade de 4 colunas.
+   Esta era a principal causa de sobreposição.
+   --------------------------------------------------------- */
+.bottom-nav{
+  z-index:50!important;
+  padding:7px 8px calc(7px + env(safe-area-inset-bottom))!important;
+}
+
+.bottom-nav .inner{
+  width:min(720px,100%)!important;
+  max-width:720px!important;
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  grid-auto-flow:row!important;
+  grid-auto-rows:1fr!important;
+  gap:3px!important;
+  padding:4px!important;
+}
+
+.navbtn{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  overflow:hidden!important;
+  padding:7px 2px!important;
+}
+
+.navbtn span:last-child{
+  width:100%!important;
+  min-width:0!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  text-align:center!important;
+}
+
+/* ---------------------------------------------------------
+   FAB: sempre acima da nav, mas abaixo de qualquer modal
+   --------------------------------------------------------- */
+.v16-fab{
+  z-index:70!important;
+  right:max(11px,env(safe-area-inset-right))!important;
+  bottom:calc(var(--v161-nav-h) + 18px + env(safe-area-inset-bottom))!important;
+}
+
+.v16-fab-backdrop{
+  z-index:75!important;
+}
+
+.v16-fab-menu{
+  z-index:80!important;
+  right:max(9px,env(safe-area-inset-right))!important;
+  bottom:calc(var(--v161-nav-h) + 78px + env(safe-area-inset-bottom))!important;
+  max-height:min(520px,calc(100dvh - var(--v161-nav-h) - 112px - env(safe-area-inset-top) - env(safe-area-inset-bottom)))!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain!important;
+}
+
+/* ---------------------------------------------------------
+   Modal deve cobrir FAB e barra inferior, não ficar atrás deles
+   --------------------------------------------------------- */
+.modal{
+  z-index:120!important;
+  padding-top:max(8px,env(safe-area-inset-top))!important;
+  padding-left:max(8px,env(safe-area-inset-left))!important;
+  padding-right:max(8px,env(safe-area-inset-right))!important;
+  padding-bottom:0!important;
+  overflow:hidden!important;
+}
+
+.modal-card{
+  position:relative!important;
+  z-index:121!important;
+  width:min(720px,100%)!important;
+  max-width:100%!important;
+  max-height:calc(100dvh - max(8px,env(safe-area-inset-top)))!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain!important;
+  padding-bottom:calc(18px + env(safe-area-inset-bottom))!important;
+}
+
+.v16-wide-modal{
+  width:min(760px,100%)!important;
+}
+
+/* Se um modal estiver aberto, o botão + não fica visualmente por cima. */
+body:has(.modal:not(.hidden)) .v16-fab,
+body:has(.modal:not(.hidden)) .v16-fab-menu,
+body:has(.modal:not(.hidden)) .v16-fab-backdrop{
+  opacity:0!important;
+  pointer-events:none!important;
+}
+
+/* Toast sempre acima de tudo que precisa ser lido */
+.toast{
+  z-index:150!important;
+  bottom:calc(var(--v161-nav-h) + 18px + env(safe-area-inset-bottom))!important;
+  max-width:calc(100vw - 28px)!important;
+  white-space:normal!important;
+  text-align:center!important;
+}
+
+/* Tela de autenticação sempre no topo da pilha */
+.auth-screen{
+  z-index:200!important;
+}
+
+/* ---------------------------------------------------------
+   Linhas/listas: impede quantidade e botões de encobrirem texto
+   --------------------------------------------------------- */
+.v16-row{
+  min-width:0!important;
+}
+
+.v16-row-main{
+  min-width:0!important;
+}
+
+.v16-row-main strong,
+.v16-row-main small{
+  overflow-wrap:anywhere!important;
+}
+
+.v16-row-value{
+  flex:0 0 auto!important;
+  max-width:38%!important;
+  overflow-wrap:anywhere!important;
+}
+
+.history-item{
+  min-width:0!important;
+}
+
+.history-item > div:nth-child(2){
+  min-width:0!important;
+}
+
+.history-main,
+.history-meta{
+  overflow-wrap:anywhere!important;
+}
+
+.history-qty{
+  max-width:30vw!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+.btnrow,
+.history-actions,
+.v16-row-actions,
+.v16-inline-actions{
+  min-width:0!important;
+}
+
+.btnrow button,
+.history-actions button,
+.v16-row-actions button{
+  min-width:0!important;
+}
+
+/* Cards nunca ultrapassam a largura da tela */
+.card,
+.canteiro,
+.v16-status-card,
+.v16-stock-card,
+.v16-row,
+.v16-gestao-kpi,
+.report-filter-card{
+  min-width:0!important;
+  max-width:100%!important;
+}
+
+.grid,
+.summary,
+.v16-status-grid,
+.v16-gestao-kpis,
+.v16-stock-grid,
+.v16-report-ops,
+.v16-canteiro-extra,
+.v16-mini-actions{
+  min-width:0!important;
+}
+
+.grid > *,
+.summary > *,
+.v16-status-grid > *,
+.v16-gestao-kpis > *,
+.v16-stock-grid > *,
+.v16-report-ops > *{
+  min-width:0!important;
+}
+
+/* Campos não podem estourar grid/flex */
+input,
+select,
+textarea,
+button{
+  max-width:100%!important;
+}
+
+.form > .field{
+  min-width:0!important;
+}
+
+/* ---------------------------------------------------------
+   Mobile
+   --------------------------------------------------------- */
+@media(max-width:720px){
+  :root{
+    --v161-nav-h:68px;
+  }
+
+  body{
+    padding-bottom:calc(var(--v161-nav-h) + 30px + env(safe-area-inset-bottom))!important;
+  }
+
+  .app{
+    padding-left:11px!important;
+    padding-right:11px!important;
+    padding-bottom:24px!important;
+  }
+
+  .topbar-inner{
+    gap:7px!important;
+  }
+
+  .brand{
+    gap:8px!important;
+  }
+
+  .brand h1{
+    font-size:20px!important;
+    line-height:1.02!important;
+  }
+
+  .sub{
+    font-size:9px!important;
+  }
+
+  .v16-version{
+    margin-left:4px!important;
+    padding:2px 5px!important;
+    font-size:7px!important;
+  }
+
+  .v16-top-btn,
+  .logout-btn{
+    width:36px!important;
+    min-width:36px!important;
+    height:36px!important;
+  }
+
+  .user-badge{
+    width:36px!important;
+    min-width:36px!important;
+    max-width:36px!important;
+    padding:4px!important;
+    justify-content:center!important;
+  }
+
+  #usuarioLogado{
+    display:none!important;
+  }
+
+  .user-avatar{
+    flex:0 0 auto!important;
+  }
+
+  .section-head{
+    align-items:flex-start!important;
+  }
+
+  .section-head .section-note{
+    flex:1 1 100%!important;
+  }
+
+  .v16-module-head{
+    flex-direction:column!important;
+    align-items:stretch!important;
+  }
+
+  .v16-module-head > button{
+    width:100%!important;
+  }
+
+  .bottom-nav .inner{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  }
+
+  .navbtn{
+    min-height:48px!important;
+    padding:6px 1px!important;
+  }
+
+  .nav-icon svg{
+    width:17px!important;
+    height:17px!important;
+  }
+
+  .navbtn span:last-child{
+    font-size:8px!important;
+  }
+
+  .v16-fab{
+    width:48px!important;
+    height:48px!important;
+    bottom:calc(var(--v161-nav-h) + 15px + env(safe-area-inset-bottom))!important;
+  }
+
+  .v16-fab-menu{
+    bottom:calc(var(--v161-nav-h) + 71px + env(safe-area-inset-bottom))!important;
+    width:calc(100vw - 18px)!important;
+  }
+
+  .modal{
+    align-items:flex-end!important;
+  }
+
+  .modal-card{
+    border-radius:22px 22px 0 0!important;
+    max-height:calc(100dvh - max(10px,env(safe-area-inset-top)))!important;
+  }
+
+  .history-item{
+    grid-template-columns:34px minmax(0,1fr) auto!important;
+    gap:8px!important;
+    padding-left:12px!important;
+    padding-right:12px!important;
+  }
+
+  .history-icon{
+    width:34px!important;
+    height:34px!important;
+  }
+
+  .history-qty{
+    font-size:12px!important;
+    max-width:82px!important;
+  }
+
+  .v16-row{
+    flex-wrap:wrap!important;
+  }
+
+  .v16-row-main{
+    flex:1 1 calc(100% - 70px)!important;
+  }
+
+  .v16-row-value{
+    flex:0 0 auto!important;
+    max-width:68px!important;
+  }
+
+  .v16-row-actions{
+    width:100%!important;
+  }
+
+  .v16-row-actions button{
+    flex:1 1 auto!important;
+  }
+
+  .canteiro-head{
+    flex-wrap:wrap!important;
+  }
+
+  .canteiro-title{
+    min-width:0!important;
+  }
+
+  .canteiro-badge{
+    flex:0 0 auto!important;
+  }
+}
+
+/* iPhone estreito */
+@media(max-width:390px){
+  :root{
+    --v161-nav-h:66px;
+  }
+
+  .brand h1{
+    font-size:18px!important;
+  }
+
+  .v16-version{
+    display:none!important;
+  }
+
+  .user-menu{
+    gap:4px!important;
+  }
+
+  .v16-top-btn,
+  .logout-btn,
+  .user-badge{
+    width:34px!important;
+    min-width:34px!important;
+    height:34px!important;
+  }
+
+  .bottom-nav{
+    padding-left:5px!important;
+    padding-right:5px!important;
+  }
+
+  .bottom-nav .inner{
+    gap:1px!important;
+    padding:3px!important;
+  }
+
+  .navbtn{
+    min-height:46px!important;
+  }
+
+  .navbtn span:last-child{
+    font-size:7.5px!important;
+  }
+
+  .v16-fab-grid{
+    grid-template-columns:1fr 1fr!important;
+  }
+}
+
+/* Desktop: modal centralizado e sem competir com navegação */
+@media(min-width:721px){
+  .modal{
+    align-items:center!important;
+    padding-bottom:max(12px,env(safe-area-inset-bottom))!important;
+  }
+
+  .modal-card{
+    border-radius:22px!important;
+    max-height:calc(100dvh - 40px)!important;
+  }
+}
+
+/* Impressão: nada fixo por cima */
+@media print{
+  body{padding-bottom:0!important}
+  .bottom-nav,
+  .v16-fab,
+  .v16-fab-menu,
+  .v16-fab-backdrop,
+  .toast{
+    display:none!important;
+  }
+}
+
+html.v161-modal-open,
+body.v161-modal-open{
+  overflow:hidden!important;
+  overscroll-behavior:none!important;
+}

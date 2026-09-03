@@ -1,0 +1,25 @@
+VIVEIRO CAFÉ — V16.1
+CORREÇÃO DE SOBREPOSIÇÕES
+
+CORREÇÕES PRINCIPAIS
+- Navegação inferior corrigida para 5 colunas reais.
+- Gestão não cai mais para uma segunda linha sobre o conteúdo.
+- Espaço inferior do aplicativo aumentado para a barra fixa.
+- Botão + reposicionado acima da navegação.
+- Menu + ganhou limite de altura e rolagem própria.
+- Modais agora ficam acima do botão + e da barra inferior.
+- FAB é ocultado visualmente durante modal aberto.
+- Rolagem do fundo é bloqueada enquanto um modal está aberto.
+- Toast fica acima da navegação e dos modais.
+- Cabeçalho não deixa marca, usuário e botões se sobreporem.
+- Em telas estreitas, nome do usuário é ocultado e permanece apenas o avatar.
+- Cabeçalhos de seções podem quebrar linha sem encobrir botões.
+- Gestão e cards passam a quebrar de forma segura no celular.
+- Histórico: quantidade não invade o texto.
+- Linhas de reservas/manejos não sobrepõem valor e ações.
+- Canteiros e grids recebem min-width:0 para evitar estouro horizontal.
+- Safe Area do iPhone considerada no FAB, navegação e modais.
+- No desktop, modais são centralizados.
+- Impressão remove todos os elementos fixos.
+
+Toda a lógica e dados da V16 Final foram preservados.

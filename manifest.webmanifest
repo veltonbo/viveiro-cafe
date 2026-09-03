@@ -1,5 +1,5 @@
 {
-  "name": "Viveiro Café — Gestão Completa",
+  "name": "Viveiro Café — V16.1",
   "short_name": "Viveiro Café",
   "start_url": "./",
   "display": "standalone",
@@ -17,5 +17,5 @@
       "type": "image/png"
     }
   ],
-  "description": "Gestão completa do viveiro de café: canteiros, mudas, reservas, perdas, transferências, manejo, insumos e relatórios."
+  "description": "Gestão completa do viveiro com correções de sobreposição e melhor adaptação ao celular."
 }

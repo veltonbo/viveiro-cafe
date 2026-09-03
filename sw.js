@@ -1,7 +1,7 @@
-const CACHE="viveiro-cafe-v16-final";
+const CACHE="viveiro-cafe-v16-1-overlap";
 const ASSETS=[
   "./","./index.html","./manifest.webmanifest","./icon-192.png","./icon-512.png",
-  "./viveiro-final.css","./viveiro-final.js"
+  "./viveiro-final.css","./viveiro-final.js","./viveiro-overlap-fix.css","./viveiro-overlap-fix.js"
 ];
 
 self.addEventListener("install",event=>{
